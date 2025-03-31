@@ -1,0 +1,24 @@
+services:
+  reverse-proxy:
+    image: caddy:2.9.1-alpine
+    container_name: reverse-proxy
+    read_only: true
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - dabloon-clicker
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  dabloon-clicker:
+    external: true
