@@ -1,0 +1,22 @@
+services:
+  dabloon:
+    build: /opt/homeserver/services/dabloon-clicker
+    image: dabloon-clicker
+    container_name: dabloon
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - /opt/homeserver/secrets/dabloon-clicker/.env
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - dabloon-clicker
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  dabloon-clicker:
+    external: true
