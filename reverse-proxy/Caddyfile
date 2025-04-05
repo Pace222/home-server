@@ -16,5 +16,7 @@
 
 dabloon.pierugo.ch {
     import sec-headers
-    reverse_proxy http://dabloon:80
+    reverse_proxy http://dabloon:80 {
+        header_down -Server
+    }
 }
