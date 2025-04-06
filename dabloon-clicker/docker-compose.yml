@@ -11,12 +11,12 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - dabloon-clicker
+      - net-dabloon
 
 volumes:
   caddy_data:
   caddy_config:
 
 networks:
-  dabloon-clicker:
+  net-dabloon:
     external: true

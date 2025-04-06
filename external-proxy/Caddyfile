@@ -1,0 +1,5 @@
+dabloon.pierugo.ch {
+    reverse_proxy internal-proxy {
+        header_down -Server
+    }
+}
