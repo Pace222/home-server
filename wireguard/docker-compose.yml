@@ -10,7 +10,7 @@ services:
       - TZ=Europe/Zurich
       - SERVERURL=vpn.pierugo.ch
       - SERVERPORT=51820
-      - PEERS=flip6,hpkali,hpwindows
+      - PEERS=flip6,hpkali,hpwindows,deniseiphone
     ports:
       - "51820:51820/udp"
     volumes:
