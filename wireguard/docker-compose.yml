@@ -1,0 +1,21 @@
+services:
+  vpn:
+    image: linuxserver/wireguard:1.0.20210914
+    container_name: vpn
+    read_only: true
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Europe/Zurich
+      - SERVERURL=vpn.pierugo.ch
+      - SERVERPORT=51820
+      - PEERS=flip6,hpkali,hpwindows
+    ports:
+      - "51820:51820/udp"
+    volumes:
+      - ${SERVICES_DIR:?error}/wireguard/config:/config
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    tmpfs:
+      - /run:exec
