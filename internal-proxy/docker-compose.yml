@@ -1,0 +1,27 @@
+services:
+  internal-proxy:
+    image: caddy:2.9.1-alpine
+    container_name: internal-proxy
+    read_only: true
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - net-proxies
+      - net-dabloon
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  net-proxies:
+    external: true
+  net-dabloon:
+    external: true
