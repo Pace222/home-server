@@ -13,12 +13,13 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - net-proxies
+      - net-dabloon
+      - default
 
 volumes:
   caddy_data:
   caddy_config:
 
 networks:
-  net-proxies:
+  net-dabloon:
     external: true

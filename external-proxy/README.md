@@ -3,5 +3,5 @@
 - Create networks
 
   ```bash
-  sudo docker network create --internal net-pihole
+  sudo docker network create --internal net-dabloon
   ```

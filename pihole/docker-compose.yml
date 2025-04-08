@@ -1,0 +1,24 @@
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Zurich"
+      FTLCONF_webserver_api_password: ""
+      # If using Docker's default `bridge` network setting the dns listening mode should be set to 'all'
+      FTLCONF_dns_listeningMode: "all"
+      FTLCONF_misc_etc_dnsmasq_d: "true"
+    ports:
+      - "192.168.178.147:53:53/tcp"
+      - "192.168.178.147:53:53/udp"
+    volumes:
+      - "${SERVICES_DIR:?error}/pihole/etc-pihole:/etc/pihole"
+      - '${SERVICES_DIR:?error}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'
+    networks:
+      - net-pihole
+      - default
+
+networks:
+  net-pihole:
+    external: true
