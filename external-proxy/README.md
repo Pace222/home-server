@@ -3,5 +3,5 @@
 - Create networks
 
   ```bash
-  sudo docker network create --internal net-dabloon
+  sudo docker network create --internal --subnet=172.18.1.0/24 net-dabloon
   ```

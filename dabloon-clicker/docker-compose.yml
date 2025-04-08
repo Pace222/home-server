@@ -11,7 +11,8 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      - net-dabloon
+      net-dabloon:
+        ipv4_address: 172.18.1.3
 
 volumes:
   caddy_data:
