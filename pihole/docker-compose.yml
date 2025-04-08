@@ -10,8 +10,8 @@ services:
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_misc_etc_dnsmasq_d: "true"
     ports:
-      - "192.168.178.147:53:53/tcp"
-      - "192.168.178.147:53:53/udp"
+      - "53:53/tcp"
+      - "53:53/udp"
     volumes:
       - "${SERVICES_DIR:?error}/pihole/etc-pihole:/etc/pihole"
       - '${SERVICES_DIR:?error}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'
