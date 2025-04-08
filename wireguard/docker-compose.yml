@@ -15,7 +15,17 @@ services:
       - "51820:51820/udp"
     volumes:
       - ${SERVICES_DIR:?error}/wireguard/config:/config
+    networks:
+      default:
+        ipv4_address: 172.20.0.2
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     tmpfs:
       - /run:exec
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: "172.20.0.0/24"
+          gateway: "172.20.0.1"
