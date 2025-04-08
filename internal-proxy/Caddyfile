@@ -14,9 +14,10 @@
     }
 }
 
-http://dabloon.pierugo.ch {
+http://pihole.pierugo.ch {
     import sec-headers
-    reverse_proxy dabloon {
-        header_down -Server
+    reverse_proxy pihole {
+        header_down -X-Content-Type-Options
+        header_down -X-Frame-Options
     }
 }
