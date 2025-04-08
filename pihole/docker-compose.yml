@@ -7,13 +7,11 @@ services:
       TZ: "Europe/Zurich"
       FTLCONF_webserver_api_password: ""
       FTLCONF_dns_listeningMode: "all"
-      FTLCONF_misc_etc_dnsmasq_d: "true"
     ports:
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
       - "${SERVICES_DIR:?error}/pihole/etc-pihole:/etc/pihole"
-      - '${SERVICES_DIR:?error}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d'
     networks:
       - net-pihole
       - default
