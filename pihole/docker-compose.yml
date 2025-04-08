@@ -6,7 +6,6 @@ services:
     environment:
       TZ: "Europe/Zurich"
       FTLCONF_webserver_api_password: ""
-      # If using Docker's default `bridge` network setting the dns listening mode should be set to 'all'
       FTLCONF_dns_listeningMode: "all"
       FTLCONF_misc_etc_dnsmasq_d: "true"
     ports:
