@@ -1,7 +1,7 @@
 services:
-  vpn:
+  wireguard:
     image: linuxserver/wireguard:1.0.20210914
-    container_name: vpn
+    container_name: wireguard
     read_only: true
     restart: unless-stopped
     cap_add:
