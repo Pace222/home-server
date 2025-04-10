@@ -5,6 +5,10 @@
 - Generate a SSH key pair and add the public key to the host machine.
 - Disable password authentication and X11 forwarding in the SSH configuration file.
 
+## Install Docker
+
+- `https://docs.docker.com/engine/install/debian/#install-using-the-repository`
+
 ## Directories and Environment Variables
 
 Choose where to store the services, secrets, and Docker Compose files. Then set the following environment variables in your shell configuration file (e.g., `~/.bashrc`, `~/.zshrc`):
@@ -37,10 +41,9 @@ sudo iptables -I DOCKER-USER 1 -s             172.18.0.0/16 -d            192.16
 sudo iptables -I OUTPUT      3 -s             172.18.0.0/16 -d            192.168.0.0/16 -j LOG_DROP
 sudo iptables -I DOCKER-USER 2 -s            192.168.0.0/16 -d             172.18.0.0/16 -j LOG_DROP
 sudo iptables -I INPUT       3 -s            192.168.0.0/16 -d             172.18.0.0/16 -j LOG_DROP
+
+# Save the rules
+sudo apt-get install -y iptables-persistent
 ```
-
-## Install Docker
-
-- `https://docs.docker.com/engine/install/debian/#install-using-the-repository`
 
 ## Build and run every Docker Compose file
