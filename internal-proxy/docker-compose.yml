@@ -14,8 +14,6 @@ services:
       - caddy_config:/config
     networks:
       net-pihole:
-        ipv4_address: 172.19.1.2
-      default:
         ipv4_address: 172.19.0.2
 
 volumes:
@@ -25,8 +23,3 @@ volumes:
 networks:
   net-pihole:
     external: true
-  default:
-    ipam:
-      config:
-        - subnet: "172.19.0.0/24"
-          gateway: "172.19.0.1"
