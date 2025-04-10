@@ -17,7 +17,7 @@ services:
       - ${SERVICES_DIR:?error}/wireguard/config:/config
     networks:
       default:
-        ipv4_address: 172.21.0.2
+        ipv4_address: 172.20.0.2
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     tmpfs:
@@ -27,5 +27,5 @@ networks:
   default:
     ipam:
       config:
-        - subnet: "172.21.0.0/24"
-          gateway: "172.21.0.1"
+        - subnet: "172.20.0.0/24"
+          gateway: "172.20.0.1"

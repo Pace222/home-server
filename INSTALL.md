@@ -22,17 +22,21 @@ Defaults        env_keep += "SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
 ## Harden the system with firewall rules on containers that are not entirely on an internal network
 
 ```bash
-# External proxy: Prevent communicating with LAN
-sudo iptables -I DOCKER-USER 1 -d 172.18.0.2 -s 192.168.0.0/16 -j DROP
-sudo iptables -I DOCKER-USER 2 -s 172.18.0.2 -d 192.168.0.0/16 -j DROP
+# Setup LOG_DROP chain
+sudo iptables -N LOG_DROP
+sudo iptables -A LOG_DROP                                                              -j LOG --log-prefix "DROP: "
+sudo iptables -A LOG_DROP                                                              -j DROP
 
-# Internal proxy: Drop potential requests that would come from the external network
-sudo iptables -I DOCKER-USER 3 -d 172.19.0.2 -s 192.168.1.150 -j DROP
-sudo iptables -I DOCKER-USER 4 -s 172.19.0.2 -d 192.168.1.150 -j DROP
-
-# Pihole: Drop potential requests that would come from the external network
-sudo iptables -I DOCKER-USER 5 -d 172.20.0.2 -s 192.168.1.150 -j DROP
-sudo iptables -I DOCKER-USER 6 -s 172.20.0.2 -d 192.168.1.150 -j DROP
+# External subnet: Prevent communicating with other containers through any local IP
+sudo iptables -I INPUT       1 -s             172.18.0.0/16 -m addrtype --dst-type LOCAL -j LOG_DROP
+sudo iptables -I OUTPUT      1 -s             172.18.0.0/16 -m addrtype --dst-type LOCAL -j LOG_DROP
+sudo iptables -I OUTPUT      2 -m addrtype --src-type LOCAL -d             172.18.0.0/16 -j LOG_DROP
+sudo iptables -I INPUT       2 -m addrtype --src-type LOCAL -d             172.18.0.0/16 -j LOG_DROP
+# External subnet: Prevent communicating with LAN
+sudo iptables -I DOCKER-USER 1 -s             172.18.0.0/16 -d            192.168.0.0/16 -j LOG_DROP
+sudo iptables -I OUTPUT      3 -s             172.18.0.0/16 -d            192.168.0.0/16 -j LOG_DROP
+sudo iptables -I DOCKER-USER 2 -s            192.168.0.0/16 -d             172.18.0.0/16 -j LOG_DROP
+sudo iptables -I INPUT       3 -s            192.168.0.0/16 -d             172.18.0.0/16 -j LOG_DROP
 ```
 
 ## Install Docker
