@@ -16,6 +16,9 @@
 
 dabloon.pierugo.ch {
     import sec-headers
+
+    encode
+
     reverse_proxy dabloon {
         header_down -Server
     }

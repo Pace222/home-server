@@ -16,6 +16,9 @@
 
 http://pihole.pierugo.ch {
     import sec-headers
+
+    encode
+
     reverse_proxy pihole {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options
