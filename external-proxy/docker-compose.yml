@@ -13,10 +13,10 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      net-dabloon:
-        ipv4_address: 172.18.1.2
       default:
         ipv4_address: 172.18.0.2
+      net-dabloon:
+        ipv4_address: 172.18.1.2
 
 volumes:
   caddy_data:

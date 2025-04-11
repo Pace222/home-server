@@ -13,9 +13,16 @@ services:
     volumes:
       - "${SERVICES_DIR:?error}/pihole/etc-pihole:/etc/pihole"
     networks:
+      default:
+        ipv4_address: 172.19.53.2
       net-pihole:
-        ipv4_address: 172.19.0.3
+        ipv4_address: 172.19.1.4
 
 networks:
   net-pihole:
     external: true
+  default:
+    ipam:
+      config:
+        - subnet: "172.19.53.0/24"
+          gateway: "172.19.53.1"
