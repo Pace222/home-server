@@ -1,3 +1,9 @@
+{
+	log {
+		output net ext-tele-bot:5000
+	}
+}
+
 (sec-headers) {
     header {
         # disable FLoC tracking
@@ -17,6 +23,7 @@
 dabloon.pierugo.ch {
     import sec-headers
 
+    log
     encode
 
     reverse_proxy dabloon {
