@@ -16,7 +16,7 @@ services:
     volumes:
       - ${SERVICES_DIR:?error}/wireguard/config:/config
     networks:
-      default:
+      outgoing:
         ipv4_address: 172.20.0.2
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
@@ -24,7 +24,7 @@ services:
       - /run:exec
 
 networks:
-  default:
+  outgoing:
     ipam:
       config:
         - subnet: "172.20.0.0/24"

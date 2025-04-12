@@ -13,7 +13,7 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      default:
+      outgoing:
         ipv4_address: 172.18.0.2
       net-dabloon:
         ipv4_address: 172.18.1.2
@@ -25,7 +25,7 @@ volumes:
 networks:
   net-dabloon:
     external: true
-  default:
+  outgoing:
     ipam:
       config:
         - subnet: "172.18.0.0/24"
