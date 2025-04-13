@@ -46,4 +46,12 @@ sudo iptables -I INPUT       3 -s            192.168.0.0/16 -d             172.1
 sudo apt-get install -y iptables-persistent
 ```
 
+## Push all secrets to the host machine
+
+```bash
+$SECRETS_DIR/push_secrets.sh
+```
+
+## Clone every custom service repository
+
 ## Build and run every Docker Compose file
