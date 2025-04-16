@@ -1,7 +1,7 @@
 {
-	log {
-		output net ext-tele-bot:5000
-	}
+    log {
+        output net ext-tele-bot:5000
+    }
 }
 
 (sec-headers) {
