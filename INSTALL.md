@@ -28,8 +28,8 @@ Defaults        env_keep += "SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
 ```bash
 # Setup LOG_DROP chain
 sudo iptables -N LOG_DROP
-sudo iptables -A LOG_DROP                                                              -j LOG --log-prefix "DROP: "
-sudo iptables -A LOG_DROP                                                              -j DROP
+sudo iptables -A LOG_DROP                                                                -j LOG --log-prefix "DROP: "
+sudo iptables -A LOG_DROP                                                                -j DROP
 
 # External subnet: Prevent communicating with other containers through any local IP
 sudo iptables -I INPUT       1 -s             172.18.0.0/16 -m addrtype --dst-type LOCAL -j LOG_DROP
