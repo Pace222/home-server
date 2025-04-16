@@ -48,10 +48,11 @@ sudo apt-get install -y iptables-persistent
 
 ## Push all secrets to the host machine
 
+On the local machine:
 ```bash
 $SECRETS_DIR/push_secrets.sh
 ```
 
-## Clone every custom service repository
+## Run all services
 
-## Build and run every Docker Compose file
+Go in every directory, follow eventual instructions in the respective `README.md` file and run `sudo docker compose up -d`.
