@@ -14,7 +14,7 @@ services:
     ports:
       - "51820:51820/udp"
     volumes:
-      - ${SERVICES_DIR:?error}/wireguard/config:/config
+      - ${SERVICES_DIR:?}/wireguard/config:/config
     networks:
       outgoing:
         ipv4_address: 172.20.0.2

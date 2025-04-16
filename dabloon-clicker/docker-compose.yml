@@ -1,12 +1,12 @@
 services:
   dabloon:
-    build: ${SERVICES_DIR:?error}/dabloon-clicker
+    build: ${SERVICES_DIR:?}/dabloon-clicker
     image: dabloon-clicker
     container_name: dabloon
     read_only: true
     restart: unless-stopped
     env_file:
-      - ${SECRETS_DIR:?error}/dabloon-clicker/.env
+      - ${SECRETS_DIR:?}/dabloon-clicker/.env
     volumes:
       - caddy_data:/data
       - caddy_config:/config
