@@ -23,7 +23,7 @@ Finally, for them to be passed through `sudo`, adapt the `sudoers` file by addin
 Defaults        env_keep += "SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
 ```
 
-## Harden the system with firewall rules on containers that are not entirely on an internal network
+## Harden the system with firewall rules on external-facing containers
 
 ```bash
 # Setup LOG_DROP chain
@@ -49,6 +49,7 @@ sudo apt-get install -y iptables-persistent
 ## Push all secrets to the host machine
 
 On the local machine:
+
 ```bash
 $SECRETS_DIR/push_secrets.sh
 ```
