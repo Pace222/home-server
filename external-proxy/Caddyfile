@@ -22,7 +22,7 @@
     }
 }
 
-dabloon.${MY_DOMAIN} {
+dabloon.{$MY_DOMAIN} {
     import sec-headers
 
     log
@@ -33,6 +33,6 @@ dabloon.${MY_DOMAIN} {
     }
 }
 
-${MY_DOMAIN}, vpn.${MY_DOMAIN} {
+{$MY_DOMAIN}, vpn.{$MY_DOMAIN} {
     respond "" 204
 }

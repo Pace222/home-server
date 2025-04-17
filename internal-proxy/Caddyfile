@@ -22,7 +22,7 @@
     }
 }
 
-http://pihole.${MY_DOMAIN} {
+http://pihole.{$MY_DOMAIN} {
     import sec-headers
 
     log
