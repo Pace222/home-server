@@ -8,7 +8,7 @@ services:
       - NET_ADMIN
     environment:
       - TZ=Europe/Zurich
-      - SERVERURL=vpn.pierugo.ch
+      - SERVERURL=vpn.${MY_DOMAIN:?}
       - SERVERPORT=51820
       - PEERS=flip6,hpkali,hpwindows,themachine,deniseiphone,deniseasus
     ports:
