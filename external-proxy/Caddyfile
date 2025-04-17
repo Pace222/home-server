@@ -22,7 +22,7 @@
     }
 }
 
-dabloon.pierugo.ch {
+dabloon.${MY_DOMAIN} {
     import sec-headers
 
     log
@@ -33,6 +33,6 @@ dabloon.pierugo.ch {
     }
 }
 
-pierugo.ch, vpn.pierugo.ch {
+${MY_DOMAIN}, vpn.${MY_DOMAIN} {
     respond "" 204
 }

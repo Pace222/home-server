@@ -11,8 +11,9 @@
 
 ## Directories and Environment Variables
 
-Choose where to store the services, secrets, and Docker Compose files. Then set the following environment variables in your shell configuration file (e.g., `~/.bashrc`, `~/.zshrc`):
+Choose your domain, and where to store the services, secrets, and Docker Compose files. Then set the following environment variables in your shell configuration file (e.g., `~/.bashrc`, `~/.zshrc`):
 
+- `MY_DOMAIN=`
 - `SERVICES_DIR=`
 - `SECRETS_DIR=`
 - `DOCKERS_DIR=`
@@ -20,7 +21,7 @@ Choose where to store the services, secrets, and Docker Compose files. Then set 
 Finally, for them to be passed through `sudo`, adapt the `sudoers` file by adding the following line:
 
 ```bash
-Defaults        env_keep += "SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
+Defaults        env_keep += "MY_DOMAIN SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
 ```
 
 ## Harden the system with firewall rules on external-facing containers

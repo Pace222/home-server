@@ -4,6 +4,8 @@ services:
     container_name: external-proxy
     read_only: true
     restart: unless-stopped
+    environment:
+      - MY_DOMAIN=${MY_DOMAIN:?}
     ports:
       - "8080:80"
       - "8443:443/tcp"

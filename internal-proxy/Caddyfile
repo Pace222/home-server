@@ -22,7 +22,7 @@
     }
 }
 
-http://pihole.pierugo.ch {
+http://pihole.${MY_DOMAIN} {
     import sec-headers
 
     log
