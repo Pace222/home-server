@@ -4,4 +4,6 @@ ARG MY_DOMAIN
 WORKDIR /config
 
 COPY ddclient.conf.template postscript.sh ./
-RUN sed "s/MY_DOMAIN/${MY_DOMAIN:?}/g" ddclient.conf.template > ddclient.conf
+RUN sed "s/MY_DOMAIN/${MY_DOMAIN:?}/g" ddclient.conf.template > ddclient.conf \
+    && rm ddclient.conf.template
+RUN chmod +x postscript.sh
