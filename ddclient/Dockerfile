@@ -1,4 +1,5 @@
 FROM linuxserver/ddclient:4.0.0
+ARG MY_DOMAIN
 
 WORKDIR /config
 

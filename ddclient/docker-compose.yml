@@ -1,6 +1,9 @@
 services:
   ddclient:
-    build: .
+    build:
+      context: .
+      args:
+        - MY_DOMAIN=${MY_DOMAIN:?}
     image: ddclient
     container_name: ddclient
     read_only: true
@@ -9,7 +12,6 @@ services:
       - ${SECRETS_DIR:?}/ddclient/.env
     environment:
       - TZ=Europe/Zurich
-      - MY_DOMAIN=${MY_DOMAIN:?}
     networks:
       outgoing:
         ipv4_address: 172.19.80.2
