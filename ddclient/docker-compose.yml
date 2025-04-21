@@ -1,0 +1,32 @@
+services:
+  ddclient:
+    build: .
+    image: ddclient
+    container_name: ddclient
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/ddclient/.env
+    environment:
+      - TZ=Europe/Zurich
+      - MY_DOMAIN=${MY_DOMAIN:?}
+    networks:
+      outgoing:
+        ipv4_address: 172.19.80.2
+      net-ddclient:
+        ipv4_address: 172.19.2.2
+    tmpfs:
+      - /run:exec
+      - tmp:/tmp
+
+volumes:
+  tmp:
+
+networks:
+  net-ddclient:
+    external: true
+  outgoing:
+    ipam:
+      config:
+        - subnet: "172.19.80.0/24"
+          gateway: "172.19.80.1"
