@@ -19,10 +19,7 @@ services:
         ipv4_address: 172.19.2.2
     tmpfs:
       - /run:exec
-      - tmp:/tmp
-
-volumes:
-  tmp:
+      - /tmp
 
 networks:
   net-ddclient:
