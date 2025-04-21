@@ -1,6 +1,6 @@
 daemon=300
 syslog=yes
-postscript=/config/postscript.sh
+postscript=/postscript.sh
 
 protocol=dyndns2
     ssl=yes

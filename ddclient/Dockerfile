@@ -6,3 +6,5 @@ WORKDIR /config
 COPY ddclient.conf.template .
 RUN sed "s/MY_DOMAIN/${MY_DOMAIN:?}/g" ddclient.conf.template > ddclient.conf \
     && rm ddclient.conf.template
+
+COPY postscript.sh /
