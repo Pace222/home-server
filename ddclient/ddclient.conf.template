@@ -1,0 +1,11 @@
+daemon=300
+syslog=yes
+postscript=/config/postscript.sh
+
+protocol=dyndns2
+    ssl=yes
+    use=web
+    server=infomaniak.com
+    login_env=DDNS_LOGIN
+    password_env=DDNS_PASSWORD
+    MY_DOMAIN

@@ -13,3 +13,4 @@
 ## Internal services
 
 - [Telegram Bot](/telegram-bot): A logger for the Caddy servers: it sends a message to a Telegram channel on certain requests. It also serves an API to send any kind of message to Telegram. In practice, any service can thus send notifications or alert me on Telegram through this API.
+- [Dynamic DNS](/ddclient): A dynamic DNS client that updates the DNS records of my domain with the current public IP address of my home network, in case my ISP decides to change it.
