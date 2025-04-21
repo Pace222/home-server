@@ -12,6 +12,8 @@ services:
       - ${SECRETS_DIR:?}/ddclient/.env
     environment:
       - TZ=Europe/Zurich
+    volumes:
+      - ./postscript.sh:/config/postscript.sh:ro
     networks:
       outgoing:
         ipv4_address: 172.19.80.2
