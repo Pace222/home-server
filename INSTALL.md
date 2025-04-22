@@ -5,6 +5,26 @@
 - Generate a SSH key pair and add the public key to the host machine.
 - Disable password authentication and X11 forwarding in the SSH configuration file.
 
+## Rsyslog instead of journald
+
+```bash
+sudo apt-get update
+sudo apt-get install rsyslog
+```
+
+Uncomment the following lines in `/etc/systemd/journald.conf`:
+
+```bash
+ForwardToSyslog=yes
+```
+
+Then restart the services:
+
+```bash
+sudo systemctl restart systemd-journald
+sudo systemctl restart rsyslog
+```
+
 ## Install Docker
 
 - `https://docs.docker.com/engine/install/debian/#install-using-the-repository`
@@ -32,7 +52,7 @@ sudo docker network create --internal --subnet=172.18.1.0/24 --gateway=172.18.1.
 # Internal subnet
 sudo docker network create --internal --subnet=172.19.1.0/24 --gateway=172.19.1.1 net-pihole
 sudo docker network create --internal --subnet=172.19.2.0/24 --gateway=172.19.2.1 net-ddclient
-
+sudo docker network create --internal --subnet=172.19.3.0/24 --gateway=172.19.3.1 net-fw-monitor
 ```
 
 ## Harden the system with firewall rules on external-facing containers
@@ -40,7 +60,7 @@ sudo docker network create --internal --subnet=172.19.2.0/24 --gateway=172.19.2.
 ```bash
 # Setup LOG_DROP chain
 sudo iptables -N LOG_DROP
-sudo iptables -A LOG_DROP                                                                -j LOG --log-prefix "DROP: "
+sudo iptables -A LOG_DROP                                                                -j LOG --log-prefix "FW_DROP: "
 sudo iptables -A LOG_DROP                                                                -j DROP
 
 # External subnet: Prevent communicating with other containers through any local IP
