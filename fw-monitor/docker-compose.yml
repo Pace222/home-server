@@ -6,9 +6,9 @@ services:
     read_only: true
     restart: unless-stopped
     environment:
-      - LOG_FILE="/fw_log"
-      - LOG_NEEDLE="FW_DROP: "
-      - TELEGRAM_URL="http://int-tele-bot/message"
+      LOG_FILE: "/fw_log"
+      LOG_NEEDLE: "FW_DROP: "
+      TELEGRAM_URL: "http://int-tele-bot/message"
     volumes:
       - /var/log/syslog:/fw_log:ro
     networks:
