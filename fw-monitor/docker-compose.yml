@@ -1,0 +1,20 @@
+services:
+  fw-monitor:
+    build: ${SERVICES_DIR:?}/fw-monitor
+    image: fw-monitor
+    container_name: fw-monitor
+    read_only: true
+    restart: unless-stopped
+    environment:
+      - LOG_FILE="/fw_log"
+      - LOG_NEEDLE="FW_DROP: "
+      - TELEGRAM_URL="http://int-tele-bot/message"
+    volumes:
+      - /var/log/syslog:/fw_log:ro
+    networks:
+      net-fw-monitor:
+        ipv4_address: 172.19.3.2
+
+networks:
+  net-fw-monitor:
+    external: true
