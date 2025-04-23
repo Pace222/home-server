@@ -4,6 +4,8 @@
             soft_start
         }
     }
+
+    acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
 }
 
 (sec-headers) {
@@ -22,7 +24,7 @@
     }
 }
 
-http://pihole.{$MY_DOMAIN} {
+pihole.{$MY_DOMAIN} {
     import sec-headers
 
     log

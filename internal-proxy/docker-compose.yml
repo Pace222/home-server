@@ -1,9 +1,12 @@
 services:
   internal-proxy:
-    image: caddy:2.10.0-alpine
+    build: .
+    image: caddy-acme-dns
     container_name: internal-proxy
     read_only: true
     restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/internal-proxy/.env
     environment:
       - MY_DOMAIN=${MY_DOMAIN:?}
     ports:
