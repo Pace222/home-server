@@ -7,10 +7,10 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - TZ=Europe/Zurich
-      - SERVERURL=vpn.${MY_DOMAIN:?}
-      - SERVERPORT=51820
-      - PEERS=flip6,hpkali,hpwindows,themachine,deniseiphone,deniseasus
+      TZ: "Europe/Zurich"
+      SERVERURL: "vpn.${MY_DOMAIN:?}"
+      SERVERPORT: "51820"
+      PEERS: "flip6,hpkali,hpwindows,themachine,deniseiphone,deniseasus"
     ports:
       - "51820:51820/udp"
     volumes:
