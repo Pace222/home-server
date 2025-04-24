@@ -54,6 +54,7 @@ sudo docker network create --internal --subnet=172.18.1.0/24 --gateway=172.18.1.
 sudo docker network create --internal --subnet=172.19.1.0/24 --gateway=172.19.1.1 net-pihole
 sudo docker network create --internal --subnet=172.19.2.0/24 --gateway=172.19.2.1 net-ddclient
 sudo docker network create --internal --subnet=172.19.3.0/24 --gateway=172.19.3.1 net-fw-monitor
+sudo docker network create --internal --subnet=172.19.4.0/24 --gateway=172.19.4.1 net-homepage
 ```
 
 ## Harden the system with firewall rules on external-facing containers

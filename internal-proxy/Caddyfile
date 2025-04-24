@@ -35,3 +35,12 @@ pihole.{$MY_DOMAIN} {
         header_down -X-Frame-Options
     }
 }
+
+home.{$MY_DOMAIN} {
+    import sec-headers
+
+    log
+    encode
+
+    reverse_proxy homepage:3000
+}
