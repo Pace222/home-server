@@ -8,6 +8,7 @@
 
 ## Available only from my home network or VPN
 
+- [Homepage](/homepage) (https://home.pierugo.ch): A simple homepage that serves as a starting point for all the services I host.
 - [Pi-hole](/pihole) (https://pihole.pierugo.ch): A DNS sinkhole that blocks ads and trackers at the network level. It also serves as a DNS server to resolve local hostnames.
 
 ## Internal services
