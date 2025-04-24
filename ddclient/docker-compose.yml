@@ -11,7 +11,7 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/ddclient/.env
     environment:
-      - TZ=Europe/Zurich
+      TZ: "Europe/Zurich"
     networks:
       outgoing:
         ipv4_address: 172.19.80.2
