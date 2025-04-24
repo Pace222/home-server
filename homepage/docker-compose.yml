@@ -1,0 +1,16 @@
+services:
+  homepage:
+    image: gethomepage/homepage:v1.1.1
+    container_name: homepage
+    restart: unless-stopped
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: "home.${MY_DOMAIN:?}"
+    volumes:
+      - "${CONFIGS_DIR:?}/homepage/config:/app/config"
+    networks:
+      net-homepage:
+        ipv4_address: 172.19.4.4
+
+networks:
+  net-homepage:
+    external: true
