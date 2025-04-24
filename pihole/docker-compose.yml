@@ -12,7 +12,7 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - "${SERVICES_DIR:?}/pihole/etc-pihole:/etc/pihole"
+      - "${CONFIGS_DIR:?}/pihole/etc-pihole:/etc/pihole"
     networks:
       outgoing:
         ipv4_address: 172.19.53.2
