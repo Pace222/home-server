@@ -31,9 +31,10 @@ sudo systemctl restart rsyslog
 
 ## Directories and Environment Variables
 
-Choose your domain, and where to store the services, secrets, and Docker Compose files. Then set the following environment variables in your shell configuration file (e.g., `~/.bashrc`, `~/.zshrc`):
+Choose your domain, and where to store the configs, services, secrets, and Docker Compose files. Then set the following environment variables in your shell configuration file (e.g., `~/.bashrc`, `~/.zshrc`):
 
 - `MY_DOMAIN=`
+- `CONFIGS_DIR=`
 - `SERVICES_DIR=`
 - `SECRETS_DIR=`
 - `DOCKERS_DIR=`
@@ -41,7 +42,7 @@ Choose your domain, and where to store the services, secrets, and Docker Compose
 Finally, for them to be passed through `sudo`, adapt the `sudoers` file by adding the following line:
 
 ```bash
-Defaults        env_keep += "MY_DOMAIN SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
+Defaults        env_keep += "MY_DOMAIN CONFIGS_DIR SERVICES_DIR SECRETS_DIR DOCKERS_DIR"
 ```
 
 ## Create the networks
