@@ -8,9 +8,16 @@ services:
     volumes:
       - "${CONFIGS_DIR:?}/homepage/config:/app/config"
     networks:
+      outgoing:
+        ipv4_address: 172.19.251.2
       net-homepage:
         ipv4_address: 172.19.4.4
 
 networks:
   net-homepage:
     external: true
+  outgoing:
+    ipam:
+      config:
+        - subnet: "172.19.251.0/24"
+          gateway: "172.19.251.1"
