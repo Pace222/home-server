@@ -20,7 +20,7 @@ services:
     networks:
       net-pihole:
         ipv4_address: 172.19.1.2
-      net-homepage:
+      net-int-homepage:
         ipv4_address: 172.19.4.2
       outgoing:
         ipv4_address: 172.19.0.2
@@ -32,7 +32,7 @@ volumes:
 networks:
   net-pihole:
     external: true
-  net-homepage:
+  net-int-homepage:
     external: true
   outgoing:
     ipam:

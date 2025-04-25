@@ -1,44 +1,44 @@
 services:
-  homepage:
+  int-homepage:
     image: gethomepage/homepage:v1.1.1
-    container_name: homepage
+    container_name: int-homepage
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "home.${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
     volumes:
-      - "${CONFIGS_DIR:?}/homepage/config:/app/config"
-      - "${CONFIGS_DIR:?}/homepage/public/images:/app/public/images"
-      - "${CONFIGS_DIR:?}/homepage/public/icons:/app/public/icons"
+      - "${CONFIGS_DIR:?}/int-homepage/config:/app/config"
+      - "${CONFIGS_DIR:?}/int-homepage/public/images:/app/public/images"
+      - "${CONFIGS_DIR:?}/int-homepage/public/icons:/app/public/icons"
     networks:
-      net-homepage:
+      net-int-homepage:
         ipv4_address: 172.19.4.4
-      internal:
+      int-internal:
         ipv4_address: 172.21.4.3
-      outgoing:
+      int-outgoing:
         ipv4_address: 172.19.251.2
 
-  dockerproxy:
+  int-dockerproxy:
     image: tecnativa/docker-socket-proxy:0.3
-    container_name: dockerproxy
+    container_name: int-dockerproxy
     restart: unless-stopped
     environment:
       - CONTAINERS=1 # Allow access to viewing containers
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      internal:
+      int-internal:
         ipv4_address: 172.21.4.2
 
 networks:
-  net-homepage:
+  net-int-homepage:
     external: true
-  outgoing:
+  int-outgoing:
     ipam:
       config:
         - subnet: "172.19.251.0/24"
           gateway: "172.19.251.1"
-  internal:
+  int-internal:
     internal: true
     ipam:
       config:
