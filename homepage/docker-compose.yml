@@ -22,7 +22,7 @@ services:
       homepage.group: "External"
       homepage.name: "External Homepage"
       homepage.icon: "homepage.png"
-      homepage.instance.href: "https://${MY_DOMAIN:?}"
+      homepage.href: "https://${MY_DOMAIN:?}"
       homepage.instance.external.description: "This very homepage!"
       homepage.instance.internal.description: "The external homepage... displaying only a subset of services!"
 
