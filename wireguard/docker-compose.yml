@@ -22,6 +22,11 @@ services:
       net.ipv4.conf.all.src_valid_mark: 1
     tmpfs:
       - /run:exec
+    labels:
+      homepage.instance.internal.group: "External"
+      homepage.instance.internal.name: "WireGuard"
+      homepage.instance.internal.icon: "wireguard.png"
+      homepage.instance.internal.description: "Connect home safe!"
 
 networks:
   outgoing:

@@ -13,6 +13,12 @@ services:
     networks:
       net-dabloon:
         ipv4_address: 172.18.1.4
+    labels:
+      homepage.group: "External"
+      homepage.name: "Dabloon Clicker"
+      homepage.icon: "/icons/dabloon.png"
+      homepage.href: "https://dabloon.${MY_DOMAIN:?}"
+      homepage.description: "Click on dabloons to win even more dabloons!"
 
 volumes:
   caddy_data:
