@@ -33,6 +33,15 @@ dabloon.{$MY_DOMAIN} {
     }
 }
 
-{$MY_DOMAIN}, vpn.{$MY_DOMAIN} {
+{$MY_DOMAIN} {
+    import sec-headers
+
+    log
+    encode
+
+    reverse_proxy ext-homepage:3000
+}
+
+vpn.{$MY_DOMAIN} {
     respond "" 204
 }

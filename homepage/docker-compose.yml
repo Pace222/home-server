@@ -1,4 +1,43 @@
 services:
+  ext-homepage:
+    image: gethomepage/homepage:v1.1.1
+    container_name: ext-homepage
+    restart: unless-stopped
+    environment:
+      HOMEPAGE_ALLOWED_HOSTS: "${MY_DOMAIN:?}"
+      LOG_TARGETS: "stdout"
+      HOMEPAGE_VAR_MY_DOMAIN: "${MY_DOMAIN:?}"
+    volumes:
+      - ${CONFIGS_DIR:?}/ext-homepage/config:/app/config
+      - ${CONFIGS_DIR:?}/ext-homepage/public/images:/app/public/images
+      - ${CONFIGS_DIR:?}/ext-homepage/public/icons:/app/public/icons
+    networks:
+      net-ext-homepage:
+        ipv4_address: 172.18.4.4
+      ext-internal:
+        ipv4_address: 172.22.4.3
+      ext-outgoing:
+        ipv4_address: 172.18.251.2
+    labels:
+      homepage.group: "External"
+      homepage.name: "External Homepage"
+      homepage.icon: "homepage.png"
+      homepage.instance.href: "https://${MY_DOMAIN:?}"
+      homepage.instance.external.description: "This very homepage!"
+      homepage.instance.internal.description: "The external homepage... displaying only a subset of services!"
+
+  ext-dockerproxy:
+    image: tecnativa/docker-socket-proxy:0.3
+    container_name: ext-dockerproxy
+    restart: unless-stopped
+    environment:
+      CONTAINERS: 1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      ext-internal:
+        ipv4_address: 172.22.4.2
+
   int-homepage:
     image: gethomepage/homepage:v1.1.1
     container_name: int-homepage
@@ -38,6 +77,19 @@ services:
         ipv4_address: 172.21.4.2
 
 networks:
+  net-ext-homepage:
+    external: true
+  ext-outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.251.0/24
+          gateway: 172.18.251.1
+  ext-internal:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.22.4.0/24
+          gateway: 172.22.4.1
   net-int-homepage:
     external: true
   int-outgoing:

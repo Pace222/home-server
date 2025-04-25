@@ -50,6 +50,7 @@ Defaults        env_keep += "MY_DOMAIN CONFIGS_DIR SERVICES_DIR SECRETS_DIR DOCK
 ```bash
 # External subnet
 sudo docker network create --internal --subnet=172.18.1.0/24 --gateway=172.18.1.1 net-dabloon
+sudo docker network create --internal --subnet=172.18.4.0/24 --gateway=172.18.4.1 net-ext-homepage
 # Internal subnet
 sudo docker network create --internal --subnet=172.19.1.0/24 --gateway=172.19.1.1 net-pihole
 sudo docker network create --internal --subnet=172.19.2.0/24 --gateway=172.19.2.1 net-ddclient
