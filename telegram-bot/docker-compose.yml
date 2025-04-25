@@ -43,10 +43,10 @@ networks:
   ext-outgoing:
     ipam:
       config:
-        - subnet: "172.18.255.0/24"
-          gateway: "172.18.255.1"
+        - subnet: 172.18.255.0/24
+          gateway: 172.18.255.1
   int-outgoing:
     ipam:
       config:
-        - subnet: "172.19.255.0/24"
-          gateway: "172.19.255.1"
+        - subnet: 172.19.255.0/24
+          gateway: 172.19.255.1
