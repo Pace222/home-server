@@ -18,12 +18,12 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      outgoing:
-        ipv4_address: 172.19.0.2
       net-pihole:
         ipv4_address: 172.19.1.2
       net-homepage:
         ipv4_address: 172.19.4.2
+      outgoing:
+        ipv4_address: 172.19.0.2
 
 volumes:
   caddy_data:

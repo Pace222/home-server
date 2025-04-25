@@ -15,10 +15,10 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      outgoing:
-        ipv4_address: 172.18.0.2
       net-dabloon:
         ipv4_address: 172.18.1.2
+      outgoing:
+        ipv4_address: 172.18.0.2
 
 volumes:
   caddy_data:

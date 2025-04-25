@@ -11,12 +11,12 @@ services:
       - "${CONFIGS_DIR:?}/homepage/public/images:/app/public/images"
       - "${CONFIGS_DIR:?}/homepage/public/icons:/app/public/icons"
     networks:
-      outgoing:
-        ipv4_address: 172.19.251.2
       net-homepage:
         ipv4_address: 172.19.4.4
       internal:
         ipv4_address: 172.21.4.3
+      outgoing:
+        ipv4_address: 172.19.251.2
 
   dockerproxy:
     image: tecnativa/docker-socket-proxy:0.3
