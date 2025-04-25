@@ -14,10 +14,10 @@ services:
     volumes:
       - "${CONFIGS_DIR:?}/pihole/etc-pihole:/etc/pihole"
     networks:
-      outgoing:
-        ipv4_address: 172.19.254.2
       net-pihole:
         ipv4_address: 172.19.1.4
+      outgoing:
+        ipv4_address: 172.19.254.2
 
 networks:
   net-pihole:

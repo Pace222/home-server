@@ -13,10 +13,10 @@ services:
     environment:
       TZ: "Europe/Zurich"
     networks:
-      outgoing:
-        ipv4_address: 172.19.253.2
       net-ddclient:
         ipv4_address: 172.19.2.2
+      outgoing:
+        ipv4_address: 172.19.253.2
     tmpfs:
       - /run:exec
       - /tmp
