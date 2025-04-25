@@ -14,6 +14,11 @@ services:
     networks:
       net-fw-monitor:
         ipv4_address: 172.19.3.2
+    labels:
+      homepage.group: "Internal"
+      homepage.name: "Firewall Monitoring"
+      homepage.icon: "firewalla.png"
+      homepage.description: "Monitor firewall logs and send alerts."
 
 networks:
   net-fw-monitor:

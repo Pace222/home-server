@@ -18,6 +18,12 @@ services:
         ipv4_address: 172.19.1.4
       outgoing:
         ipv4_address: 172.19.254.2
+    labels:
+      homepage.group: "Internal"
+      homepage.name: "Pi-hole"
+      homepage.icon: "pi-hole.png"
+      homepage.instance.internal.href: "https://pihole.${MY_DOMAIN:?}"
+      homepage.description: "Network-wide ad blocker."
 
 networks:
   net-pihole:
