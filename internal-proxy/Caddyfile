@@ -42,5 +42,5 @@ home.{$MY_DOMAIN} {
     log
     encode
 
-    reverse_proxy homepage:3000
+    reverse_proxy int-homepage:3000
 }
