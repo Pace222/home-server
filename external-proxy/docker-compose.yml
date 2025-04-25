@@ -17,6 +17,8 @@ services:
     networks:
       net-dabloon:
         ipv4_address: 172.18.1.2
+      net-ext-homepage:
+        ipv4_address: 172.18.4.2
       outgoing:
         ipv4_address: 172.18.0.2
     labels:
@@ -31,6 +33,8 @@ volumes:
 
 networks:
   net-dabloon:
+    external: true
+  net-ext-homepage:
     external: true
   outgoing:
     ipam:
