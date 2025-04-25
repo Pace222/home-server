@@ -12,7 +12,7 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
     volumes:
-      - "${CONFIGS_DIR:?}/pihole/etc-pihole:/etc/pihole"
+      - ${CONFIGS_DIR:?}/pihole/etc-pihole:/etc/pihole
     networks:
       net-pihole:
         ipv4_address: 172.19.1.4
@@ -25,5 +25,5 @@ networks:
   outgoing:
     ipam:
       config:
-        - subnet: "172.19.254.0/24"
-          gateway: "172.19.254.1"
+        - subnet: 172.19.254.0/24
+          gateway: 172.19.254.1

@@ -14,12 +14,12 @@ services:
     ports:
       - "51820:51820/udp"
     volumes:
-      - "${CONFIGS_DIR:?}/wireguard/config:/config"
+      - ${CONFIGS_DIR:?}/wireguard/config:/config
     networks:
       outgoing:
         ipv4_address: 172.20.0.2
     sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
+      net.ipv4.conf.all.src_valid_mark: 1
     tmpfs:
       - /run:exec
 
@@ -27,5 +27,5 @@ networks:
   outgoing:
     ipam:
       config:
-        - subnet: "172.20.0.0/24"
-          gateway: "172.20.0.1"
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1
