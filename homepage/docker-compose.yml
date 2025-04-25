@@ -17,6 +17,13 @@ services:
         ipv4_address: 172.21.4.3
       int-outgoing:
         ipv4_address: 172.19.251.2
+    labels:
+      homepage.group: "Internal"
+      homepage.name: "Internal Homepage"
+      homepage.icon: "homepage.png"
+      homepage.instance.internal.href: "https://home.${MY_DOMAIN:?}"
+      homepage.instance.internal.description: "This very homepage!"
+      homepage.instance.external.description: "A hidden homepage... displaying even more services!"
 
   int-dockerproxy:
     image: tecnativa/docker-socket-proxy:0.3

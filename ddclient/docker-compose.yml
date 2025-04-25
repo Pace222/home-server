@@ -20,6 +20,12 @@ services:
     tmpfs:
       - /run:exec
       - /tmp
+    labels:
+      homepage.group: "Internal"
+      homepage.name: "DDClient"
+      homepage.icon: "ddclient.png"
+      homepage.instance.internal.href: "${DDNS_HOMEPAGE_URL:?}"
+      homepage.description: "Update DNS records dynamically."
 
 networks:
   net-ddclient:

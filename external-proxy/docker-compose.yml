@@ -19,6 +19,11 @@ services:
         ipv4_address: 172.18.1.2
       outgoing:
         ipv4_address: 172.18.0.2
+    labels:
+      homepage.group: "External"
+      homepage.name: "Caddy Reverse Proxy"
+      homepage.icon: "caddy.png"
+      homepage.description: "Reverse proxy for external services."
 
 volumes:
   caddy_data:

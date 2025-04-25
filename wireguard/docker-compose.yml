@@ -23,10 +23,10 @@ services:
     tmpfs:
       - /run:exec
     labels:
-      homepage.instance.internal.group: "External"
-      homepage.instance.internal.name: "WireGuard"
-      homepage.instance.internal.icon: "wireguard.png"
-      homepage.instance.internal.description: "Connect home safe!"
+      homepage.group: "External"
+      homepage.name: "WireGuard"
+      homepage.icon: "wireguard.png"
+      homepage.description: "Connect home safe!"
 
 networks:
   outgoing:
