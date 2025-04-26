@@ -8,6 +8,19 @@
     acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
 }
 
+(error-pages) {
+    root /errors
+
+    handle_errors {
+        @custom_err file /{err.status_code}.html /default.html
+        handle @custom_err {
+            rewrite * {file_match.relative}
+            file_server
+        }
+        respond "{err.status_code} {err.status_text}"
+    }
+}
+
 (sec-headers) {
     header {
         # disable FLoC tracking
@@ -25,6 +38,7 @@
 }
 
 pihole.{$MY_DOMAIN} {
+    import error-pages
     import sec-headers
 
     log
@@ -37,6 +51,7 @@ pihole.{$MY_DOMAIN} {
 }
 
 home.{$MY_DOMAIN} {
+    import error-pages
     import sec-headers
 
     log
