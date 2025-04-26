@@ -24,6 +24,8 @@
 (handle-response) {
     @error status 3xx 4xx 5xx
     handle_response @error {
+        copy_response_headers
+
         @custom_err file /{rp.status_code}.html /default.html
         handle @custom_err {
             rewrite * {file_match.relative}
@@ -31,7 +33,8 @@
                 status {rp.status_code}
             }
         }
-        respond "{rp.status_code} {rp.status_text}"
+
+        copy_response
     }
 }
 
