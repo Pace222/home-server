@@ -51,10 +51,10 @@ networks:
     internal: true
     ipam:
       config:
-        - subnet: 172.19.2.65/26
+        - subnet: 172.19.2.64/26
           gateway: 172.19.2.65
   outgoing:
     ipam:
       config:
-        - subnet: 172.19.2.129/26
+        - subnet: 172.19.2.128/26
           gateway: 172.19.2.129
