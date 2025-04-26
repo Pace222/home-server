@@ -15,9 +15,9 @@ services:
       - ${CONFIGS_DIR:?}/pihole/etc-pihole:/etc/pihole
     networks:
       net-pihole:
-        ipv4_address: 172.19.1.4
+        ipv4_address: 172.19.3.4
       outgoing:
-        ipv4_address: 172.19.254.2
+        ipv4_address: 172.19.3.129
     labels:
       homepage.group: "Internal"
       homepage.name: "Pi-hole"
@@ -31,5 +31,5 @@ networks:
   outgoing:
     ipam:
       config:
-        - subnet: 172.19.254.0/24
-          gateway: 172.19.254.1
+        - subnet: 172.19.3.128/25
+          gateway: 172.19.3.128

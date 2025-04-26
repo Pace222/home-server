@@ -17,7 +17,7 @@ services:
       - ${CONFIGS_DIR:?}/wireguard/config:/config
     networks:
       outgoing:
-        ipv4_address: 172.20.0.2
+        ipv4_address: 172.20.0.129
     sysctls:
       net.ipv4.conf.all.src_valid_mark: 1
     tmpfs:
@@ -32,5 +32,5 @@ networks:
   outgoing:
     ipam:
       config:
-        - subnet: 172.20.0.0/24
-          gateway: 172.20.0.1
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.128

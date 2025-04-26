@@ -15,12 +15,12 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      net-dabloon:
-        ipv4_address: 172.18.1.2
       net-ext-homepage:
-        ipv4_address: 172.18.4.2
+        ipv4_address: 172.18.2.2
+      net-dabloon:
+        ipv4_address: 172.18.3.2
       outgoing:
-        ipv4_address: 172.18.0.2
+        ipv4_address: 172.18.0.129
     labels:
       homepage.group: "External"
       homepage.name: "Caddy Reverse Proxy"
@@ -40,4 +40,4 @@ networks:
     ipam:
       config:
         - subnet: 172.18.0.0/24
-          gateway: 172.18.0.1
+          gateway: 172.18.0.128

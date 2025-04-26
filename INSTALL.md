@@ -49,13 +49,13 @@ Defaults        env_keep += "MY_DOMAIN CONFIGS_DIR SERVICES_DIR SECRETS_DIR DOCK
 
 ```bash
 # External subnet
-sudo docker network create --internal --subnet=172.18.1.0/24 --gateway=172.18.1.1 net-dabloon
-sudo docker network create --internal --subnet=172.18.4.0/24 --gateway=172.18.4.1 net-ext-homepage
+sudo docker network create --internal --subnet=172.18.2.0/26 --gateway=172.18.2.1 net-ext-homepage
+sudo docker network create --internal --subnet=172.18.3.0/24 --gateway=172.18.3.1 net-dabloon
 # Internal subnet
-sudo docker network create --internal --subnet=172.19.1.0/24 --gateway=172.19.1.1 net-pihole
-sudo docker network create --internal --subnet=172.19.2.0/24 --gateway=172.19.2.1 net-ddclient
-sudo docker network create --internal --subnet=172.19.3.0/24 --gateway=172.19.3.1 net-fw-monitor
-sudo docker network create --internal --subnet=172.19.4.0/24 --gateway=172.19.4.1 net-int-homepage
+sudo docker network create --internal --subnet=172.19.2.0/26 --gateway=172.19.2.1 net-int-homepage
+sudo docker network create --internal --subnet=172.19.3.0/25 --gateway=172.19.3.1 net-pihole
+sudo docker network create --internal --subnet=172.19.4.0/25 --gateway=172.19.4.1 net-ddclient
+sudo docker network create --internal --subnet=172.19.5.0/24 --gateway=172.19.5.1 net-fw-monitor
 ```
 
 ## Harden the system with firewall rules on external-facing containers

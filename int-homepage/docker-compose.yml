@@ -14,11 +14,11 @@ services:
       - writable:/app/.next/server/pages
     networks:
       net-int-homepage:
-        ipv4_address: 172.19.4.4
+        ipv4_address: 172.19.2.4
       internal:
-        ipv4_address: 172.21.4.3
+        ipv4_address: 172.19.2.65
       outgoing:
-        ipv4_address: 172.19.251.2
+        ipv4_address: 172.19.2.129
     labels:
       homepage.group: "Internal"
       homepage.name: "Internal Homepage"
@@ -37,7 +37,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       internal:
-        ipv4_address: 172.21.4.2
+        ipv4_address: 172.19.2.66
 
 volumes:
   writable:
@@ -45,14 +45,14 @@ volumes:
 networks:
   net-int-homepage:
     external: true
-  outgoing:
-    ipam:
-      config:
-        - subnet: 172.19.251.0/24
-          gateway: 172.19.251.1
   internal:
     internal: true
     ipam:
       config:
-        - subnet: 172.21.4.0/24
-          gateway: 172.21.4.1
+        - subnet: 172.19.2.64/26
+          gateway: 172.19.2.64
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.19.2.128/26
+          gateway: 172.19.2.128
