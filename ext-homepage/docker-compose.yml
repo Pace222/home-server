@@ -2,15 +2,17 @@ services:
   ext-homepage:
     image: gethomepage/homepage:v1.1.1
     container_name: ext-homepage
+    read_only: true
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
       HOMEPAGE_VAR_MY_DOMAIN: "${MY_DOMAIN:?}"
     volumes:
-      - ${CONFIGS_DIR:?}/ext-homepage/config:/app/config
-      - ${CONFIGS_DIR:?}/ext-homepage/public/images:/app/public/images
-      - ${CONFIGS_DIR:?}/ext-homepage/public/icons:/app/public/icons
+      - ${CONFIGS_DIR:?}/ext-homepage/config:/app/config:ro
+      - ${CONFIGS_DIR:?}/ext-homepage/public/images:/app/public/images:ro
+      - ${CONFIGS_DIR:?}/ext-homepage/public/icons:/app/public/icons:ro
+      - writable:/app/.next/server/pages
     networks:
       net-ext-homepage:
         ipv4_address: 172.18.4.4
@@ -37,6 +39,9 @@ services:
     networks:
       internal:
         ipv4_address: 172.22.4.2
+
+volumes:
+  writable:
 
 networks:
   net-ext-homepage:

@@ -2,14 +2,16 @@ services:
   int-homepage:
     image: gethomepage/homepage:v1.1.1
     container_name: int-homepage
+    read_only: true
     restart: unless-stopped
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "home.${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
     volumes:
-      - ${CONFIGS_DIR:?}/int-homepage/config:/app/config
-      - ${CONFIGS_DIR:?}/int-homepage/public/images:/app/public/images
-      - ${CONFIGS_DIR:?}/int-homepage/public/icons:/app/public/icons
+      - ${CONFIGS_DIR:?}/int-homepage/config:/app/config:ro
+      - ${CONFIGS_DIR:?}/int-homepage/public/images:/app/public/images:ro
+      - ${CONFIGS_DIR:?}/int-homepage/public/icons:/app/public/icons:ro
+      - writable:/app/.next/server/pages
     networks:
       net-int-homepage:
         ipv4_address: 172.19.4.4
@@ -36,6 +38,9 @@ services:
     networks:
       internal:
         ipv4_address: 172.21.4.2
+
+volumes:
+  writable:
 
 networks:
   net-int-homepage:
