@@ -43,5 +43,5 @@ dabloon.{$MY_DOMAIN} {
 }
 
 vpn.{$MY_DOMAIN} {
-    respond "" 204
+    redir https://{$MY_DOMAIN} permanent
 }
