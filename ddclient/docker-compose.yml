@@ -16,7 +16,7 @@ services:
       net-ddclient:
         ipv4_address: 172.19.4.4
       outgoing:
-        ipv4_address: 172.19.4.129
+        ipv4_address: 172.19.4.130
     tmpfs:
       - /run:exec
       - /tmp
@@ -34,4 +34,4 @@ networks:
     ipam:
       config:
         - subnet: 172.19.4.128/25
-          gateway: 172.19.4.128
+          gateway: 172.19.4.129

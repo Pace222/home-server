@@ -18,9 +18,9 @@ services:
       net-int-homepage:
         ipv4_address: 172.19.2.4
       internal:
-        ipv4_address: 172.19.2.65
+        ipv4_address: 172.19.2.66
       outgoing:
-        ipv4_address: 172.19.2.129
+        ipv4_address: 172.19.2.130
     labels:
       homepage.group: "Internal"
       homepage.name: "Internal Homepage"
@@ -39,7 +39,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       internal:
-        ipv4_address: 172.19.2.66
+        ipv4_address: 172.19.2.67
 
 volumes:
   writable:
@@ -51,10 +51,10 @@ networks:
     internal: true
     ipam:
       config:
-        - subnet: 172.19.2.64/26
-          gateway: 172.19.2.64
+        - subnet: 172.19.2.65/26
+          gateway: 172.19.2.65
   outgoing:
     ipam:
       config:
-        - subnet: 172.19.2.128/26
-          gateway: 172.19.2.128
+        - subnet: 172.19.2.129/26
+          gateway: 172.19.2.129
