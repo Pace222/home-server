@@ -56,6 +56,8 @@ pihole.{$MY_DOMAIN} {
     log
     encode
 
+    redir / /admin/ permanent
+
     reverse_proxy pihole {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options
