@@ -17,24 +17,19 @@
             rewrite * {file_match.relative}
             file_server
         }
-        respond "{err.status_code} {err.status_text}"
+
+        respond {err.status_text} {err.status_code}
     }
 }
 
-(handle-response) {
+(handle-proxy-error) {
     @error status 3xx 4xx 5xx
     handle_response @error {
-        copy_response_headers
-
-        @custom_err file /{rp.status_code}.html /default.html
-        handle @custom_err {
-            rewrite * {file_match.relative}
-            file_server {
-                status {rp.status_code}
-            }
+        copy_response_headers {
+            include Location WWW-Authenticate
         }
 
-        copy_response
+        error {rp.status_text} {rp.status_code}
     }
 }
 
@@ -65,7 +60,7 @@ pihole.{$MY_DOMAIN} {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options
 
-        import handle-response
+        import handle-proxy-error
     }
 }
 
@@ -77,6 +72,6 @@ home.{$MY_DOMAIN} {
     encode
 
     reverse_proxy int-homepage:3000 {
-        import handle-response
+        import handle-proxy-error
     }
 }
