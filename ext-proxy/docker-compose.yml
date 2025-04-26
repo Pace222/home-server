@@ -20,7 +20,7 @@ services:
       net-dabloon:
         ipv4_address: 172.18.3.2
       outgoing:
-        ipv4_address: 172.18.0.129
+        ipv4_address: 172.18.0.130
     labels:
       homepage.group: "External"
       homepage.name: "Caddy Reverse Proxy"
@@ -40,4 +40,4 @@ networks:
     ipam:
       config:
         - subnet: 172.18.0.0/24
-          gateway: 172.18.0.128
+          gateway: 172.18.0.129

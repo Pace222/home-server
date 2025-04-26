@@ -19,9 +19,9 @@ services:
       net-ext-homepage:
         ipv4_address: 172.18.2.4
       internal:
-        ipv4_address: 172.18.2.65
+        ipv4_address: 172.18.2.66
       outgoing:
-        ipv4_address: 172.18.2.129
+        ipv4_address: 172.18.2.130
     labels:
       homepage.group: "External"
       homepage.name: "External Homepage"
@@ -40,7 +40,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       internal:
-        ipv4_address: 172.18.2.66
+        ipv4_address: 172.18.2.67
 
 volumes:
   writable:
@@ -53,9 +53,9 @@ networks:
     ipam:
       config:
         - subnet: 172.18.2.64/26
-          gateway: 172.18.2.64
+          gateway: 172.18.2.65
   outgoing:
     ipam:
       config:
         - subnet: 172.18.2.128/26
-          gateway: 172.18.2.128
+          gateway: 172.18.2.129

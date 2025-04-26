@@ -17,7 +17,7 @@ services:
       net-pihole:
         ipv4_address: 172.19.3.4
       outgoing:
-        ipv4_address: 172.19.3.129
+        ipv4_address: 172.19.3.130
     labels:
       homepage.group: "Internal"
       homepage.name: "Pi-hole"
@@ -32,4 +32,4 @@ networks:
     ipam:
       config:
         - subnet: 172.19.3.128/25
-          gateway: 172.19.3.128
+          gateway: 172.19.3.129

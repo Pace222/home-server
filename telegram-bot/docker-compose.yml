@@ -11,7 +11,7 @@ services:
       net-dabloon:
         ipv4_address: 172.18.3.3
       ext-outgoing:
-        ipv4_address: 172.18.1.129
+        ipv4_address: 172.18.1.130
     labels:
       homepage.group: "External"
       homepage.name: "Telegram Bot"
@@ -35,7 +35,7 @@ services:
       net-fw-monitor:
         ipv4_address: 172.19.5.3
       int-outgoing:
-        ipv4_address: 172.19.1.129
+        ipv4_address: 172.19.1.130
     labels:
       homepage.group: "Internal"
       homepage.name: "Telegram Bot"
@@ -56,9 +56,9 @@ networks:
     ipam:
       config:
         - subnet: 172.18.1.0/24
-          gateway: 172.18.1.128
+          gateway: 172.18.1.129
   int-outgoing:
     ipam:
       config:
         - subnet: 172.19.1.0/24
-          gateway: 172.19.1.128
+          gateway: 172.19.1.129

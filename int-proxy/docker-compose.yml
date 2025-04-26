@@ -23,7 +23,7 @@ services:
       net-pihole:
         ipv4_address: 172.19.3.2
       outgoing:
-        ipv4_address: 172.19.0.129
+        ipv4_address: 172.19.0.130
     labels:
       homepage.group: "Internal"
       homepage.name: "Caddy Reverse Proxy"
@@ -43,4 +43,4 @@ networks:
     ipam:
       config:
         - subnet: 172.19.0.0/24
-          gateway: 172.19.0.128
+          gateway: 172.19.0.129
