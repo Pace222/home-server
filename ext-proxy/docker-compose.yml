@@ -1,7 +1,7 @@
 services:
-  external-proxy:
+  ext-proxy:
     image: caddy:2.10.0-alpine
-    container_name: external-proxy
+    container_name: ext-proxy
     read_only: true
     restart: unless-stopped
     environment:

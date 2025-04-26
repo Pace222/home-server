@@ -1,12 +1,12 @@
 services:
-  internal-proxy:
+  int-proxy:
     build: .
     image: caddy-acme-dns
-    container_name: internal-proxy
+    container_name: int-proxy
     read_only: true
     restart: unless-stopped
     env_file:
-      - ${SECRETS_DIR:?}/internal-proxy/.env
+      - ${SECRETS_DIR:?}/int-proxy/.env
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
     ports:
