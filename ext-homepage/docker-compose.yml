@@ -4,6 +4,8 @@ services:
     container_name: ext-homepage
     read_only: true
     restart: unless-stopped
+    depends_on:
+      - ext-dockerproxy
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"

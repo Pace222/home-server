@@ -4,6 +4,8 @@ services:
     container_name: int-homepage
     read_only: true
     restart: unless-stopped
+    depends_on:
+      - int-dockerproxy
     environment:
       HOMEPAGE_ALLOWED_HOSTS: "home.${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
