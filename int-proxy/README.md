@@ -11,6 +11,6 @@ git remote add -f origin git@github.com:Pace222/home-error-pages.git
 git config core.sparseCheckout true
 echo "dist/" >> .git/info/sparse-checkout
 
+git pull origin master
 git branch --set-upstream-to=origin/master main
-git pull
 ```
