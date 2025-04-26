@@ -8,7 +8,7 @@
     acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
 }
 
-(error-pages) {
+(handle-error) {
     root /errors
 
     handle_errors {
@@ -18,6 +18,20 @@
             file_server
         }
         respond "{err.status_code} {err.status_text}"
+    }
+}
+
+(handle-response) {
+    @error status 3xx 4xx 5xx
+    handle_response @error {
+        @custom_err file /{rp.status_code}.html /default.html
+        handle @custom_err {
+            rewrite * {file_match.relative}
+            file_server {
+                status {rp.status_code}
+            }
+        }
+        respond "{rp.status_code} {rp.status_text}"
     }
 }
 
@@ -38,7 +52,7 @@
 }
 
 pihole.{$MY_DOMAIN} {
-    import error-pages
+    import handle-error
     import sec-headers
 
     log
@@ -47,15 +61,19 @@ pihole.{$MY_DOMAIN} {
     reverse_proxy pihole {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options
+
+        import handle-response
     }
 }
 
 home.{$MY_DOMAIN} {
-    import error-pages
+    import handle-error
     import sec-headers
 
     log
     encode
 
-    reverse_proxy int-homepage:3000
+    reverse_proxy int-homepage:3000 {
+        import handle-response
+    }
 }
