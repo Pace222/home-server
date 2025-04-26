@@ -15,6 +15,7 @@ services:
       - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${CONFIGS_DIR:?}/error-pages/dist:/errors:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:

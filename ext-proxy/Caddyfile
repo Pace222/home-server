@@ -6,6 +6,19 @@
     }
 }
 
+(error-pages) {
+    root /errors
+
+    handle_errors {
+        @custom_err file /{err.status_code}.html /default.html
+        handle @custom_err {
+            rewrite * {file_match.relative}
+            file_server
+        }
+        respond "{err.status_code} {err.status_text}"
+    }
+}
+
 (sec-headers) {
     header {
         # disable FLoC tracking
@@ -23,6 +36,7 @@
 }
 
 dabloon.{$MY_DOMAIN} {
+    import error-pages
     import sec-headers
 
     log
@@ -34,6 +48,7 @@ dabloon.{$MY_DOMAIN} {
 }
 
 {$MY_DOMAIN} {
+    import error-pages
     import sec-headers
 
     log
@@ -43,5 +58,7 @@ dabloon.{$MY_DOMAIN} {
 }
 
 vpn.{$MY_DOMAIN} {
+    import error-pages
+
     redir https://{$MY_DOMAIN} permanent
 }
