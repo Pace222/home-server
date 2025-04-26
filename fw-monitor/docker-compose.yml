@@ -13,7 +13,7 @@ services:
       - /var/log/syslog:/fw_log:ro
     networks:
       net-fw-monitor:
-        ipv4_address: 172.19.3.2
+        ipv4_address: 172.19.5.4
     labels:
       homepage.group: "Internal"
       homepage.name: "Firewall Monitoring"

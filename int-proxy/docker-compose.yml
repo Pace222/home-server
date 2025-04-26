@@ -18,12 +18,12 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     networks:
-      net-pihole:
-        ipv4_address: 172.19.1.2
       net-int-homepage:
-        ipv4_address: 172.19.4.2
+        ipv4_address: 172.19.2.2
+      net-pihole:
+        ipv4_address: 172.19.3.2
       outgoing:
-        ipv4_address: 172.19.0.2
+        ipv4_address: 172.19.0.129
     labels:
       homepage.group: "Internal"
       homepage.name: "Caddy Reverse Proxy"
@@ -43,4 +43,4 @@ networks:
     ipam:
       config:
         - subnet: 172.19.0.0/24
-          gateway: 172.19.0.1
+          gateway: 172.19.0.128

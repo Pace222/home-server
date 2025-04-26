@@ -14,9 +14,9 @@ services:
       TZ: "Europe/Zurich"
     networks:
       net-ddclient:
-        ipv4_address: 172.19.2.2
+        ipv4_address: 172.19.4.4
       outgoing:
-        ipv4_address: 172.19.253.2
+        ipv4_address: 172.19.4.129
     tmpfs:
       - /run:exec
       - /tmp
@@ -33,5 +33,5 @@ networks:
   outgoing:
     ipam:
       config:
-        - subnet: 172.19.253.0/24
-          gateway: 172.19.253.1
+        - subnet: 172.19.4.128/25
+          gateway: 172.19.4.128
