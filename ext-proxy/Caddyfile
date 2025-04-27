@@ -4,6 +4,14 @@
             soft_start
         }
     }
+
+    metrics {
+        per_host
+    }
+
+    admin 172.21.2.3:2019 {
+        origins ext-proxy:2019
+    }
 }
 
 (handle-error) {

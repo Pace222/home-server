@@ -5,7 +5,11 @@
         }
     }
 
-    admin 172.19.2.2:2019 {
+    metrics {
+        per_host
+    }
+
+    admin 172.19.2.2:2019 172.21.3.3:2019 {
         origins int-proxy:2019
     }
 
