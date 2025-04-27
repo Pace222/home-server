@@ -11,6 +11,8 @@ services:
         ipv4_address: 172.19.6.4
       prom-grafana:
         ipv4_address: 172.19.6.11
+    tmpfs:
+      - /tmp
     labels:
       homepage.group: "Monitoring"
       homepage.name: "Grafana"
