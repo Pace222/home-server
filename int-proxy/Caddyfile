@@ -62,7 +62,6 @@ home.{$MY_DOMAIN} {
 
     redir /favicon.ico /icons/favicon.png
 
-    # Do not replace errors of api
     reverse_proxy /api* int-homepage:3000
 
     reverse_proxy int-homepage:3000 {
@@ -81,7 +80,6 @@ pihole.{$MY_DOMAIN} {
 
     redir / /admin/ permanent
 
-    # Do not replace errors of api
     reverse_proxy /api* pihole {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options
@@ -104,7 +102,6 @@ grafana.{$MY_DOMAIN} {
 
     redir /favicon.ico /public/img/fav32.png
 
-    # Do not replace errors of api
     reverse_proxy /api* grafana:3000 {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options

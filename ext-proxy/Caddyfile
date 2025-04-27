@@ -56,7 +56,6 @@
 
     redir /favicon.ico /icons/favicon.png
 
-    # Do not replace errors of api
     reverse_proxy /api* ext-homepage:3000
 
     reverse_proxy ext-homepage:3000 {
