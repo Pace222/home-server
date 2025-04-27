@@ -54,6 +54,8 @@ dabloon.{$MY_DOMAIN} {
     log
     encode
 
+    redir /favicon.ico /img/favicon.ico
+
     reverse_proxy dabloon {
         header_down -Server
 
@@ -67,6 +69,8 @@ dabloon.{$MY_DOMAIN} {
 
     log
     encode
+
+    redir /favicon.ico /icons/favicon.png
 
     # Do not replace errors of api
     reverse_proxy /api* ext-homepage:3000
