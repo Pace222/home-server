@@ -13,8 +13,8 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ${CONFIGS_DIR:?}/error-pages/dist:/errors:ro
-      - caddy_data:/data
-      - caddy_config:/config
+      - caddy-data:/data
+      - caddy-config:/config
     networks:
       net-ext-homepage:
         ipv4_address: 172.18.2.2
@@ -29,8 +29,8 @@ services:
       homepage.description: "Reverse proxy for external services."
 
 volumes:
-  caddy_data:
-  caddy_config:
+  caddy-data:
+  caddy-config:
 
 networks:
   net-dabloon:

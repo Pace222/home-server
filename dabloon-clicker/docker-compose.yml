@@ -8,8 +8,8 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/dabloon-clicker/.env
     volumes:
-      - caddy_data:/data
-      - caddy_config:/config
+      - caddy-data:/data
+      - caddy-config:/config
     networks:
       net-dabloon:
         ipv4_address: 172.18.3.4
@@ -21,8 +21,8 @@ services:
       homepage.description: "Click on dabloons to win even more dabloons!"
 
 volumes:
-  caddy_data:
-  caddy_config:
+  caddy-data:
+  caddy-config:
 
 networks:
   net-dabloon:
