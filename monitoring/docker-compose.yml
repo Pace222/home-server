@@ -32,7 +32,7 @@ services:
     read_only: true
     restart: unless-stopped
     volumes:
-      - ${CONFIGS_DIR:?}/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
     networks:
       prom-grafana:
@@ -73,9 +73,9 @@ services:
       homepage.description: "Container Advisor (cAdvisor) provides container resource usage and performance characteristics."
       homepage.weight: "3"
 
-  node_exporter:
+  node-exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1
-    container_name: node_exporter
+    container_name: node-exporter
     read_only: true
     restart: unless-stopped
     pid: "host"
