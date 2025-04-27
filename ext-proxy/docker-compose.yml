@@ -16,6 +16,8 @@ services:
       - caddy-data:/data
       - caddy-config:/config
     networks:
+      prom-ext-caddy:
+        ipv4_address: 172.21.2.3
       net-ext-homepage:
         ipv4_address: 172.18.2.2
       net-dabloon:
@@ -33,6 +35,8 @@ volumes:
   caddy-config:
 
 networks:
+  prom-ext-caddy:
+    external: true
   net-ext-homepage:
     external: true
   net-dabloon:

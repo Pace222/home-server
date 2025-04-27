@@ -19,6 +19,8 @@ services:
       - caddy-data:/data
       - caddy-config:/config
     networks:
+      prom-int-caddy:
+        ipv4_address: 172.21.3.3
       net-int-homepage:
         ipv4_address: 172.19.2.2
       net-pihole:
@@ -40,6 +42,8 @@ volumes:
   caddy-config:
 
 networks:
+  prom-int-caddy:
+    external: true
   net-int-homepage:
     external: true
   net-pihole:

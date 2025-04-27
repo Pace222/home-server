@@ -17,3 +17,11 @@ scrape_configs:
   - job_name: 'wireguard'
     static_configs:
       - targets: ['wireguard:9586']
+
+  - job_name: 'ext-proxy'
+    static_configs:
+      - targets: ['ext-proxy:2019']
+
+  - job_name: 'int-proxy'
+    static_configs:
+      - targets: ['int-proxy:2019']
