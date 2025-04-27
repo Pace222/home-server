@@ -102,7 +102,8 @@ grafana.{$MY_DOMAIN} {
 
     redir /favicon.ico /public/img/fav32.png
 
-    reverse_proxy /api* grafana:3000 {
+    @api_or_login path /login /api*
+    reverse_proxy @api_or_login grafana:3000 {
         header_down -X-Content-Type-Options
         header_down -X-Frame-Options
     }
