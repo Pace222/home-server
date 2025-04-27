@@ -1,4 +1,24 @@
 services:
+  grafana:
+    image: grafana/grafana-oss:11.6.1
+    container_name: grafana
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      net-grafana:
+        ipv4_address: 172.19.6.4
+      prom-grafana:
+        ipv4_address: 172.19.6.11
+    labels:
+      homepage.group: "Monitoring"
+      homepage.name: "Grafana"
+      homepage.icon: "grafana.png"
+      homepage.description: "Grafana visualization and analytics software."
+      homepage.instance.internal.href: "https://grafana.${MY_DOMAIN:?}"
+      homepage.weight: "1"
+
   prometheus:
     image: prom/prometheus:v3.3.0
     container_name: prometheus
@@ -19,24 +39,7 @@ services:
       homepage.name: "Prometheus"
       homepage.icon: "prometheus.png"
       homepage.description: "Prometheus monitoring system and time series database."
-
-  grafana:
-    image: grafana/grafana-oss:11.6.1
-    container_name: grafana
-    read_only: true
-    restart: unless-stopped
-    volumes:
-      - grafana-data:/var/lib/grafana
-    networks:
-      net-grafana:
-        ipv4_address: 172.19.6.4
-      prom-grafana:
-        ipv4_address: 172.19.6.11
-    labels:
-      homepage.group: "Monitoring"
-      homepage.name: "Grafana"
-      homepage.icon: "grafana.png"
-      homepage.description: "Grafana visualization and analytics software."
+      homepage.weight: "2"
 
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.52.1
@@ -59,6 +62,7 @@ services:
       homepage.name: "cAdvisor"
       homepage.icon: "cadvisor.png"
       homepage.description: "Container Advisor (cAdvisor) provides container resource usage and performance characteristics."
+      homepage.weight: "3"
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1
@@ -78,6 +82,7 @@ services:
       homepage.name: "Node Exporter"
       homepage.icon: "prometheus.png"
       homepage.description: "Prometheus exporter for hardware and OS metrics exposed by *NIX kernels."
+      homepage.weight: "4"
 
 volumes:
   prometheus-data:
