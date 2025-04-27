@@ -17,7 +17,7 @@ services:
       homepage.group: "Monitoring"
       homepage.name: "Grafana"
       homepage.icon: "grafana.png"
-      homepage.description: "Grafana visualization and analytics software."
+      homepage.description: "Visualization and analytics software."
       homepage.instance.internal.href: "https://grafana.${MY_DOMAIN:?}"
       homepage.instance.internal.widget.type: "grafana"
       homepage.instance.internal.widget.url: "https://grafana.${MY_DOMAIN:?}"
@@ -51,7 +51,7 @@ services:
       homepage.group: "Monitoring"
       homepage.name: "Prometheus"
       homepage.icon: "prometheus.png"
-      homepage.description: "Prometheus monitoring system and time series database."
+      homepage.description: "Monitoring system and time series database."
       homepage.weight: "2"
 
   cadvisor:
