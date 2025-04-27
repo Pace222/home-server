@@ -37,12 +37,14 @@ services:
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
+    user: root
     environment:
       PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS: "172.19.7.3"
       PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES: "/config/wg_confs/wg0.conf"
       EXPORT_LATEST_HANDSHAKE_DELAY: "true"
     volumes:
       - ${CONFIGS_DIR:?}/wireguard/config:/config:ro
+    command: "-a false"
     network_mode: "service:wireguard"
 
 networks:
