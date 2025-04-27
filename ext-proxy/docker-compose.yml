@@ -33,9 +33,9 @@ volumes:
   caddy-config:
 
 networks:
-  net-dabloon:
-    external: true
   net-ext-homepage:
+    external: true
+  net-dabloon:
     external: true
   outgoing:
     ipam:

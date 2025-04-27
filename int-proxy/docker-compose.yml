@@ -23,6 +23,8 @@ services:
         ipv4_address: 172.19.2.2
       net-pihole:
         ipv4_address: 172.19.3.2
+      net-grafana:
+        ipv4_address: 172.19.6.2
       outgoing:
         ipv4_address: 172.19.0.130
     labels:
@@ -38,9 +40,11 @@ volumes:
   caddy-config:
 
 networks:
+  net-int-homepage:
+    external: true
   net-pihole:
     external: true
-  net-int-homepage:
+  net-grafana:
     external: true
   outgoing:
     ipam:
