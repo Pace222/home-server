@@ -47,22 +47,6 @@
     }
 }
 
-dabloon.{$MY_DOMAIN} {
-    import handle-error
-    import sec-headers
-
-    log
-    encode
-
-    redir /favicon.ico /img/favicon.ico
-
-    reverse_proxy dabloon {
-        header_down -Server
-
-        import handle-proxy-error
-    }
-}
-
 {$MY_DOMAIN} {
     import handle-error
     import sec-headers
@@ -76,6 +60,22 @@ dabloon.{$MY_DOMAIN} {
     reverse_proxy /api* ext-homepage:3000
 
     reverse_proxy ext-homepage:3000 {
+        import handle-proxy-error
+    }
+}
+
+dabloon.{$MY_DOMAIN} {
+    import handle-error
+    import sec-headers
+
+    log
+    encode
+
+    redir /favicon.ico /img/favicon.ico
+
+    reverse_proxy dabloon {
+        header_down -Server
+
         import handle-proxy-error
     }
 }

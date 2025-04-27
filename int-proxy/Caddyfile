@@ -53,6 +53,23 @@
     }
 }
 
+home.{$MY_DOMAIN} {
+    import handle-error
+    import sec-headers
+
+    log
+    encode
+
+    redir /favicon.ico /icons/favicon.png
+
+    # Do not replace errors of api
+    reverse_proxy /api* int-homepage:3000
+
+    reverse_proxy int-homepage:3000 {
+        import handle-proxy-error
+    }
+}
+
 pihole.{$MY_DOMAIN} {
     import handle-error
     import sec-headers
@@ -78,19 +95,25 @@ pihole.{$MY_DOMAIN} {
     }
 }
 
-home.{$MY_DOMAIN} {
+grafana.{$MY_DOMAIN} {
     import handle-error
     import sec-headers
 
     log
     encode
 
-    redir /favicon.ico /icons/favicon.png
+    redir /favicon.ico /public/img/fav32.png
 
     # Do not replace errors of api
-    reverse_proxy /api* int-homepage:3000
+    reverse_proxy /api* grafana:3000 {
+        header_down -X-Content-Type-Options
+        header_down -X-Frame-Options
+    }
 
-    reverse_proxy int-homepage:3000 {
+    reverse_proxy grafana:3000 {
+        header_down -X-Content-Type-Options
+        header_down -X-Frame-Options
+
         import handle-proxy-error
     }
 }

@@ -1,0 +1,103 @@
+services:
+  prometheus:
+    image: prom/prometheus:v3.3.0
+    container_name: prometheus
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - ${CONFIGS_DIR:?}/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      prom-grafana:
+        ipv4_address: 172.19.6.10
+      prom-cadvisor:
+        ipv4_address: 172.19.6.18
+      prom-node-exporter:
+        ipv4_address: 172.19.6.26
+    labels:
+      homepage.group: "Monitoring"
+      homepage.name: "Prometheus"
+      homepage.icon: "prometheus.png"
+      homepage.description: "Prometheus monitoring system and time series database."
+
+  grafana:
+    image: grafana/grafana-oss:11.6.1
+    container_name: grafana
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      net-grafana:
+        ipv4_address: 172.19.6.4
+      prom-grafana:
+        ipv4_address: 172.19.6.11
+    labels:
+      homepage.group: "Monitoring"
+      homepage.name: "Grafana"
+      homepage.icon: "grafana.png"
+      homepage.description: "Grafana visualization and analytics software."
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.52.1
+    container_name: cadvisor
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    networks:
+      prom-cadvisor:
+        ipv4_address: 172.19.6.19
+    devices:
+      - /dev/kmsg
+    labels:
+      homepage.group: "Monitoring"
+      homepage.name: "cAdvisor"
+      homepage.icon: "cadvisor.png"
+      homepage.description: "Container Advisor (cAdvisor) provides container resource usage and performance characteristics."
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:v1.9.1
+    container_name: node_exporter
+    read_only: true
+    restart: unless-stopped
+    pid: "host"
+    volumes:
+      - /:/host:ro,rslave
+    networks:
+      prom-node-exporter:
+        ipv4_address: 172.19.6.27
+    command:
+      - "--path.rootfs=/host"
+    labels:
+      homepage.group: "Monitoring"
+      homepage.name: "Node Exporter"
+      homepage.icon: "prometheus.png"
+      homepage.description: "Prometheus exporter for hardware and OS metrics exposed by *NIX kernels."
+
+volumes:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  net-grafana:
+    external: true
+  prom-grafana:
+    ipam:
+      config:
+        - subnet: 172.19.6.8/29
+          gateway: 172.19.6.9
+  prom-cadvisor:
+    ipam:
+      config:
+        - subnet: 172.19.6.16/29
+          gateway: 172.19.6.17
+  prom-node-exporter:
+    ipam:
+      config:
+        - subnet: 172.19.6.24/29
+          gateway: 172.19.6.25
