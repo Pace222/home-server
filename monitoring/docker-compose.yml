@@ -17,6 +17,11 @@ services:
       homepage.icon: "grafana.png"
       homepage.description: "Grafana visualization and analytics software."
       homepage.instance.internal.href: "https://grafana.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.type: "grafana"
+      homepage.instance.internal.widget.url: "https://grafana.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.username: "${GRAFANA_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${GRAFANA_PASSWORD:?}"
+      homepage.instance.internal.widget.fields: "[\"datasources\", \"totalalerts\", \"alertstriggered\"]"
       homepage.weight: "1"
 
   prometheus:
