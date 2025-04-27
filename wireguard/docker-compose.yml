@@ -16,6 +16,8 @@ services:
     volumes:
       - ${CONFIGS_DIR:?}/wireguard/config:/config
     networks:
+      net-prom-wg:
+        ipv4_address: 172.19.7.3
       outgoing:
         ipv4_address: 172.20.0.130
     sysctls:
@@ -28,7 +30,23 @@ services:
       homepage.icon: "wireguard.png"
       homepage.description: "Connect home safe!"
 
+  wireguard-exporter:
+    image: mindflavor/prometheus-wireguard-exporter:3.6.6
+    container_name: wireguard-exporter
+    read_only: true
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    environment:
+      PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES: "/config/wg_confs/wg0.conf"
+      EXPORT_LATEST_HANDSHAKE_DELAY: "true"
+    volumes:
+      - ${CONFIGS_DIR:?}/wireguard/config:/config:ro
+    network_mode: "service:wireguard"
+
 networks:
+  net-prom-wg:
+    external: true
   outgoing:
     ipam:
       config:
