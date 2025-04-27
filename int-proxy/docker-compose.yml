@@ -30,6 +30,8 @@ services:
       homepage.name: "Caddy Reverse Proxy"
       homepage.icon: "caddy.png"
       homepage.description: "Reverse proxy for internal services."
+      homepage.instance.internal.widget.type: "caddy"
+      homepage.instance.internal.widget.url: "http://172.19.2.2:2019"
 
 volumes:
   caddy_data:
