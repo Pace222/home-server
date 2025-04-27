@@ -41,6 +41,8 @@ services:
         ipv4_address: 172.19.6.18
       prom-node-exporter:
         ipv4_address: 172.19.6.26
+      net-prom-wg:
+        ipv4_address: 172.19.7.2
     labels:
       homepage.group: "Monitoring"
       homepage.name: "Prometheus"
@@ -97,6 +99,8 @@ volumes:
 
 networks:
   net-grafana:
+    external: true
+  net-prom-wg:
     external: true
   prom-grafana:
     ipam:
