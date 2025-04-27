@@ -27,7 +27,7 @@ services:
       homepage.icon: "homepage.png"
       homepage.instance.internal.href: "https://home.${MY_DOMAIN:?}"
       homepage.instance.internal.description: "This very homepage!"
-      homepage.instance.external.description: "A hidden homepage... displaying even more services!"
+      homepage.instance.external.description: "A hidden homepage... displaying more details about every service!"
 
   int-dockerproxy:
     image: tecnativa/docker-socket-proxy:0.3
