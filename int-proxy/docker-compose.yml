@@ -16,8 +16,8 @@ services:
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ${CONFIGS_DIR:?}/error-pages/dist:/errors:ro
-      - caddy_data:/data
-      - caddy_config:/config
+      - caddy-data:/data
+      - caddy-config:/config
     networks:
       net-int-homepage:
         ipv4_address: 172.19.2.2
@@ -34,8 +34,8 @@ services:
       homepage.instance.internal.widget.url: "http://int-proxy:2019"
 
 volumes:
-  caddy_data:
-  caddy_config:
+  caddy-data:
+  caddy-config:
 
 networks:
   net-pihole:
