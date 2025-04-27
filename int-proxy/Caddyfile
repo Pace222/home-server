@@ -5,6 +5,8 @@
         }
     }
 
+    admin 172.19.2.2:2019
+
     acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
 }
 
