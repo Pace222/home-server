@@ -28,7 +28,7 @@ services:
       homepage.icon: "homepage.png"
       homepage.href: "https://${MY_DOMAIN:?}"
       homepage.instance.external.description: "This very homepage!"
-      homepage.instance.internal.description: "The external homepage... displaying only a subset of services!"
+      homepage.instance.internal.description: "The external homepage... displaying only a subset of available information!"
 
   ext-dockerproxy:
     image: tecnativa/docker-socket-proxy:0.3
