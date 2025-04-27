@@ -16,4 +16,4 @@ scrape_configs:
 
   - job_name: 'wireguard'
     static_configs:
-      - targets: ['wireguard-exporter:9586']
+      - targets: ['wireguard:9586']
