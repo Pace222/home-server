@@ -44,16 +44,16 @@
 (sec-headers) {
     header {
         # disable FLoC tracking
-        Permissions-Policy interest-cohort=()
+        >Permissions-Policy interest-cohort=()
 
         # enable HSTS
-        Strict-Transport-Security max-age=31536000;
+        >Strict-Transport-Security max-age=31536000;
 
         # disable clients from sniffing the media type
-        X-Content-Type-Options nosniff
+        >X-Content-Type-Options nosniff
 
         # clickjacking protection
-        X-Frame-Options DENY
+        >X-Frame-Options DENY
     }
 }
 
@@ -84,15 +84,9 @@ pihole.{$MY_DOMAIN} {
 
     redir / /admin/ permanent
 
-    reverse_proxy /api* pihole {
-        header_down -X-Content-Type-Options
-        header_down -X-Frame-Options
-    }
+    reverse_proxy /api* pihole
 
     reverse_proxy pihole {
-        header_down -X-Content-Type-Options
-        header_down -X-Frame-Options
-
         import handle-proxy-error
     }
 }
@@ -107,15 +101,9 @@ grafana.{$MY_DOMAIN} {
     redir /favicon.ico /public/img/fav32.png
 
     @api_or_login path /login /api*
-    reverse_proxy @api_or_login grafana:3000 {
-        header_down -X-Content-Type-Options
-        header_down -X-Frame-Options
-    }
+    reverse_proxy @api_or_login grafana:3000
 
     reverse_proxy grafana:3000 {
-        header_down -X-Content-Type-Options
-        header_down -X-Frame-Options
-
         import handle-proxy-error
     }
 }
