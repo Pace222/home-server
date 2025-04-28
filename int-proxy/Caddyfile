@@ -16,10 +16,39 @@
     acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
 }
 
-(handle-error) {
+(sec-headers) {
+    header {
+        # disable FLoC tracking
+        >Permissions-Policy interest-cohort=()
+
+        # enable HSTS
+        >Strict-Transport-Security max-age=31536000;
+
+        # disable clients from sniffing the media type
+        >X-Content-Type-Options nosniff
+
+        # clickjacking protection
+        >X-Frame-Options DENY
+
+        # additional headers
+        {block}
+    }
+}
+
+(headers-and-error-handling) {
+    # Need to define it here...
+    import sec-headers {
+        {block}
+    }
+
     root /errors
 
     handle_errors {
+        # ... and here because they are two different contexts
+        import sec-headers {
+            {block}
+        }
+
         @custom_err file /{err.status_code}.html /default.html
         handle @custom_err {
             rewrite * {file_match.relative}
@@ -41,25 +70,8 @@
     }
 }
 
-(sec-headers) {
-    header {
-        # disable FLoC tracking
-        >Permissions-Policy interest-cohort=()
-
-        # enable HSTS
-        >Strict-Transport-Security max-age=31536000;
-
-        # disable clients from sniffing the media type
-        >X-Content-Type-Options nosniff
-
-        # clickjacking protection
-        >X-Frame-Options DENY
-    }
-}
-
 home.{$MY_DOMAIN} {
-    import handle-error
-    import sec-headers
+    import headers-and-error-handling
 
     log
     encode
@@ -74,8 +86,7 @@ home.{$MY_DOMAIN} {
 }
 
 pihole.{$MY_DOMAIN} {
-    import handle-error
-    import sec-headers
+    import headers-and-error-handling
 
     log
     encode
@@ -92,8 +103,7 @@ pihole.{$MY_DOMAIN} {
 }
 
 grafana.{$MY_DOMAIN} {
-    import handle-error
-    import sec-headers
+    import headers-and-error-handling
 
     log
     encode
