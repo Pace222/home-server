@@ -14,7 +14,7 @@ services:
     ports:
       - "51820:51820/udp"
     volumes:
-      - ${CONFIGS_DIR:?}/wireguard/config:/config
+      - config:/config
     networks:
       prom-wg:
         ipv4_address: 172.21.1.3
@@ -43,7 +43,7 @@ services:
       PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES: "/config/wg_confs/wg0.conf"
       EXPORT_LATEST_HANDSHAKE_DELAY: "true"
     volumes:
-      - ${CONFIGS_DIR:?}/wireguard/config:/config:ro
+      - config:/config:ro
     command: "-a false"
     network_mode: "service:wireguard"
     labels:
@@ -52,6 +52,9 @@ services:
       homepage.icon: "wireguard.png"
       homepage.description: "Monitor WireGuard connections."
       homepage.weight: "6"
+
+volumes:
+  config:
 
 networks:
   prom-wg:
