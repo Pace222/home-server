@@ -41,7 +41,7 @@
         {block}
     }
 
-    root /errors
+    root /error-pages
 
     handle_errors {
         # ... and here because they are two different contexts
