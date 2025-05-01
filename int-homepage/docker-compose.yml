@@ -13,6 +13,7 @@ services:
       - ${CONFIGS_DIR:?}/int-homepage/config:/app/config:ro
       - ${CONFIGS_DIR:?}/int-homepage/public/images:/app/public/images:ro
       - ${CONFIGS_DIR:?}/int-homepage/public/icons:/app/public/icons:ro
+      - ${CONFIGS_DIR:?}/int-homepage/public/favicon.ico:/app/public/favicon.ico:ro
       - writable:/app/.next/server/pages
     networks:
       net-int-homepage:

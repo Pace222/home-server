@@ -14,6 +14,7 @@ services:
       - ${CONFIGS_DIR:?}/ext-homepage/config:/app/config:ro
       - ${CONFIGS_DIR:?}/ext-homepage/public/images:/app/public/images:ro
       - ${CONFIGS_DIR:?}/ext-homepage/public/icons:/app/public/icons:ro
+      - ${CONFIGS_DIR:?}/ext-homepage/public/favicon.ico:/app/public/favicon.ico:ro
       - writable:/app/.next/server/pages
     networks:
       net-ext-homepage:

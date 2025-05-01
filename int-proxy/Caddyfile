@@ -76,8 +76,6 @@ home.{$MY_DOMAIN} {
     log
     encode
 
-    redir /favicon.ico /icons/favicon.png
-
     reverse_proxy /api* int-homepage:3000
 
     reverse_proxy int-homepage:3000 {
