@@ -14,7 +14,7 @@ services:
     ports:
       - "51820:51820/udp"
     volumes:
-      - config:/config
+      - config:/config:ro
     networks:
       prom-wg:
         ipv4_address: 172.21.1.3
