@@ -74,8 +74,6 @@
     log
     encode
 
-    redir /favicon.ico /icons/favicon.png
-
     reverse_proxy /api* ext-homepage:3000
 
     reverse_proxy ext-homepage:3000 {
