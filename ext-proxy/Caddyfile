@@ -14,59 +14,7 @@
     }
 }
 
-(sec-headers) {
-    header {
-        # disable FLoC tracking
-        >Permissions-Policy interest-cohort=()
-
-        # enable HSTS
-        >Strict-Transport-Security max-age=31536000;
-
-        # disable clients from sniffing the media type
-        >X-Content-Type-Options nosniff
-
-        # clickjacking protection
-        >X-Frame-Options DENY
-
-        # additional headers
-        {block}
-    }
-}
-
-(headers-and-error-handling) {
-    # Need to define it here...
-    import sec-headers {
-        {block}
-    }
-
-    root /error-pages
-
-    handle_errors {
-        # ... and here because they are two different contexts
-        import sec-headers {
-            {block}
-        }
-
-        @custom_err file /{err.status_code}.html /default.html
-        handle @custom_err {
-            rewrite * {file_match.relative}
-            file_server
-        }
-
-        respond {err.status_text} {err.status_code}
-    }
-}
-
-(handle-proxy-error) {
-    @error status 3xx 4xx 5xx
-    handle_response @error {
-        copy_response_headers {
-            include Location WWW-Authenticate
-        }
-
-        error {rp.status_text} {rp.status_code}
-    }
-}
+import ../utils/caddy/snippets
 
 {$MY_DOMAIN} {
     import headers-and-error-handling
