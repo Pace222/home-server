@@ -29,6 +29,12 @@ sudo systemctl restart rsyslog
 
 - `https://docs.docker.com/engine/install/debian/#install-using-the-repository`
 
+## Periodically delete unused data
+
+```bash
+sudo crontab -l 2>/dev/null | { cat; echo "0 0 * * 0 $(which docker) system prune -af --volumes >> /var/log/docker-prune.log 2>&1"; } | sudo crontab -
+```
+
 ## Directories and Environment Variables
 
 Choose your domain, and where to store the configs, services, secrets, and Docker Compose files. Then set the following environment variables in your shell configuration file (e.g., `~/.bashrc`, `~/.zshrc`):
