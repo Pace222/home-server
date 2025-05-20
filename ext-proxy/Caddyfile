@@ -14,7 +14,7 @@
     }
 }
 
-import ../utils/caddy/snippets
+import caddy-configs/*
 
 {$MY_DOMAIN} {
     import headers-and-error-handling
