@@ -16,7 +16,7 @@
     acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
 }
 
-import ../utils/caddy/snippets
+import caddy-configs/*
 
 home.{$MY_DOMAIN} {
     import headers-and-error-handling
