@@ -18,7 +18,7 @@
 
 import caddy-configs/*
 
-home.{$MY_DOMAIN} {
+{$MY_DOMAIN} {
     import headers-and-error-handling
 
     log

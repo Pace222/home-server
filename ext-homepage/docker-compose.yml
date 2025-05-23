@@ -27,7 +27,7 @@ services:
       homepage.group: "External"
       homepage.name: "External Homepage"
       homepage.icon: "homepage.png"
-      homepage.href: "https://${MY_DOMAIN:?}"
+      homepage.instance.external.href: "https://${MY_DOMAIN:?}"
       homepage.instance.external.description: "This very homepage!"
       homepage.instance.internal.description: "The external homepage... displaying only a subset of available information!"
 
