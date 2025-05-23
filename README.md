@@ -8,7 +8,7 @@
 
 ## Available only from my home network or VPN
 
-- [Internal Homepage](/homepage) (https://home.pierugo.ch): A more comprehensive homepage, also reaching the internal services.
+- [Internal Homepage](/homepage) (https://pierugo.ch): A more comprehensive homepage, also reaching the internal services.
 - [Pi-hole](/pihole) (https://pihole.pierugo.ch): A DNS sinkhole that blocks ads and trackers at the network level. It also serves as a DNS server to resolve local hostnames.
 - [Grafana](/monitoring) (https://grafana.pierugo.ch): A monitoring dashboard that collects and visualizes metrics from various services running on my home server.
 
