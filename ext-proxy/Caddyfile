@@ -29,6 +29,14 @@ import caddy-configs/*
     }
 }
 
+www.{$MY_DOMAIN} {
+    import headers-and-error-handling {
+        >X-Robots-Tag "noindex, nofollow"
+    }
+
+    redir https://{$MY_DOMAIN} permanent
+}
+
 dabloon.{$MY_DOMAIN} {
     import headers-and-error-handling {
         >X-Robots-Tag "noindex, nofollow"
