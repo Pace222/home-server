@@ -1,0 +1,108 @@
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    container_name: authentik-postgresql
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/dabloon-clicker/.env-postgresql
+    volumes:
+      - database:/var/lib/postgresql/data
+    networks:
+      - net-authentik:
+        ipv4_address: 172.18.4.130
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+
+  redis:
+    image: docker.io/library/redis:8-alpine
+    container_name: authentik-redis
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+    networks:
+      - net-authentik:
+        ipv4_address: 172.18.4.131
+    command: --save 60 1 --loglevel warning
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 3s
+
+  server:
+    image: ghcr.io/goauthentik/server:2025.4.1
+    command: server
+    container_name: authentik-server
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/dabloon-clicker/.env-authentik
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+    volumes:
+      - ./media:/media:ro
+      - ./custom-templates:/templates:ro
+    networks:
+      - internal:
+        ipv4_address: 172.18.4.132
+      - net-authentik:
+        ipv4_address: 172.18.4.4
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    labels:
+      homepage.group: "External"
+      homepage.name: "Authentik"
+      homepage.icon: "authentik.png"
+      homepage.instance.href: "https://auth.${MY_DOMAIN:?}"
+      homepage.instance.description: "A self-hosted SSO and identity provider."
+
+
+  worker:
+    image: ghcr.io/goauthentik/server:2025.4.1
+    command: worker
+    container_name: authentik-worker
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/dabloon-clicker/.env-authentik
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+    user: root
+    volumes:
+      # - /var/run/docker.sock:/var/run/docker.sock
+      - ./media:/media:ro
+      - ./custom-templates:/templates:ro
+    networks:
+      - internal:
+        ipv4_address: 172.18.4.133
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  database:
+  redis:
+
+networks:
+  net-authentik:
+    external: true
+  internal:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.4.128/25
+          gateway: 172.18.4.129
