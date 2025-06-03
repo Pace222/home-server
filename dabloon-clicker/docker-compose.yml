@@ -5,8 +5,6 @@ services:
     container_name: dabloon
     read_only: true
     restart: unless-stopped
-    env_file:
-      - ${SECRETS_DIR:?}/dabloon-clicker/.env
     volumes:
       - caddy-data:/data
       - caddy-config:/config
