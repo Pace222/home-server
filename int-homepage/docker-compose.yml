@@ -7,7 +7,7 @@ services:
     depends_on:
       - int-dockerproxy
     environment:
-      HOMEPAGE_ALLOWED_HOSTS: "${MY_DOMAIN:?}"
+      HOMEPAGE_ALLOWED_HOSTS: "home.${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
     volumes:
       - ${CONFIGS_DIR:?}/int-homepage/config:/app/config:ro
