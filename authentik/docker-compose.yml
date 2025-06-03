@@ -50,7 +50,7 @@ services:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
     volumes:
-      - ./media:/media
+      - ./media:/media:ro
       - ./custom-templates:/templates:ro
     networks:
       net-authentik:
@@ -82,7 +82,6 @@ services:
       AUTHENTIK_POSTGRESQL__HOST: postgresql
     user: root
     volumes:
-      # - /var/run/docker.sock:/var/run/docker.sock
       - ./media:/media
       - ./custom-templates:/templates:ro
     networks:
