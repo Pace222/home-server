@@ -45,8 +45,6 @@ dabloon.{$MY_DOMAIN} {
     log
     encode
 
-    redir /favicon.ico /img/favicon.ico
-
     reverse_proxy dabloon {
         header_down -Server
 
