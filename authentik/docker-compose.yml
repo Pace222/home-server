@@ -10,7 +10,7 @@ services:
       - database:/var/lib/postgresql/data
     networks:
       internal:
-        ipv4_address: 172.18.4.130
+        ipv4_address: 172.18.4.66
     tmpfs:
       - /var/run/postgresql
     healthcheck:
@@ -29,7 +29,7 @@ services:
       - redis:/data
     networks:
       internal:
-        ipv4_address: 172.18.4.131
+        ipv4_address: 172.18.4.67
     command: --save 60 1 --loglevel warning
     healthcheck:
       test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
@@ -56,7 +56,9 @@ services:
       net-authentik:
         ipv4_address: 172.18.4.4
       internal:
-        ipv4_address: 172.18.4.132
+        ipv4_address: 172.18.4.68
+      outgoing:
+        ipv4_address: 172.18.4.130
     depends_on:
       postgresql:
         condition: service_healthy
@@ -86,7 +88,9 @@ services:
       - ./custom-templates:/templates:ro
     networks:
       internal:
-        ipv4_address: 172.18.4.133
+        ipv4_address: 172.18.4.69
+      outgoing:
+        ipv4_address: 172.18.4.131
     tmpfs:
       - /certs
     depends_on:
@@ -106,5 +110,11 @@ networks:
     internal: true
     ipam:
       config:
-        - subnet: 172.18.4.128/25
+        - subnet: 172.18.4.64/26
+          gateway: 172.18.4.65
+  outgoing:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.4.128/26
           gateway: 172.18.4.129
