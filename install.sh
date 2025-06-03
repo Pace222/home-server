@@ -143,7 +143,7 @@ create_networks() {
     # External subnet
     docker network create --internal --subnet=172.18.2.0/26 --gateway=172.18.2.1 net-ext-homepage
     docker network create --internal --subnet=172.18.3.0/24 --gateway=172.18.3.1 net-dabloon
-    docker network create --internal --subnet=172.18.4.0/25 --gateway=172.18.4.1 net-authentik
+    docker network create --internal --subnet=172.18.4.0/26 --gateway=172.18.4.1 net-authentik
     # Internal subnet
     docker network create --internal --subnet=172.19.2.0/26 --gateway=172.19.2.1 net-int-homepage
     docker network create --internal --subnet=172.19.3.0/25 --gateway=172.19.3.1 net-pihole
