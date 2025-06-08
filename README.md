@@ -3,6 +3,7 @@
 ## Available from anywhere
 
 - [External Homepage](/homepage) (https://pierugo.ch): A simple homepage that serves as a starting point for all the services I host.
+- [Authentik](/authentik) (https://auth.pierugo.ch): An open-source identity provider that allows to manage users and their access to various services.
 - [DabloonClicker](/dabloon-clicker) (https://dabloon.pierugo.ch): Mirror of CookieClicker but the sprites and text of the game are modified to click on dabloons instead of cookies.
 - [WireGuard](/wireguard) (https://vpn.pierugo.ch): A VPN server that allows to connect to the home network securely from anywhere in the world.
 
