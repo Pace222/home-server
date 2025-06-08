@@ -50,7 +50,7 @@ services:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
     volumes:
-      - writable:/media:ro
+      - writable:/media
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
       - templates:/templates
     networks:
