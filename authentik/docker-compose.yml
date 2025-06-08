@@ -83,7 +83,6 @@ services:
     environment:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
-    user: root
     volumes:
       - writable:/media
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg
