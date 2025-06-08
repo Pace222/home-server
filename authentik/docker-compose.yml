@@ -50,8 +50,8 @@ services:
       AUTHENTIK_REDIS__HOST: redis
       AUTHENTIK_POSTGRESQL__HOST: postgresql
     volumes:
-      - ./media:/media:ro
-      - ./custom-templates:/templates:ro
+      - writable:/media:ro
+      - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
     networks:
       net-authentik:
         ipv4_address: 172.18.4.4
@@ -84,8 +84,8 @@ services:
       AUTHENTIK_POSTGRESQL__HOST: postgresql
     user: root
     volumes:
-      - ./media:/media
-      - ./custom-templates:/templates:ro
+      - writable:/media
+      - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg
     networks:
       internal:
         ipv4_address: 172.18.4.69
@@ -102,6 +102,7 @@ services:
 volumes:
   database:
   redis:
+  writable:
 
 networks:
   net-authentik:

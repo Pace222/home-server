@@ -11,9 +11,10 @@ services:
       LOG_TARGETS: "stdout"
     volumes:
       - ${CONFIGS_DIR:?}/int-homepage/config:/app/config:ro
-      - ${CONFIGS_DIR:?}/int-homepage/public/images:/app/public/images:ro
-      - ${CONFIGS_DIR:?}/int-homepage/public/icons:/app/public/icons:ro
-      - ${CONFIGS_DIR:?}/int-homepage/public/favicon.ico:/app/public/favicon.ico:ro
+      - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/app/public/images/background-image.jpg:ro
+      - ${CONFIGS_DIR:?}/media/icons/dabloon.png:/app/public/icons/dabloon.png:ro
+      - ${CONFIGS_DIR:?}/media/icons/homepage-favicon.ico:/app/public/favicon.ico:ro
+      - ${CONFIGS_DIR:?}/media/icons/homepage-favicon.ico:/app/public/favicon-32x32.png:ro
       - writable:/app/.next/server/pages
     networks:
       net-int-homepage:
