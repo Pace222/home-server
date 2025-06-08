@@ -52,6 +52,7 @@ services:
     volumes:
       - writable:/media:ro
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
+      - templates:/templates
     networks:
       net-authentik:
         ipv4_address: 172.18.4.4
@@ -86,6 +87,7 @@ services:
     volumes:
       - writable:/media
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg
+      - templates:/templates
     networks:
       internal:
         ipv4_address: 172.18.4.69
@@ -102,6 +104,7 @@ services:
 volumes:
   database:
   redis:
+  templates:
   writable:
 
 networks:
