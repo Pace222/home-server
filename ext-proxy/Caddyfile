@@ -38,7 +38,9 @@ www.{$MY_DOMAIN} {
 }
 
 auth.{$MY_DOMAIN} {
-    import headers-and-error-handling
+    import headers-and-error-handling {
+        >X-Robots-Tag "noindex, nofollow"
+    }
 
     log
     encode
