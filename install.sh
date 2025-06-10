@@ -88,7 +88,7 @@ install_docker() {
 cron_cleanup() {
     # Periodically delete unused data
     echo "Setting up periodic cleanup of unused Docker data..."
-    (crontab -l && echo "0 0 * * 0 $(which docker) system prune -af --volumes >> /var/log/docker-prune.log 2>&1") | crontab -
+    (crontab -l && echo "0 0 * * 0 $(which docker) system prune -af >> /var/log/docker-prune.log 2>&1") | crontab -
 
     echo "Periodic cleanup of unused Docker data has been set up!"
 }
