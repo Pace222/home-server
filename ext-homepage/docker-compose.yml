@@ -1,12 +1,15 @@
 services:
   ext-homepage:
-    image: gethomepage/homepage:v1.1.1
+    build: ${SERVICES_DIR:?}/homepage
+    image: homepage
     container_name: ext-homepage
     read_only: true
     restart: unless-stopped
     depends_on:
       - ext-dockerproxy
     environment:
+      PUID: "1000"
+      PGID: "1000"
       HOMEPAGE_ALLOWED_HOSTS: "${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
       HOMEPAGE_VAR_MY_DOMAIN: "${MY_DOMAIN:?}"

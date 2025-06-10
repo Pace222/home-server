@@ -23,9 +23,11 @@ services:
       homepage.icon: "pi-hole.png"
       homepage.instance.internal.href: "https://pihole.${MY_DOMAIN:?}"
       homepage.description: "Network-wide ad blocker."
-      homepage.instance.internal.widget.type: "pihole"
+      homepage.instance.internal.widget.type: "protectedpihole"
       homepage.instance.internal.widget.url: "https://pihole.${MY_DOMAIN:?}"
       homepage.instance.internal.widget.version: "6"
+      homepage.instance.internal.widget.username: "${AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${AUTHENTIK_PASSWORD:?}"
 
 volumes:
   config:
