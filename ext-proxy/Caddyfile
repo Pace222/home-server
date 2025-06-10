@@ -34,7 +34,7 @@ www.{$MY_DOMAIN} {
         >X-Robots-Tag "noindex, nofollow"
     }
 
-    redir https://{$MY_DOMAIN} permanent
+    redir https://{$MY_DOMAIN}{uri} permanent
 }
 
 auth.{$MY_DOMAIN} {
