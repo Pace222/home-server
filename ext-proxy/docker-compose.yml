@@ -23,7 +23,7 @@ services:
         ipv4_address: 172.18.2.2
       net-dabloon:
         ipv4_address: 172.18.3.2
-      net-authentik:
+      net-ext-authentik:
         ipv4_address: 172.18.4.2
       outgoing:
         ipv4_address: 172.18.0.130
@@ -44,7 +44,7 @@ networks:
     external: true
   net-dabloon:
     external: true
-  net-authentik:
+  net-ext-authentik:
     external: true
   outgoing:
     ipam:

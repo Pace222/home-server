@@ -54,8 +54,10 @@ services:
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
       - templates:/templates
     networks:
-      net-authentik:
+      net-ext-authentik:
         ipv4_address: 172.18.4.4
+      net-int-authentik:
+        ipv4_address: 172.19.7.4
       internal:
         ipv4_address: 172.18.4.68
       outgoing:
@@ -107,7 +109,9 @@ volumes:
   writable:
 
 networks:
-  net-authentik:
+  net-ext-authentik:
+    external: true
+  net-int-authentik:
     external: true
   internal:
     internal: true

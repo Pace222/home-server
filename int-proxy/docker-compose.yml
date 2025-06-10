@@ -28,6 +28,8 @@ services:
         ipv4_address: 172.19.3.2
       net-grafana:
         ipv4_address: 172.19.6.2
+      net-int-authentik:
+        ipv4_address: 172.19.7.2
       outgoing:
         ipv4_address: 172.19.0.130
     labels:
@@ -48,6 +50,8 @@ networks:
   net-pihole:
     external: true
   net-grafana:
+    external: true
+  net-int-authentik:
     external: true
   outgoing:
     ipam:
