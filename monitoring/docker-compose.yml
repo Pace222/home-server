@@ -106,16 +106,19 @@ networks:
   prom-int-caddy:
     external: true
   prom-grafana:
+    internal: true
     ipam:
       config:
         - subnet: 172.19.6.8/29
           gateway: 172.19.6.9
   prom-cadvisor:
+    internal: true
     ipam:
       config:
         - subnet: 172.19.6.16/29
           gateway: 172.19.6.17
   prom-node-exporter:
+    internal: true
     ipam:
       config:
         - subnet: 172.19.6.24/29
