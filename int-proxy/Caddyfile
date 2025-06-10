@@ -37,14 +37,18 @@ pihole.{$MY_DOMAIN} {
     log
     encode
 
-    redir /favicon.ico /admin/img/favicons/favicon.ico
+    route {
+        import authenticate
 
-    redir / /admin/ permanent
+        redir /favicon.ico /admin/img/favicons/favicon.ico
 
-    reverse_proxy /api* pihole
+        redir / /admin/ permanent
 
-    reverse_proxy pihole {
-        import handle-proxy-error
+        reverse_proxy /api* pihole
+
+        reverse_proxy pihole {
+            import handle-proxy-error
+        }
     }
 }
 
@@ -54,12 +58,15 @@ grafana.{$MY_DOMAIN} {
     log
     encode
 
-    redir /favicon.ico /public/img/fav32.png
+    route {
+        import authenticate
 
-    @api_or_login path /login /api*
-    reverse_proxy @api_or_login grafana:3000
+        redir /favicon.ico /public/img/fav32.png
 
-    reverse_proxy grafana:3000 {
-        import handle-proxy-error
+        reverse_proxy /api* grafana:3000
+
+        reverse_proxy grafana:3000 {
+            import handle-proxy-error
+        }
     }
 }
