@@ -156,6 +156,7 @@ create_networks() {
     docker network create --internal --subnet=172.21.1.0/24 --gateway=172.21.1.1 prom-wg
     docker network create --internal --subnet=172.21.2.0/24 --gateway=172.21.2.1 prom-ext-caddy
     docker network create --internal --subnet=172.21.3.0/24 --gateway=172.21.3.1 prom-int-caddy
+    docker network create --internal --subnet=172.21.4.0/24 --gateway=172.21.4.1 prom-authentik
 }
 
 firewall_rules() {

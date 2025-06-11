@@ -54,6 +54,8 @@ services:
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
       - templates:/templates
     networks:
+      prom-authentik:
+        ipv4_address: 172.21.4.3
       net-ext-authentik:
         ipv4_address: 172.18.4.4
       net-int-authentik:
@@ -109,6 +111,8 @@ volumes:
   writable:
 
 networks:
+  prom-authentik:
+    external: true
   net-ext-authentik:
     external: true
   net-int-authentik:

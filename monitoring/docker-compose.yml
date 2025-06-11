@@ -45,6 +45,8 @@ services:
         ipv4_address: 172.21.2.2
       prom-int-caddy:
         ipv4_address: 172.21.3.2
+      prom-authentik:
+        ipv4_address: 172.21.4.2
     labels:
       homepage.group: "Monitoring"
       homepage.name: "Prometheus"
@@ -107,6 +109,8 @@ networks:
   prom-ext-caddy:
     external: true
   prom-int-caddy:
+    external: true
+  prom-authentik:
     external: true
   prom-grafana:
     internal: true

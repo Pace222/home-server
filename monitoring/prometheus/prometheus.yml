@@ -25,3 +25,7 @@ scrape_configs:
   - job_name: 'int-proxy'
     static_configs:
       - targets: ['int-proxy:2019']
+
+  - job_name: 'authentik'
+    static_configs:
+      - targets: ['authentik-server:9300']
