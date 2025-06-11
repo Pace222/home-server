@@ -5,12 +5,15 @@ services:
     read_only: true
     restart: unless-stopped
     volumes:
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - grafana-data:/var/lib/grafana
     networks:
       net-grafana:
         ipv4_address: 172.19.6.4
       prom-grafana:
         ipv4_address: 172.19.6.11
+      outgoing:
+        ipv4_address: 172.19.6.34
     tmpfs:
       - /tmp
     labels:
@@ -123,3 +126,8 @@ networks:
       config:
         - subnet: 172.19.6.24/29
           gateway: 172.19.6.25
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.19.6.32/29
+          gateway: 172.19.6.33
