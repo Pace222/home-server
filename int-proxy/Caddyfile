@@ -42,7 +42,7 @@ pihole.{$MY_DOMAIN} {
 
         redir /favicon.ico /admin/img/favicons/favicon.ico
 
-        redir / /admin/ permanent
+        redir / /admin/
 
         reverse_proxy /api* pihole
 
