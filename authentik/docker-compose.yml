@@ -46,9 +46,6 @@ services:
     restart: unless-stopped
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
-    environment:
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgresql
     volumes:
       - writable:/media
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
@@ -84,9 +81,6 @@ services:
     restart: unless-stopped
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
-    environment:
-      AUTHENTIK_REDIS__HOST: redis
-      AUTHENTIK_POSTGRESQL__HOST: postgresql
     volumes:
       - writable:/media
       - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg
