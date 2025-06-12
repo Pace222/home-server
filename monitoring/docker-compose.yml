@@ -4,6 +4,11 @@ services:
     container_name: grafana
     read_only: true
     restart: unless-stopped
+    depends_on:
+      grafana-db:
+        condition: service_healthy
+    env_file:
+      - ${SECRETS_DIR:?}/monitoring/.env-grafana
     volumes:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - grafana-data:/var/lib/grafana
@@ -14,6 +19,8 @@ services:
         ipv4_address: 172.19.6.11
       outgoing:
         ipv4_address: 172.19.6.34
+      grafana-db:
+        ipv4_address: 172.19.6.42
     tmpfs:
       - /tmp
     labels:
@@ -23,6 +30,24 @@ services:
       homepage.description: "Visualization and analytics software."
       homepage.instance.internal.href: "https://grafana.${MY_DOMAIN:?}"
       homepage.weight: "1"
+
+  grafana-db:
+    image: mariadb:11.8.2
+    container_name: grafana-db
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/monitoring/.env-grafana-db
+    volumes:
+      - grafana-db:/var/lib/mysql
+    networks:
+      grafana-db:
+        ipv4_address: 172.19.6.43
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   prometheus:
     image: prom/prometheus:v3.3.0
@@ -98,8 +123,9 @@ services:
       homepage.weight: "4"
 
 volumes:
-  prometheus-data:
   grafana-data:
+  grafana-db:
+  prometheus-data:
 
 networks:
   net-grafana:
@@ -135,3 +161,9 @@ networks:
       config:
         - subnet: 172.19.6.32/29
           gateway: 172.19.6.33
+  grafana-db:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.6.40/29
+          gateway: 172.19.6.41
