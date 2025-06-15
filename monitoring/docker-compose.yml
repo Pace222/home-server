@@ -95,12 +95,6 @@ services:
         ipv4_address: 172.19.6.19
     devices:
       - /dev/kmsg
-    labels:
-      homepage.group: "Monitoring"
-      homepage.name: "cAdvisor"
-      homepage.icon: "cadvisor.png"
-      homepage.description: "Container Advisor (cAdvisor) provides container resource usage and performance characteristics."
-      homepage.weight: "3"
 
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1
@@ -115,12 +109,6 @@ services:
         ipv4_address: 172.19.6.27
     command:
       - "--path.rootfs=/host"
-    labels:
-      homepage.group: "Monitoring"
-      homepage.name: "Node Exporter"
-      homepage.icon: "prometheus.png"
-      homepage.description: "Prometheus exporter for hardware and OS metrics exposed by *NIX kernels."
-      homepage.weight: "4"
 
 volumes:
   grafana-data:
