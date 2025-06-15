@@ -46,12 +46,6 @@ services:
       - config:/config:ro
     command: "-a false"
     network_mode: "service:wireguard"
-    labels:
-      homepage.group: "Monitoring"
-      homepage.name: "WireGuard Monitoring"
-      homepage.icon: "wireguard.png"
-      homepage.description: "Monitor WireGuard connections."
-      homepage.weight: "6"
 
 volumes:
   config:
