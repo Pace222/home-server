@@ -23,15 +23,13 @@
         {block}
     }
 
-    root /error-pages
-
     handle_errors {
         # ... and here because they are two different contexts
         import sec-headers {
             {block}
         }
 
-        @custom_err file /{err.status_code}.html /default.html
+        @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
         handle @custom_err {
             rewrite * {file_match.relative}
             file_server
