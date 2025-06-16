@@ -11,23 +11,16 @@
 
         # clickjacking protection
         >X-Frame-Options DENY
-
-        # additional headers
-        {block}
     }
 }
 
 (headers-and-error-handling) {
     # Need to define it here...
-    import sec-headers {
-        {block}
-    }
+    import sec-headers
 
     handle_errors {
         # ... and here because they are two different contexts
-        import sec-headers {
-            {block}
-        }
+        import sec-headers
 
         @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
         handle @custom_err {
@@ -48,6 +41,14 @@
 
         error {rp.status_text} {rp.status_code}
     }
+}
+
+(no-crawl-no-index) {
+    header {
+        >X-Robots-Tag "noindex, nofollow"
+    }
+
+    respond /robots.txt "User-agent: *\nDisallow: /" 200
 }
 
 (authenticate) {
