@@ -48,7 +48,10 @@
         >X-Robots-Tag "noindex, nofollow"
     }
 
-    respond /robots.txt "User-agent: *\nDisallow: /" 200
+    respond /robots.txt <<EOF
+        User-agent: *
+        Disallow: /
+        EOF 200
 }
 
 (authenticate) {
