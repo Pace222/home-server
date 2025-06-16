@@ -2,14 +2,14 @@
 
 ## Available from anywhere
 
-- [External Homepage](/homepage) (https://pierugo.ch): A simple homepage that serves as a starting point for all the services I host.
+- [External Homepage](/homepage) (https://pierugo.ch, https://www.pierugo.ch): A simple homepage that serves as a starting point for all the services I host.
 - [Authentik](/authentik) (https://auth.pierugo.ch): An open-source identity provider that allows to manage users and their access to various services.
 - [DabloonClicker](/dabloon-clicker) (https://dabloon.pierugo.ch): Mirror of CookieClicker but the sprites and text of the game are modified to click on dabloons instead of cookies.
 - [WireGuard](/wireguard) (https://vpn.pierugo.ch): A VPN server that allows to connect to the home network securely from anywhere in the world.
 
 ## Available only from my home network or VPN
 
-- [Internal Homepage](/homepage) (https://pierugo.ch): A more comprehensive homepage, also reaching the internal services.
+- [Internal Homepage](/homepage) (https://home.pierugo.ch): A more comprehensive homepage, also reaching the internal services.
 - [Pi-hole](/pihole) (https://pihole.pierugo.ch): A DNS sinkhole that blocks ads and trackers at the network level. It also serves as a DNS server to resolve local hostnames.
 - [Grafana](/monitoring) (https://grafana.pierugo.ch): A monitoring dashboard that collects and visualizes metrics from various services running on my home server.
 
