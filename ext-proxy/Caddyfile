@@ -43,6 +43,8 @@ auth.{$MY_DOMAIN} {
     log
     encode
 
+    redir /favicon.ico /static/dist/assets/icons/icon.png
+
     reverse_proxy authentik-server:9000
 }
 
