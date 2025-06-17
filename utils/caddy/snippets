@@ -1,4 +1,4 @@
-(sec-headers) {
+(security) {
     header {
         # disable FLoC tracking
         >Permissions-Policy interest-cohort=()
@@ -12,15 +12,21 @@
         # clickjacking protection
         >X-Frame-Options DENY
     }
+
+    respond /.well-known/security.txt <<EOF
+        Contact: mailto:security@pierugo.ch
+        Expires: 2030-01-01T00:00:00.000Z
+        Preferred-Languages: en, fr, de, it
+        EOF 200
 }
 
-(headers-and-error-handling) {
+(security-and-error-handling) {
     # Need to define it here...
-    import sec-headers
+    import security
 
     handle_errors {
         # ... and here because they are two different contexts
-        import sec-headers
+        import security
 
         @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
         handle @custom_err {
