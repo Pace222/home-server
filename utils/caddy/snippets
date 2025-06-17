@@ -4,19 +4,23 @@
         >Permissions-Policy interest-cohort=()
 
         # enable HSTS
-        >Strict-Transport-Security max-age=31536000;
+        >Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 
         # disable clients from sniffing the media type
         >X-Content-Type-Options nosniff
 
         # clickjacking protection
         >X-Frame-Options DENY
+
+        # referrer privacy
+        >Referrer-Policy no-referrer
     }
 
     respond /.well-known/security.txt <<EOF
         Contact: mailto:security@pierugo.ch
         Expires: 2030-01-01T00:00:00.000Z
         Preferred-Languages: en, fr, de, it
+
         EOF 200
 }
 
