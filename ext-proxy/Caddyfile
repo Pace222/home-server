@@ -80,6 +80,7 @@ mta-sts.{$MY_DOMAIN} {
             mode: enforce
             mx: mailserver.purelymail.com
             max_age: 86400
+
             EOF 200
 
         error 404
