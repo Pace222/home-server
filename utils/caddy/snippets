@@ -16,12 +16,14 @@
         >Referrer-Policy no-referrer
     }
 
-    respond /.well-known/security.txt <<EOF
-        Contact: mailto:security@pierugo.ch
-        Expires: 2030-01-01T00:00:00.000Z
-        Preferred-Languages: en, fr, de, it
+    route /.well-known/security.txt {
+        respond <<EOF
+            Contact: mailto:security@{$MY_DOMAIN}
+            Expires: 2030-01-01T00:00:00.000Z
+            Preferred-Languages: en, fr, de, it
 
-        EOF 200
+            EOF 200
+    }
 }
 
 (security-and-error-handling) {
@@ -58,11 +60,13 @@
         >X-Robots-Tag "noindex, nofollow"
     }
 
-    respond /robots.txt <<EOF
-        User-agent: *
-        Disallow: /
+    route /robots.txt {
+        respond <<EOF
+            User-agent: *
+            Disallow: /
 
-        EOF 200
+            EOF 200
+    }
 }
 
 (authenticate) {
