@@ -13,7 +13,7 @@
         origins int-proxy:2019
     }
 
-    acme_dns infomaniak {env.INFOMANIAK_API_TOKEN}
+    acme_dns infomaniak {$INFOMANIAK_API_TOKEN}
 }
 
 import caddy-configs/*
