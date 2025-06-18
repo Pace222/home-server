@@ -61,6 +61,7 @@
     respond /robots.txt <<EOF
         User-agent: *
         Disallow: /
+
         EOF 200
 }
 
