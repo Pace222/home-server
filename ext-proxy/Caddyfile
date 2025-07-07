@@ -74,6 +74,11 @@ vpn.{$MY_DOMAIN} {
 }
 
 mta-sts.{$MY_DOMAIN} {
+    import security-and-error-handling
+    import no-crawl-no-index
+
+    log
+
     route {
         respond /.well-known/mta-sts.txt <<EOF
             version: STSv1
