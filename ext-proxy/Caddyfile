@@ -91,3 +91,27 @@ mta-sts.{$MY_DOMAIN} {
         error 404
     }
 }
+
+csp-reports.{$MY_DOMAIN} {
+    import security-and-error-handling
+    import no-crawl-no-index
+
+    log
+
+    @new-report {
+        path /
+        method POST
+    }
+    handle @new-report {
+        log_append report {http.request.body}
+        respond 200
+    }
+
+    @wrong-method not method POST
+    handle @wrong-method {
+        error 405
+    }
+
+    # Wrong path (i.e., not /)
+    error 404
+}
