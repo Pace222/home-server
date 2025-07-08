@@ -26,7 +26,7 @@ import caddy-configs/*
     reverse_proxy /api* ext-homepage:3000
 
     reverse_proxy ext-homepage:3000 {
-        import handle-proxy-error
+        import forward-proxy-error
     }
 }
 
@@ -65,7 +65,7 @@ dabloon.{$MY_DOMAIN} {
         reverse_proxy dabloon {
             header_down -Server
 
-            import handle-proxy-error
+            import forward-proxy-error
         }
     }
 }
