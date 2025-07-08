@@ -46,25 +46,23 @@
 
 (error-handling) {
     handle_errors {
-        route {
-            @import-security-headers vars {vars.security-headers-enabled} true
-            route @import-security-headers {
-                import security-headers
-            }
-
-            @import-no-crawl-no-index vars {vars.no-crawl-no-index-enabled} true
-            route @import-no-crawl-no-index {
-                import no-crawl-no-index
-            }
-
-            @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
-            handle @custom_err {
-                rewrite * {file_match.relative}
-                file_server
-            }
-
-            respond {err.status_text} {err.status_code}
+        @import-security-headers vars {vars.security-headers-enabled} true
+        route @import-security-headers {
+            import security-headers
         }
+
+        @import-no-crawl-no-index vars {vars.no-crawl-no-index-enabled} true
+        route @import-no-crawl-no-index {
+            import no-crawl-no-index
+        }
+
+        @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
+        route @custom_err {
+            rewrite * {file_match.relative}
+            file_server
+        }
+
+        respond {err.status_text} {err.status_code}
     }
 }
 
