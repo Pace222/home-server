@@ -28,7 +28,7 @@ home.{$MY_DOMAIN} {
     reverse_proxy /api* int-homepage:3000
 
     reverse_proxy int-homepage:3000 {
-        import handle-proxy-error
+        import forward-proxy-error
     }
 }
 
@@ -49,7 +49,7 @@ pihole.{$MY_DOMAIN} {
         reverse_proxy /api* pihole
 
         reverse_proxy pihole {
-            import handle-proxy-error
+            import forward-proxy-error
         }
     }
 }
@@ -69,7 +69,7 @@ grafana.{$MY_DOMAIN} {
         reverse_proxy /api* grafana:3000
 
         reverse_proxy grafana:3000 {
-            import handle-proxy-error
+            import forward-proxy-error
         }
     }
 }

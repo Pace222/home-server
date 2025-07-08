@@ -66,7 +66,7 @@
     }
 }
 
-(handle-proxy-error) {
+(forward-proxy-error) {
     @error status 3xx 4xx 5xx
     handle_response @error {
         copy_response_headers {
