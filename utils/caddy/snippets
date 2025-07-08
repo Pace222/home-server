@@ -1,5 +1,5 @@
-(security-headers) {
-    vars security-headers-enabled true
+(security) {
+    vars security-enabled true
 
     header {
         # disable FLoC tracking
@@ -46,9 +46,9 @@
 
 (error-handling) {
     handle_errors {
-        @import-security-headers vars {vars.security-headers-enabled} true
-        route @import-security-headers {
-            import security-headers
+        @import-security vars {vars.security-enabled} true
+        route @import-security {
+            import security
         }
 
         @import-no-crawl-no-index vars {vars.no-crawl-no-index-enabled} true
