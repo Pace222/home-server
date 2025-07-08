@@ -56,6 +56,11 @@
             import no-crawl-no-index
         }
 
+        @import-csp vars {vars.csp-enabled} true
+        route @import-csp {
+            import csp-error-pages
+        }
+
         @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
         route @custom_err {
             rewrite * {file_match.relative}

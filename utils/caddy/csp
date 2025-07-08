@@ -1,0 +1,53 @@
+(csp) {
+    vars csp-enabled true
+
+    route {
+        {block}
+
+        @default-src-not-set vars {vars.csp-default-src} ""
+        vars @default-src-not-set csp-default-src "'self'"
+        vars csp-default-src-full "default-src {vars.csp-default-src}; "
+
+        @base-uri-not-set vars {vars.csp-base-uri} ""
+        vars @base-uri-not-set csp-base-uri "'self'"
+        vars csp-base-uri-full "base-uri {vars.csp-base-uri}; "
+
+        @form-action-not-set vars {vars.csp-form-action} ""
+        vars @form-action-not-set csp-form-action "'self'"
+        vars csp-form-action-full "form-action {vars.csp-form-action}; "
+
+        @frame-ancestors-not-set vars {vars.csp-frame-ancestors} ""
+        vars @frame-ancestors-not-set csp-frame-ancestors "'none'"
+        vars csp-frame-ancestors-full "frame-ancestors {vars.csp-frame-ancestors}; "
+
+        @script-src-set not vars {vars.csp-script-src} ""
+        vars @script-src-set csp-script-src-full "script-src {vars.csp-script-src}; "
+
+        @style-src-set not vars {vars.csp-style-src} ""
+        vars @style-src-set csp-style-src-full "style-src {vars.csp-style-src}; "
+
+        @img-src-set not vars {vars.csp-img-src} ""
+        vars @img-src-set csp-img-src-full "img-src {vars.csp-img-src}; "
+
+        @connect-src-set not vars {vars.csp-connect-src} ""
+        vars @connect-src-set csp-connect-src-full "connect-src {vars.csp-connect-src}; "
+
+
+        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-connect-src-full}"
+        import csp-impl {vars.csp-header}
+    }
+}
+
+(csp-error-pages) {
+    vars csp-header-error-pages "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; style-src 'unsafe-inline'; img-src 'self' data:;"
+    import csp-impl {vars.csp-header-error-pages}
+}
+
+(csp-impl) {
+    header {
+        ?Content-Security-Policy-Report-Only {args[0]}
+        >Content-Security-Policy-Report-Only (.*) "$1 upgrade-insecure-requests; report-uri https://csp-reports.{$MY_DOMAIN}; report-to csp-endpoint;"
+
+        >Reporting-Endpoints csp-endpoint="https://csp-reports.{$MY_DOMAIN}"
+    }
+}
