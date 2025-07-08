@@ -17,7 +17,7 @@
 import caddy-configs/*
 
 {$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
 
     log
@@ -31,7 +31,7 @@ import caddy-configs/*
 }
 
 www.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
     import no-crawl-no-index
 
@@ -39,7 +39,7 @@ www.{$MY_DOMAIN} {
 }
 
 auth.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
     import no-crawl-no-index
 
@@ -52,7 +52,7 @@ auth.{$MY_DOMAIN} {
 }
 
 dabloon.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
     import no-crawl-no-index
 
@@ -71,7 +71,7 @@ dabloon.{$MY_DOMAIN} {
 }
 
 vpn.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
     import no-crawl-no-index
 
@@ -79,7 +79,7 @@ vpn.{$MY_DOMAIN} {
 }
 
 mta-sts.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
     import no-crawl-no-index
 
@@ -99,7 +99,7 @@ mta-sts.{$MY_DOMAIN} {
 }
 
 csp-reports.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
     import no-crawl-no-index
 

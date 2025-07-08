@@ -19,7 +19,7 @@
 import caddy-configs/*
 
 home.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
 
     log
@@ -33,7 +33,7 @@ home.{$MY_DOMAIN} {
 }
 
 pihole.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
 
     log
@@ -55,7 +55,7 @@ pihole.{$MY_DOMAIN} {
 }
 
 grafana.{$MY_DOMAIN} {
-    import security-headers
+    import security
     import error-handling
 
     log
