@@ -120,5 +120,7 @@ csp-reports.{$MY_DOMAIN} {
     }
 
     # Wrong path (i.e., not /)
-    error 404
+    handle {
+        error 404
+    }
 }
