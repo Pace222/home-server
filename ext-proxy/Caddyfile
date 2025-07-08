@@ -32,16 +32,16 @@ import caddy-configs/*
 
 www.{$MY_DOMAIN} {
     import security
-    import error-handling
     import no-crawl-no-index
+    import error-handling
 
     redir https://{$MY_DOMAIN}{uri} permanent
 }
 
 auth.{$MY_DOMAIN} {
     import security
-    import error-handling
     import no-crawl-no-index
+    import error-handling
 
     log
     encode
@@ -53,8 +53,8 @@ auth.{$MY_DOMAIN} {
 
 dabloon.{$MY_DOMAIN} {
     import security
-    import error-handling
     import no-crawl-no-index
+    import error-handling
 
     log
     encode
@@ -72,16 +72,16 @@ dabloon.{$MY_DOMAIN} {
 
 vpn.{$MY_DOMAIN} {
     import security
-    import error-handling
     import no-crawl-no-index
+    import error-handling
 
     redir https://{$MY_DOMAIN} permanent
 }
 
 mta-sts.{$MY_DOMAIN} {
     import security
-    import error-handling
     import no-crawl-no-index
+    import error-handling
 
     log
 
@@ -100,8 +100,8 @@ mta-sts.{$MY_DOMAIN} {
 
 csp-reports.{$MY_DOMAIN} {
     import security
-    import error-handling
     import no-crawl-no-index
+    import error-handling
 
     log
 
