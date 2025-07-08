@@ -1,4 +1,6 @@
-(security) {
+(security-headers) {
+    vars security-headers-enabled true
+
     header {
         # disable FLoC tracking
         >Permissions-Policy interest-cohort=()
@@ -26,21 +28,43 @@
     }
 }
 
-(security-and-error-handling) {
-    # Need to define it here...
-    import security
+(no-crawl-no-index) {
+    vars no-crawl-no-index-enabled true
 
+    header {
+        >X-Robots-Tag "noindex, nofollow"
+    }
+
+    route /robots.txt {
+        respond <<EOF
+            User-agent: *
+            Disallow: /
+
+            EOF 200
+    }
+}
+
+(error-handling) {
     handle_errors {
-        # ... and here because they are two different contexts
-        import security
+        route {
+            @import-security-headers vars {vars.security-headers-enabled} true
+            route @import-security-headers {
+                import security-headers
+            }
 
-        @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
-        handle @custom_err {
-            rewrite * {file_match.relative}
-            file_server
+            @import-no-crawl-no-index vars {vars.no-crawl-no-index-enabled} true
+            route @import-no-crawl-no-index {
+                import no-crawl-no-index
+            }
+
+            @custom_err file /error-pages/{err.status_code}.html /error-pages/default.html
+            handle @custom_err {
+                rewrite * {file_match.relative}
+                file_server
+            }
+
+            respond {err.status_text} {err.status_code}
         }
-
-        respond {err.status_text} {err.status_code}
     }
 }
 
@@ -52,20 +76,6 @@
         }
 
         error {rp.status_text} {rp.status_code}
-    }
-}
-
-(no-crawl-no-index) {
-    header {
-        >X-Robots-Tag "noindex, nofollow"
-    }
-
-    route /robots.txt {
-        respond <<EOF
-            User-agent: *
-            Disallow: /
-
-            EOF 200
     }
 }
 
