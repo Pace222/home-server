@@ -16,6 +16,11 @@
 
         # referrer privacy
         >Referrer-Policy no-referrer
+
+        # disable other websites to load my resources
+        ?Cross-Origin-Resource-Policy same-origin
+        ?Cross-Origin-Embedder-Policy require-corp
+        ?Cross-Origin-Opener-Policy same-origin
     }
 
     route /.well-known/security.txt {
