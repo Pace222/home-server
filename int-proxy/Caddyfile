@@ -25,6 +25,13 @@ home.{$MY_DOMAIN} {
     log
     encode
 
+    import csp {
+        vars {
+            csp-style-src "'self' 'unsafe-inline'"
+            csp-img-src "'self' https://cdn.jsdelivr.net/"
+        }
+    }
+
     reverse_proxy /api* int-homepage:3000
 
     reverse_proxy int-homepage:3000 {
@@ -41,6 +48,10 @@ pihole.{$MY_DOMAIN} {
 
     route {
         import authenticate
+
+        import csp {
+            vars ignore me
+        }
 
         redir /favicon.ico /admin/img/favicons/favicon.ico
 
@@ -63,6 +74,13 @@ grafana.{$MY_DOMAIN} {
 
     route {
         import authenticate
+
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+            }
+        }
 
         redir /favicon.ico /public/img/fav32.png
 
