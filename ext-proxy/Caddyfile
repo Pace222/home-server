@@ -23,6 +23,13 @@ import caddy-configs/*
     log
     encode
 
+    import csp {
+        vars {
+            csp-style-src "'self' 'unsafe-inline'"
+            csp-img-src "'self' https://cdn.jsdelivr.net/"
+        }
+    }
+
     reverse_proxy /api* ext-homepage:3000
 
     reverse_proxy ext-homepage:3000 {
@@ -35,7 +42,15 @@ www.{$MY_DOMAIN} {
     import no-crawl-no-index
     import error-handling
 
-    redir https://{$MY_DOMAIN}{uri} permanent
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN}{uri} permanent
+    }
 }
 
 auth.{$MY_DOMAIN} {
@@ -46,9 +61,19 @@ auth.{$MY_DOMAIN} {
     log
     encode
 
-    redir /favicon.ico /static/dist/assets/icons/icon.png
+    route {
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-img-src "'self' data:"
+            }
+        }
 
-    reverse_proxy authentik-server:9000
+        redir /favicon.ico /static/dist/assets/icons/icon.png
+
+        reverse_proxy authentik-server:9000
+    }
 }
 
 dabloon.{$MY_DOMAIN} {
@@ -61,6 +86,13 @@ dabloon.{$MY_DOMAIN} {
 
     route {
         import authenticate
+
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline' 'unsafe-eval'"
+                csp-style-src "'self' 'unsafe-inline'"
+            }
+        }
 
         reverse_proxy dabloon {
             header_down -Server
@@ -75,7 +107,15 @@ vpn.{$MY_DOMAIN} {
     import no-crawl-no-index
     import error-handling
 
-    redir https://{$MY_DOMAIN} permanent
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN} permanent
+    }
 }
 
 mta-sts.{$MY_DOMAIN} {
@@ -84,6 +124,10 @@ mta-sts.{$MY_DOMAIN} {
     import error-handling
 
     log
+
+    import csp {
+        vars ignore me
+    }
 
     route {
         respond /.well-known/mta-sts.txt <<EOF
@@ -105,22 +149,28 @@ csp-reports.{$MY_DOMAIN} {
 
     log
 
-    @new-report {
-        path /
-        method POST
-    }
-    handle @new-report {
-        log_append report {http.request.body}
-        respond 200
-    }
+    route {
+        import csp {
+            vars ignore me
+        }
 
-    @wrong-method not method POST
-    handle @wrong-method {
-        error 405
-    }
+        @new-report {
+            path /
+            method POST
+        }
+        handle @new-report {
+            log_append report {http.request.body}
+            respond 200
+        }
 
-    # Wrong path (i.e., not /)
-    handle {
-        error 404
+        @wrong-method not method POST
+        handle @wrong-method {
+            error 405
+        }
+
+        # Wrong path (i.e., not /)
+        handle {
+            error 404
+        }
     }
 }
