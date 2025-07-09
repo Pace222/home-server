@@ -2,8 +2,8 @@
     vars security-enabled true
 
     header {
-        # disable FLoC tracking
-        >Permissions-Policy interest-cohort=()
+        # enhance privacy
+        >Permissions-Policy "accelerometer=(), battery=(), bluetooth=(), camera=(), geolocation=(), gyroscope=(), interest-cohort=(), magnetometer=(), microphone=(), payment=(), usb=()"
 
         # enable HSTS
         >Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
