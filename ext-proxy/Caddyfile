@@ -85,7 +85,9 @@ dabloon.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate
+        import authenticate {
+            vars ignore me
+        }
 
         import csp {
             vars {

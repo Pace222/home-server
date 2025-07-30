@@ -1,11 +1,81 @@
 (authenticate) {
-    route {
-        reverse_proxy /outpost.goauthentik.io/* authentik-server:9000
+    {block}
 
-        forward_auth authentik-server:9000 {
-            uri /outpost.goauthentik.io/auth/caddy
+    reverse_proxy /outpost.goauthentik.io/* authentik-server:9000
 
-            copy_headers X-Authentik-Username X-Authentik-Groups X-Authentik-Entitlements X-Authentik-Email X-Authentik-Name X-Authentik-Uid X-Authentik-Jwt X-Authentik-Meta-Jwks X-Authentik-Meta-Outpost X-Authentik-Meta-Provider X-Authentik-Meta-App X-Authentik-Meta-Version
+    # https://caddyserver.com/docs/caddyfile/directives/forward_auth#expanded-form
+    reverse_proxy authentik-server:9000 {
+        # Always GET, so that the incoming
+        # request's body is not consumed
+        method GET
+
+        # Change the URI to the auth gateway's
+        # verification endpoint
+        rewrite /outpost.goauthentik.io/auth/caddy
+
+        # Forward the original method and URI,
+        # since they get rewritten above; this
+        # is in addition to other X-Forwarded-*
+        # headers already set by reverse_proxy
+        header_up X-Forwarded-Method {method}
+        header_up X-Forwarded-Uri {uri}
+
+        # On a successful response, copy response headers
+        @good status 2xx
+        handle_response @good {
+            import authenticate-copy-headers
         }
+    }
+}
+
+(authenticate-copy-headers) {
+    route {
+        request_header -X-Auth-Username
+        @username-set not vars {vars.auth-username} ""
+        request_header @username-set X-Auth-Username {rp.header.X-Authentik-Username}
+
+        request_header -X-Auth-Groups
+        @groups-set not vars {vars.auth-groups} ""
+        request_header @groups-set X-Auth-Groups {rp.header.X-Authentik-Groups}
+
+        request_header -X-Auth-Entitlements
+        @entitlements-set not vars {vars.auth-entitlements} ""
+        request_header @entitlements-set X-Auth-Entitlements {rp.header.X-Authentik-Entitlements}
+
+        request_header -X-Auth-Email
+        @email-set not vars {vars.auth-email} ""
+        request_header @email-set X-Auth-Email {rp.header.X-Authentik-Email}
+
+        request_header -X-Auth-Name
+        @name-set not vars {vars.auth-name} ""
+        request_header @name-set X-Auth-Name {rp.header.X-Authentik-Name}
+
+        request_header -X-Uid
+        @uid-set not vars {vars.auth-uid} ""
+        request_header @uid-set X-Uid {rp.header.X-Authentik-Uid}
+
+        request_header -X-Jwt
+        @jwt-set not vars {vars.auth-jwt} ""
+        request_header @jwt-set X-Jwt {rp.header.X-Authentik-Jwt}
+
+        request_header -X-Meta-Jwks
+        @meta-jwks-set not vars {vars.auth-meta-jwks} ""
+        request_header @meta-jwks-set X-Meta-Jwks {rp.header.X-Authentik-Meta-Jwks}
+
+        request_header -X-Meta-Outpost
+        @meta-outpost-set not vars {vars.auth-meta-outpost} ""
+        request_header @meta-outpost-set X-Meta-Outpost {rp.header.X-Authentik-Meta-Outpost}
+
+        request_header -X-Meta-Provider
+        @meta-provider-set not vars {vars.auth-meta-provider} ""
+        request_header @meta-provider-set X-Meta-Provider {rp.header.X-Authentik-Meta-Provider}
+
+        request_header -X-Meta-App
+        @meta-app-set not vars {vars.auth-meta-app} ""
+        request_header @meta-app-set X-Meta-App {rp.header.X-Authentik-Meta-App}
+
+        request_header -X-Meta-Version
+        @meta-version-set not vars {vars.auth-meta-version} ""
+        request_header @meta-version-set X-Meta-Version {rp.header.X-Authentik-Meta-Version}
     }
 }

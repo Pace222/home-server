@@ -47,7 +47,9 @@ pihole.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate
+        import authenticate {
+            vars ignore me
+        }
 
         import csp {
             vars ignore me
@@ -73,7 +75,11 @@ grafana.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate
+        import authenticate {
+            vars auth-username true
+            vars auth-email true
+            vars auth-name true
+        }
 
         import csp {
             vars {
