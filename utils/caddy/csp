@@ -39,14 +39,14 @@
 }
 
 (csp-error-pages) {
-    vars csp-header-error-pages "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; style-src 'unsafe-inline'; img-src 'self' data:;"
+    vars csp-header-error-pages "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; style-src 'unsafe-inline'; img-src 'self' data:; "
     import csp-impl {vars.csp-header-error-pages}
 }
 
 (csp-impl) {
     header {
         ?Content-Security-Policy {args[0]}
-        >Content-Security-Policy (.*) "$1 upgrade-insecure-requests; report-uri https://csp-reports.{$MY_DOMAIN}; report-to csp-endpoint;"
+        >Content-Security-Policy "(.*) " "$1 upgrade-insecure-requests; report-uri https://csp-reports.{$MY_DOMAIN}; report-to csp-endpoint;"
 
         >Reporting-Endpoints csp-endpoint="https://csp-reports.{$MY_DOMAIN}"
     }
