@@ -1,84 +1,4 @@
 services:
-  grafana:
-    image: grafana/grafana-oss:11.6.1
-    container_name: grafana
-    read_only: true
-    restart: unless-stopped
-    depends_on:
-      grafana-db:
-        condition: service_healthy
-    env_file:
-      - ${SECRETS_DIR:?}/monitoring/.env-grafana
-    volumes:
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini:ro
-      - grafana-data:/var/lib/grafana
-    networks:
-      net-grafana:
-        ipv4_address: 172.19.6.4
-      prom-grafana:
-        ipv4_address: 172.19.6.11
-      outgoing:
-        ipv4_address: 172.19.6.34
-      grafana-db:
-        ipv4_address: 172.19.6.42
-    tmpfs:
-      - /tmp
-    labels:
-      homepage.group: "Monitoring"
-      homepage.name: "Grafana"
-      homepage.icon: "grafana.png"
-      homepage.description: "Visualization and analytics software."
-      homepage.instance.internal.href: "https://grafana.${MY_DOMAIN:?}"
-      homepage.weight: "1"
-
-  grafana-db:
-    image: mariadb:11.8.2
-    container_name: grafana-db
-    restart: unless-stopped
-    env_file:
-      - ${SECRETS_DIR:?}/monitoring/.env-grafana-db
-    volumes:
-      - grafana-db:/var/lib/mysql
-    networks:
-      grafana-db:
-        ipv4_address: 172.19.6.43
-    healthcheck:
-      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      start_period: 10s
-      interval: 10s
-      timeout: 5s
-      retries: 3
-
-  prometheus:
-    image: prom/prometheus:v3.3.0
-    container_name: prometheus
-    read_only: true
-    restart: unless-stopped
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus-data:/prometheus
-    networks:
-      prom-grafana:
-        ipv4_address: 172.19.6.10
-      prom-cadvisor:
-        ipv4_address: 172.19.6.18
-      prom-node-exporter:
-        ipv4_address: 172.19.6.26
-      prom-wg:
-        ipv4_address: 172.21.1.2
-      prom-ext-caddy:
-        ipv4_address: 172.21.2.2
-      prom-int-caddy:
-        ipv4_address: 172.21.3.2
-      prom-authentik:
-        ipv4_address: 172.21.4.2
-    labels:
-      homepage.group: "Monitoring"
-      homepage.name: "Prometheus"
-      homepage.icon: "prometheus.png"
-      homepage.description: "Monitoring system and time series database."
-      homepage.weight: "2"
-
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.52.1
     container_name: cadvisor
@@ -92,7 +12,7 @@ services:
       - /dev/disk/:/dev/disk:ro
     networks:
       prom-cadvisor:
-        ipv4_address: 172.19.6.19
+        ipv4_address: 172.21.6.3
     devices:
       - /dev/kmsg
 
@@ -106,52 +26,12 @@ services:
       - /:/host:ro,rslave
     networks:
       prom-node-exporter:
-        ipv4_address: 172.19.6.27
+        ipv4_address: 172.21.7.3
     command:
       - "--path.rootfs=/host"
 
-volumes:
-  grafana-data:
-  grafana-db:
-  prometheus-data:
-
 networks:
-  net-grafana:
-    external: true
-  prom-wg:
-    external: true
-  prom-ext-caddy:
-    external: true
-  prom-int-caddy:
-    external: true
-  prom-authentik:
-    external: true
-  prom-grafana:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.6.8/29
-          gateway: 172.19.6.9
   prom-cadvisor:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.6.16/29
-          gateway: 172.19.6.17
+    external: true
   prom-node-exporter:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.6.24/29
-          gateway: 172.19.6.25
-  outgoing:
-    ipam:
-      config:
-        - subnet: 172.19.6.32/29
-          gateway: 172.19.6.33
-  grafana-db:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.6.40/29
-          gateway: 172.19.6.41
+    external: true

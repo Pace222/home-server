@@ -153,7 +153,7 @@ create_networks() {
     docker network create --internal --subnet=172.19.3.0/25 --gateway=172.19.3.1 net-pihole
     docker network create --internal --subnet=172.19.4.0/25 --gateway=172.19.4.1 net-ddclient
     docker network create --internal --subnet=172.19.5.0/24 --gateway=172.19.5.1 net-fw-monitor
-    docker network create --internal --subnet=172.19.6.0/29 --gateway=172.19.6.1 net-grafana
+    docker network create --internal --subnet=172.19.6.0/26 --gateway=172.19.6.1 net-grafana
     docker network create --internal --subnet=172.19.7.0/24 --gateway=172.19.7.1 net-int-authentik
 
     # Communication with Prometheus
@@ -161,6 +161,9 @@ create_networks() {
     docker network create --internal --subnet=172.21.2.0/24 --gateway=172.21.2.1 prom-ext-caddy
     docker network create --internal --subnet=172.21.3.0/24 --gateway=172.21.3.1 prom-int-caddy
     docker network create --internal --subnet=172.21.4.0/24 --gateway=172.21.4.1 prom-authentik
+    docker network create --internal --subnet=172.21.5.0/24 --gateway=172.21.5.1 prom-grafana
+    docker network create --internal --subnet=172.21.6.0/24 --gateway=172.21.6.1 prom-cadvisor
+    docker network create --internal --subnet=172.21.7.0/24 --gateway=172.21.7.1 prom-node-exporter
 }
 
 firewall_rules() {

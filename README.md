@@ -11,11 +11,12 @@
 
 - [Internal Homepage](/homepage) (https://home.pierugo.ch): A more comprehensive homepage, also reaching the internal services.
 - [Pi-hole](/pihole) (https://pihole.pierugo.ch): A DNS sinkhole that blocks ads and trackers at the network level. It also serves as a DNS server to resolve local hostnames.
-- [Grafana](/monitoring) (https://grafana.pierugo.ch): A monitoring dashboard that collects and visualizes metrics from various services running on my home server.
+- [Grafana](/grafana) (https://grafana.pierugo.ch): A monitoring dashboard that collects and visualizes metrics from various services running on my home server.
 
 ## Internal services
 
 - [Dynamic DNS](/ddclient): A dynamic DNS client that updates the DNS records of my domain with the current public IP address of my home network, in case my ISP decides to change it.
 - [Telegram Bot](/telegram-bot): A logger for the Caddy servers: it sends a message to a Telegram channel on certain requests. It also serves an API to send any kind of message to Telegram. In practice, any service can thus send notifications or alert me on Telegram through this API.
 - [Firewall monitoring](/fw-monitor): A service that monitors the firewall logs and sends notifications to Telegram on firewall drops, which would indicate a suspicious activity.
-- [Prometheus and various exporters](/monitoring): A monitoring stack that collects metrics from various services running on my home server and visualizes them in Grafana.
+- [Prometheus](/prometheus): A monitoring system that collects metrics from various services running on my home server and makes them available to Grafana for visualization.
+- [Various exporters](/monitoring): A few monitoring exports that collect general metrics from the host system and each individual container, such as CPU and memory usage, disk space, network traffic, etc.
