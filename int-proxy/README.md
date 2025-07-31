@@ -1,6 +1,7 @@
 # Additional instructions
 
 Sparse checkout the repository:
+
 ```bash
 mkdir ${CONFIGS_DIR:?}/error-pages
 cd ${CONFIGS_DIR:?}/error-pages
