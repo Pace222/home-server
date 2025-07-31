@@ -129,9 +129,13 @@ setup_dirs_and_env() {
     echo "export SERVICES_DIR=\"$services_folder\"" >> "$rcfile"
     echo "export SECRETS_DIR=\"$secrets_folder\"" >> "$rcfile"
     echo "export DOCKERS_DIR=\"$dockers_folder\"" >> "$rcfile"
-
-    # Pass through sudo
-    echo "\nDefaults        env_keep += \"MY_DOMAIN CONFIGS_DIR SERVICES_DIR SECRETS_DIR DOCKERS_DIR\"" >> /etc/sudoers
+    echo >> "$rcfile"
+    echo "alias configs=\"cd \$CONFIGS_DIR\"" >> "$rcfile"
+    echo "alias services=\"cd \$SERVICES_DIR\"" >> "$rcfile"
+    echo "alias secrets=\"cd \$SECRETS_DIR\"" >> "$rcfile"
+    echo "alias dockers=\"cd \$DOCKERS_DIR\"" >> "$rcfile"
+    echo >> "$rcfile"
+    echo "source $SECRETS_DIR/.env-compose"
 
     echo "Directories and environment variables successfully set up!"
 }

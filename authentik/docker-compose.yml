@@ -74,7 +74,7 @@ services:
       homepage.description: "A self-hosted SSO and identity provider."
       homepage.instance.internal.widget.type: "authentik"
       homepage.instance.internal.widget.url: "https://auth.${MY_DOMAIN:?}"
-      homepage.instance.internal.widget.key: "${HOMEPAGE_API_TOKEN:?}"
+      homepage.instance.internal.widget.key: "${AUTHENTIK_HOMEPAGE_API_TOKEN:?}"
 
   worker:
     image: ghcr.io/goauthentik/server:2025.6.1
