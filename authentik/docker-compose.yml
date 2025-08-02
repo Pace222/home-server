@@ -58,10 +58,8 @@ services:
     networks:
       prom-authentik:
         ipv4_address: 172.21.4.3
-      net-ext-authentik:
+      net-authentik:
         ipv4_address: 172.18.4.4
-      net-int-authentik:
-        ipv4_address: 172.19.7.4
       internal:
         ipv4_address: 172.18.4.68
       outgoing:
@@ -110,9 +108,7 @@ volumes:
 networks:
   prom-authentik:
     external: true
-  net-ext-authentik:
-    external: true
-  net-int-authentik:
+  net-authentik:
     external: true
   internal:
     internal: true

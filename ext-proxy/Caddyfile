@@ -12,6 +12,13 @@
     admin 172.21.2.3:2019 {
         origins ext-proxy:2019
     }
+
+    servers {
+        trusted_proxies dns {
+            host {$MY_DOMAIN}
+            interval 5m
+        }
+    }
 }
 
 import caddy-configs/*

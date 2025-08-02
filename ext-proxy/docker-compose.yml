@@ -1,6 +1,7 @@
 services:
   ext-proxy:
-    image: caddy:2.10.0-alpine
+    build: .
+    image: ext-caddy
     container_name: ext-proxy
     read_only: true
     restart: unless-stopped
@@ -23,7 +24,7 @@ services:
         ipv4_address: 172.18.2.2
       net-dabloon:
         ipv4_address: 172.18.3.2
-      net-ext-authentik:
+      net-authentik:
         ipv4_address: 172.18.4.2
       outgoing:
         ipv4_address: 172.18.0.130
@@ -44,7 +45,7 @@ networks:
     external: true
   net-dabloon:
     external: true
-  net-ext-authentik:
+  net-authentik:
     external: true
   outgoing:
     ipam:

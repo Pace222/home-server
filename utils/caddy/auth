@@ -1,10 +1,16 @@
 (authenticate) {
     {block}
 
-    reverse_proxy /outpost.goauthentik.io/* authentik-server:9000
+    reverse_proxy /outpost.goauthentik.io/* https://auth.pierugo.ch {
+        # Upstream is HTTPS
+        header_up Host {upstream_hostport}
+    }
 
     # https://caddyserver.com/docs/caddyfile/directives/forward_auth#expanded-form
-    reverse_proxy authentik-server:9000 {
+    reverse_proxy https://auth.pierugo.ch {
+        # Upstream is HTTPS
+        header_up Host {upstream_hostport}
+
         # Always GET, so that the incoming
         # request's body is not consumed
         method GET
