@@ -56,32 +56,32 @@
         @name-set not vars {vars.auth-name} ""
         request_header @name-set X-Auth-Name {rp.header.X-Authentik-Name}
 
-        request_header -X-Uid
+        request_header -X-Auth-Uid
         @uid-set not vars {vars.auth-uid} ""
-        request_header @uid-set X-Uid {rp.header.X-Authentik-Uid}
+        request_header @uid-set X-Auth-Uid {rp.header.X-Authentik-Uid}
 
-        request_header -X-Jwt
+        request_header -X-Auth-Jwt
         @jwt-set not vars {vars.auth-jwt} ""
-        request_header @jwt-set X-Jwt {rp.header.X-Authentik-Jwt}
+        request_header @jwt-set X-Auth-Jwt {rp.header.X-Authentik-Jwt}
 
-        request_header -X-Meta-Jwks
+        request_header -X-Auth-Meta-Jwks
         @meta-jwks-set not vars {vars.auth-meta-jwks} ""
-        request_header @meta-jwks-set X-Meta-Jwks {rp.header.X-Authentik-Meta-Jwks}
+        request_header @meta-jwks-set X-Auth-Meta-Jwks {rp.header.X-Authentik-Meta-Jwks}
 
-        request_header -X-Meta-Outpost
+        request_header -X-Auth-Meta-Outpost
         @meta-outpost-set not vars {vars.auth-meta-outpost} ""
-        request_header @meta-outpost-set X-Meta-Outpost {rp.header.X-Authentik-Meta-Outpost}
+        request_header @meta-outpost-set X-Auth-Meta-Outpost {rp.header.X-Authentik-Meta-Outpost}
 
-        request_header -X-Meta-Provider
+        request_header -X-Auth-Meta-Provider
         @meta-provider-set not vars {vars.auth-meta-provider} ""
-        request_header @meta-provider-set X-Meta-Provider {rp.header.X-Authentik-Meta-Provider}
+        request_header @meta-provider-set X-Auth-Meta-Provider {rp.header.X-Authentik-Meta-Provider}
 
-        request_header -X-Meta-App
+        request_header -X-Auth-Meta-App
         @meta-app-set not vars {vars.auth-meta-app} ""
-        request_header @meta-app-set X-Meta-App {rp.header.X-Authentik-Meta-App}
+        request_header @meta-app-set X-Auth-Meta-App {rp.header.X-Authentik-Meta-App}
 
-        request_header -X-Meta-Version
+        request_header -X-Auth-Meta-Version
         @meta-version-set not vars {vars.auth-meta-version} ""
-        request_header @meta-version-set X-Meta-Version {rp.header.X-Authentik-Meta-Version}
+        request_header @meta-version-set X-Auth-Meta-Version {rp.header.X-Authentik-Meta-Version}
     }
 }
