@@ -9,6 +9,7 @@ services:
       - ${SECRETS_DIR:?}/int-proxy/.env
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
+      PROXMOX_IP: "${PROXMOX_IP:?}"
     ports:
       - "${INT_PROXY_IP:?}:80:80"
       - "${INT_PROXY_IP:?}:443:443/tcp"

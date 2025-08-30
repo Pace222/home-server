@@ -119,6 +119,8 @@ setup_dirs_and_env() {
     read -r secrets_folder
     echo "In what folder do you want to store the docker compose files? (e.g. /srv/dockers)"
     read -r dockers_folder
+    echo "What is the Proxmox IP?"
+    read -r proxmox_ip
     echo "What is the DNS IP?"
     read -r dns_ip
     echo "What is the VPN IP?"
@@ -145,6 +147,7 @@ setup_dirs_and_env() {
     echo "alias dockers=\"cd \$DOCKERS_DIR\"" >> "$rcfile"
     echo >> "$rcfile"
     echo "# Networking environment variables" >> "$rcfile"
+    echo "export PROXMOX_IP=\"$proxmox_ip\"" >> "$rcfile"
     echo "export DNS_IP=\"$dns_ip\"" >> "$rcfile"
     echo "export VPN_IP=\"$vpn_ip\"" >> "$rcfile"
     echo "export EXT_PROXY_IP=\"$ext_proxy_ip\"" >> "$rcfile"
