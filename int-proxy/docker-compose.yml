@@ -10,9 +10,9 @@ services:
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
     ports:
-      - "80:80"
-      - "443:443/tcp"
-      - "443:443/udp"
+      - "${INT_PROXY_IP:?}:80:80"
+      - "${INT_PROXY_IP:?}:443:443/tcp"
+      - "${INT_PROXY_IP:?}:443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ../utils/caddy:/etc/caddy/caddy-configs:ro

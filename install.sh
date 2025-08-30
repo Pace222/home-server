@@ -119,22 +119,38 @@ setup_dirs_and_env() {
     read -r secrets_folder
     echo "In what folder do you want to store the docker compose files? (e.g. /srv/dockers)"
     read -r dockers_folder
+    echo "What is the DNS IP?"
+    read -r dns_ip
+    echo "What is the VPN IP?"
+    read -r vpn_ip
+    echo "What is the external proxy IP?"
+    read -r ext_proxy_ip
+    echo "What is the internal proxy IP?"
+    read -r int_proxy_ip
 
     # Directories
     mkdir -p "$config_folder" "$services_folder" "$secrets_folder" "$docker_folder"
 
     # Environment variables
     echo "export MY_DOMAIN=\"$domain_name\"" >> "$rcfile"
+    echo >> "$rcfile"
+    echo "# Directories environment variables" >> "$rcfile"
     echo "export CONFIGS_DIR=\"$configs_folder\"" >> "$rcfile"
     echo "export SERVICES_DIR=\"$services_folder\"" >> "$rcfile"
     echo "export SECRETS_DIR=\"$secrets_folder\"" >> "$rcfile"
     echo "export DOCKERS_DIR=\"$dockers_folder\"" >> "$rcfile"
-    echo >> "$rcfile"
     echo "alias configs=\"cd \$CONFIGS_DIR\"" >> "$rcfile"
     echo "alias services=\"cd \$SERVICES_DIR\"" >> "$rcfile"
     echo "alias secrets=\"cd \$SECRETS_DIR\"" >> "$rcfile"
     echo "alias dockers=\"cd \$DOCKERS_DIR\"" >> "$rcfile"
     echo >> "$rcfile"
+    echo "# Networking environment variables" >> "$rcfile"
+    echo "export DNS_IP=\"$dns_ip\"" >> "$rcfile"
+    echo "export VPN_IP=\"$vpn_ip\"" >> "$rcfile"
+    echo "export EXT_PROXY_IP=\"$ext_proxy_ip\"" >> "$rcfile"
+    echo "export INT_PROXY_IP=\"$int_proxy_ip\"" >> "$rcfile"
+    echo >> "$rcfile"
+    echo "# Secrets" >> "$rcfile"
     echo "source $SECRETS_DIR/.env-compose"
 
     echo "Directories and environment variables successfully set up!"

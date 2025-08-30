@@ -12,7 +12,7 @@ services:
       SERVERPORT: "51820"
       PEERS: "${WIREGUARD_PEERS:?}"
     ports:
-      - "51820:51820/udp"
+      - "${VPN_IP:?}:51820:51820/udp"
     volumes:
       - config:/config:ro
     networks:
