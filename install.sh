@@ -43,20 +43,7 @@ setup_ssh() {
 use_rsyslog() {
     # Use rsyslog instead of journald
     echo "Installing rsyslog instead of journald"
-    if ! command -v rsyslog &>/dev/null; then
-        if command -v apt-get &>/dev/null; then
-            apt-get update && apt-get install -y rsyslog
-        elif command -v yum &>/dev/null; then
-            yum install -y rsyslog
-        elif command -v dnf &>/dev/null; then
-            dnf install -y rsyslog
-        else
-            echo "Package manager not found. Please install rsyslog manually."
-            exit 1
-        fi
-    else
-        echo "rsyslog is already installed."
-    fi
+    apt-get update && apt-get install -y rsyslog
 
     # Enable rsyslog to receive logs from journald
     if grep -qE "^\s*#?\s*ForwardToSyslog" "$JOURNALD_CONFIG"; then
@@ -66,13 +53,8 @@ use_rsyslog() {
     fi
 
     echo "Restarting journald and rsyslog services..."
-    if command -v systemctl &>/dev/null; then
-        systemctl restart systemd-journald
-        systemctl restart rsyslog
-    else
-        service systemd-journald restart
-        service rsyslog restart
-    fi
+    systemctl restart systemd-journald
+    systemctl restart rsyslog
 
     echo "Rsyslog successfully configured to receive logs from journald!"
 }
@@ -97,16 +79,7 @@ setup_dirs_and_env() {
     # Setup directories and environment variables
     echo "Setting up directories and environment variables..."
 
-    # Detect the shell and set up the appropriate rc file
-    local rcfile
-    if [ -n "$($SHELL -c 'echo $BASH_VERSION')" ]; then
-        rcfile="$HOME/.bashrc"
-    elif [ -n "$($SHELL -c 'echo $ZSH_VERSION')" ]; then
-        rcfile="$HOME/.zshrc"
-    else
-        echo "Unsupported shell. Please add the environment variables manually."
-        exit 1
-    fi
+    local rcfile="$HOME/.bashrc"
 
     # Ask the user
     echo "What is the domain name?"
@@ -225,17 +198,15 @@ firewall_rules() {
 restart_ssh() {
     # Restart the SSH service to apply changes
     echo "Restarting SSH service... Bye bye!"
-    if command -v systemctl &>/dev/null; then
-        systemctl restart sshd
-    else
-        service ssh restart
-    fi
+    systemctl restart sshd
 
     echo "SSH service restarted successfully! (You should probably not see this message)"
 }
 
 main() {
     echo "Starting home server setup..."
+
+    echo "Disclaimer: This script assumes you are using Debian or a Debian-based distribution and Bash as your shell."
 
     check_is_root
 
