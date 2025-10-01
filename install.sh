@@ -116,6 +116,10 @@ setup_dirs_and_env() {
     read -r secrets_folder
     echo "In what folder do you want to store the docker compose files? (e.g. /srv/dockers)"
     read -r dockers_folder
+    echo "In what folder do you want to store the Docker volumes on slow storage? (e.g. /mnt/slow-volumes)"
+    read -r slow_volumes
+    echo "In what folder do you want to store the Docker volumes on fast storage? (e.g. /mnt/fast-volumes)"
+    read -r fast_volumes
     echo "What is the Proxmox IP?"
     read -r proxmox_ip
     echo "What is the DNS IP?"
@@ -138,6 +142,8 @@ setup_dirs_and_env() {
     echo "export SERVICES_DIR=\"$services_folder\"" >> "$rcfile"
     echo "export SECRETS_DIR=\"$secrets_folder\"" >> "$rcfile"
     echo "export DOCKERS_DIR=\"$dockers_folder\"" >> "$rcfile"
+    echo "export SLOW_VOLUMES=\"$slow_volumes\"" >> "$rcfile"
+    echo "export FAST_VOLUMES=\"$fast_volumes\"" >> "$rcfile"
     echo "alias configs=\"cd \$CONFIGS_DIR\"" >> "$rcfile"
     echo "alias services=\"cd \$SERVICES_DIR\"" >> "$rcfile"
     echo "alias secrets=\"cd \$SECRETS_DIR\"" >> "$rcfile"
