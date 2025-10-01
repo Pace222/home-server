@@ -133,7 +133,7 @@ setup_dirs_and_env() {
     # Environment variables
     echo "export MY_DOMAIN=\"$domain_name\"" >> "$rcfile"
     echo >> "$rcfile"
-    echo "# Directories environment variables" >> "$rcfile"
+    echo "# Directories" >> "$rcfile"
     echo "export CONFIGS_DIR=\"$configs_folder\"" >> "$rcfile"
     echo "export SERVICES_DIR=\"$services_folder\"" >> "$rcfile"
     echo "export SECRETS_DIR=\"$secrets_folder\"" >> "$rcfile"
@@ -143,7 +143,7 @@ setup_dirs_and_env() {
     echo "alias secrets=\"cd \$SECRETS_DIR\"" >> "$rcfile"
     echo "alias dockers=\"cd \$DOCKERS_DIR\"" >> "$rcfile"
     echo >> "$rcfile"
-    echo "# Networking environment variables" >> "$rcfile"
+    echo "# Networking" >> "$rcfile"
     echo "export PROXMOX_IP=\"$proxmox_ip\"" >> "$rcfile"
     echo "export DNS_IP=\"$dns_ip\"" >> "$rcfile"
     echo "export VPN_IP=\"$vpn_ip\"" >> "$rcfile"
@@ -151,7 +151,7 @@ setup_dirs_and_env() {
     echo "export INT_PROXY_IP=\"$int_proxy_ip\"" >> "$rcfile"
     echo >> "$rcfile"
     echo "# Secrets" >> "$rcfile"
-    echo "source $SECRETS_DIR/.env-compose"
+    echo "source $SECRETS_DIR/.env-compose" >> "$rcfile"
 
     echo "Directories and environment variables successfully set up!"
 }
