@@ -6,6 +6,7 @@ services:
         MY_DOMAIN: "${MY_DOMAIN:?}"
     image: ddclient
     container_name: ddclient
+    user: 194:194
     read_only: true
     restart: unless-stopped
     env_file:

@@ -3,6 +3,7 @@ services:
     build: .
     image: ext-caddy
     container_name: ext-proxy
+    user: 180:180
     read_only: true
     restart: unless-stopped
     environment:

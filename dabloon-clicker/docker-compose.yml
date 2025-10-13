@@ -2,7 +2,8 @@ services:
   dabloon:
     build: ${SERVICES_DIR:?}/dabloon-clicker
     image: dabloon-clicker
-    container_name: dabloon
+    container_name: dabloon-clicker
+    user: 183:183
     read_only: true
     restart: unless-stopped
     volumes:

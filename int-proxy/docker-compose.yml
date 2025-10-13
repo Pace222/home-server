@@ -3,6 +3,7 @@ services:
     build: .
     image: int-caddy
     container_name: int-proxy
+    user: 190:190
     read_only: true
     restart: unless-stopped
     env_file:

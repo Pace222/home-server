@@ -2,11 +2,14 @@ services:
   wireguard:
     image: linuxserver/wireguard:1.0.20210914
     container_name: wireguard
+    user: 0:0 # required
     read_only: true
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
     environment:
+      # PUID: "911" # default user of linuxserver images, nonmodifiable because read_only: true
+      # PGID: "1001" # default user of linuxserver images, nonmodifiable because read_only: true
       TZ: "Europe/Zurich"
       SERVERURL: "vpn.${MY_DOMAIN:?}"
       SERVERPORT: "51820"
@@ -34,11 +37,11 @@ services:
   wireguard-exporter:
     image: mindflavor/prometheus-wireguard-exporter:3.6.6
     container_name: wireguard-exporter
+    user: 0:0 # required to be the same user as wireguard to read the config file
     read_only: true
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
-    user: root
     environment:
       PROMETHEUS_WIREGUARD_EXPORTER_ADDRESS: "172.21.1.3"
       PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES: "/config/wg_confs/wg0.conf"

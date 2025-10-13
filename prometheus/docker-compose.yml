@@ -2,6 +2,7 @@ services:
   prometheus:
     image: prom/prometheus:v3.3.0
     container_name: prometheus
+    user: 210:210
     read_only: true
     restart: unless-stopped
     volumes:

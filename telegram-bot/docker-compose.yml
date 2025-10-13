@@ -3,6 +3,7 @@ services:
     build: ${SERVICES_DIR:?}/telegram-bot
     image: telegram-bot
     container_name: ext-tele-bot
+    user: 181:181
     read_only: true
     restart: unless-stopped
     env_file:
@@ -23,6 +24,7 @@ services:
     build: ${SERVICES_DIR:?}/telegram-bot
     image: telegram-bot
     container_name: int-tele-bot
+    user: 191:191
     read_only: true
     restart: unless-stopped
     env_file:

@@ -2,6 +2,7 @@ services:
   grafana:
     image: grafana/grafana-oss:11.6.1
     container_name: grafana
+    user: 1196:1196
     read_only: true
     restart: unless-stopped
     depends_on:
@@ -34,6 +35,7 @@ services:
   db:
     image: mariadb:11.8.2
     container_name: grafana-db
+    user: 2196:2196
     restart: unless-stopped
     env_file:
       - ${SECRETS_DIR:?}/grafana/.env-db

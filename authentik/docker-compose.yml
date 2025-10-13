@@ -2,6 +2,7 @@ services:
   postgresql:
     image: docker.io/library/postgres:16-alpine
     container_name: authentik-postgresql
+    user: 1184:1184
     read_only: true
     restart: unless-stopped
     env_file:
@@ -23,6 +24,7 @@ services:
   redis:
     image: docker.io/library/redis:8-alpine
     container_name: authentik-redis
+    user: 2184:2184
     read_only: true
     restart: unless-stopped
     volumes:
@@ -42,6 +44,7 @@ services:
     image: ghcr.io/goauthentik/server:2025.6.1
     command: server
     container_name: authentik-server
+    user: 3184:184
     read_only: true
     restart: unless-stopped
     depends_on:
@@ -78,6 +81,7 @@ services:
     image: ghcr.io/goauthentik/server:2025.6.1
     command: worker
     container_name: authentik-worker
+    user: 4184:184
     read_only: true
     restart: unless-stopped
     depends_on:

@@ -3,13 +3,14 @@ services:
     build: ${SERVICES_DIR:?}/homepage
     image: homepage
     container_name: int-homepage
+    user: 1192:1192
     read_only: true
     restart: unless-stopped
     depends_on:
       - int-dockerproxy
     environment:
-      PUID: "1000"
-      PGID: "1000"
+      PUID: "1192"
+      PGID: "1192"
       HOMEPAGE_ALLOWED_HOSTS: "home.${MY_DOMAIN:?}"
       LOG_TARGETS: "stdout"
     volumes:
