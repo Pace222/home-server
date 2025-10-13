@@ -53,7 +53,7 @@ services:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
     volumes:
       - writable:/media
-      - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg:ro
+      - ${CONFIGS_DIR:?}/webmedia/images/background-image.jpg:/media/background-image.jpg:ro
       - templates:/templates
     networks:
       prom-authentik:
@@ -89,7 +89,7 @@ services:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
     volumes:
       - writable:/media
-      - ${CONFIGS_DIR:?}/media/images/background-image.jpg:/media/background-image.jpg
+      - ${CONFIGS_DIR:?}/webmedia/images/background-image.jpg:/media/background-image.jpg
       - templates:/templates
     networks:
       internal:
