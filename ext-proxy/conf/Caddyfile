@@ -173,14 +173,14 @@ csp-reports.{$MY_DOMAIN} {
             respond 200
         }
 
-        @wrong-method not method POST
-        handle @wrong-method {
-            error 405
+        @wrong-path not path /
+        handle @wrong-path {
+            error 404
         }
 
-        # Wrong path (i.e., not /)
+        # Wrong method (i.e., not POST)
         handle {
-            error 404
+            error 405
         }
     }
 }
