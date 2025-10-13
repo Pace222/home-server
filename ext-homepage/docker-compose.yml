@@ -37,7 +37,7 @@ services:
       homepage.instance.internal.description: "The external homepage... displaying only a subset of available information!"
 
   ext-dockerproxy:
-    image: tecnativa/docker-socket-proxy:0.3
+    image: tecnativa/docker-socket-proxy:v0.4.1
     container_name: ext-dockerproxy
     restart: unless-stopped
     environment:

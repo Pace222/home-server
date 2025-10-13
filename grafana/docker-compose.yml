@@ -1,6 +1,6 @@
 services:
   grafana:
-    image: grafana/grafana-oss:11.6.1
+    image: grafana/grafana:12.2.0
     container_name: grafana
     user: 1196:1196
     read_only: true
@@ -33,7 +33,7 @@ services:
       homepage.weight: "1"
 
   db:
-    image: mariadb:11.8.2
+    image: mariadb:11.8.3
     container_name: grafana-db
     user: 2196:2196
     restart: unless-stopped

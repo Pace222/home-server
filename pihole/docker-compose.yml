@@ -1,6 +1,6 @@
 services:
   pihole:
-    image: pihole/pihole:2025.04.0
+    image: pihole/pihole:2025.08.0
     container_name: pihole
     user: 0:0 # required
     restart: unless-stopped

@@ -36,7 +36,7 @@ services:
       homepage.instance.external.description: "A hidden homepage... displaying more details about every service!"
 
   int-dockerproxy:
-    image: tecnativa/docker-socket-proxy:0.3
+    image: tecnativa/docker-socket-proxy:v0.4.1
     container_name: int-dockerproxy
     restart: unless-stopped
     environment:
