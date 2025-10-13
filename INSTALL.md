@@ -16,4 +16,4 @@ $SECRETS_DIR/push_secrets.sh
 
 ## Run all services
 
-Go in every directory, follow eventual instructions in the respective `README.md` file and run `sudo -E docker compose up -d`. You need `-E` to forward environment variables set in your `~/.*rc` to `sudo`.
+Go in every directory, follow eventual instructions in the respective `README.md` file and run `docker compose up -d`.
