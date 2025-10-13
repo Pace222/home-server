@@ -36,6 +36,7 @@ services:
     image: mariadb:11.8.3
     container_name: grafana-db
     user: 2196:2196
+    read_only: true
     restart: unless-stopped
     env_file:
       - ${SECRETS_DIR:?}/grafana/.env-db
@@ -44,6 +45,9 @@ services:
     networks:
       internal:
         ipv4_address: 172.19.6.67
+    tmpfs:
+      - /run/mysqld
+      - /tmp
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       start_period: 10s
