@@ -6,15 +6,13 @@ services:
     restart: unless-stopped
     volumes:
       - /:/rootfs:ro
-      - /var/run:/var/run:ro
+      - /run/rootlesskit/docker.socket:/var/run/docker.sock:ro
       - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      - /home/dockeruser/.local/share/docker:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
     networks:
       prom-cadvisor:
         ipv4_address: 172.21.6.3
-    devices:
-      - /dev/kmsg
 
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1

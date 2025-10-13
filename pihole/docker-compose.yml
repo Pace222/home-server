@@ -4,6 +4,8 @@ services:
     container_name: pihole
     restart: unless-stopped
     environment:
+      PIHOLE_UID: "0" # required
+      PIHOLE_GID: "0" # required
       TZ: "Europe/Zurich"
       FTLCONF_webserver_api_password: ""
       FTLCONF_dns_listeningMode: "all"
