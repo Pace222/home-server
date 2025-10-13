@@ -13,8 +13,8 @@ services:
       - "${EXT_PROXY_IP:?}:8443:443/tcp"
       - "${EXT_PROXY_IP:?}:8443:443/udp"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ../utils/caddy:/etc/caddy/caddy-configs:ro
+      - ./conf:/etc/caddy:ro
+      - ../utils/caddy:/etc/caddy-configs:ro
       - ${CONFIGS_DIR:?}/error-pages/dist:/srv/error-pages:ro
       - ${FAST_VOLUMES:?}/ext-proxy/caddy-data:/data
       - ${FAST_VOLUMES:?}/ext-proxy/caddy-config:/config

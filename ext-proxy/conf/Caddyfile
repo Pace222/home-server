@@ -10,7 +10,7 @@
     }
 
     admin 172.21.2.3:2019 {
-        origins ext-proxy:2019
+        origins 172.21.2.3:2019 ext-proxy:2019
     }
 
     servers {
@@ -21,7 +21,7 @@
     }
 }
 
-import caddy-configs/*
+import /etc/caddy-configs/*
 
 {$MY_DOMAIN} {
     import security
