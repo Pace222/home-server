@@ -23,6 +23,10 @@ services:
         ipv4_address: 172.21.6.2
       prom-node-exporter:
         ipv4_address: 172.21.7.2
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.size=1TB"
     labels:
       homepage.group: "Monitoring"
       homepage.name: "Prometheus"
