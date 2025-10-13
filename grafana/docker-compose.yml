@@ -12,7 +12,7 @@ services:
       - ${SECRETS_DIR:?}/grafana/.env-grafana
     volumes:
       - ./grafana.ini:/etc/grafana/grafana.ini:ro
-      - data:/var/lib/grafana
+      - ${SLOW_VOLUMES:?}/grafana/data:/var/lib/grafana
     networks:
       prom-grafana:
         ipv4_address: 172.21.5.3
@@ -40,7 +40,7 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/grafana/.env-db
     volumes:
-      - db:/var/lib/mysql
+      - ${SLOW_VOLUMES:?}/grafana/db:/var/lib/mysql
     networks:
       internal:
         ipv4_address: 172.19.6.67
@@ -50,10 +50,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
-volumes:
-  data:
-  db:
 
 networks:
   prom-grafana:

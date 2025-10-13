@@ -17,7 +17,7 @@ services:
     ports:
       - "${VPN_IP:?}:51820:51820/udp"
     volumes:
-      - config:/config:ro
+      - ${SLOW_VOLUMES:?}/wireguard/config:/config:ro
     networks:
       prom-wg:
         ipv4_address: 172.21.1.3
@@ -47,12 +47,9 @@ services:
       PROMETHEUS_WIREGUARD_EXPORTER_CONFIG_FILE_NAMES: "/config/wg_confs/wg0.conf"
       EXPORT_LATEST_HANDSHAKE_DELAY: "true"
     volumes:
-      - config:/config:ro
+      - ${SLOW_VOLUMES:?}/wireguard/config/wg_confs/wg0.conf:/config/wg_confs/wg0.conf:ro
     command: "-a false"
     network_mode: "service:wireguard"
-
-volumes:
-  config:
 
 networks:
   prom-wg:

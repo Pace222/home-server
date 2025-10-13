@@ -8,7 +8,7 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-postgresql
     volumes:
-      - database:/var/lib/postgresql/data
+      - ${SLOW_VOLUMES:?}/authentik/database:/var/lib/postgresql/data
     networks:
       internal:
         ipv4_address: 172.18.4.66
@@ -28,7 +28,7 @@ services:
     read_only: true
     restart: unless-stopped
     volumes:
-      - redis:/data
+      - ${FAST_VOLUMES:?}/authentik/redis:/data
     networks:
       internal:
         ipv4_address: 172.18.4.67
@@ -55,9 +55,9 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
     volumes:
-      - writable:/media
+      - ${SLOW_VOLUMES:?}/authentik/media:/media
       - ${CONFIGS_DIR:?}/webmedia/images/background-image.jpg:/media/background-image.jpg:ro
-      - templates:/templates
+      - ${SLOW_VOLUMES:?}/authentik/templates:/templates
     networks:
       prom-authentik:
         ipv4_address: 172.21.4.3
@@ -92,9 +92,9 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
     volumes:
-      - writable:/media
+      - ${SLOW_VOLUMES:?}/authentik/media:/media
       - ${CONFIGS_DIR:?}/webmedia/images/background-image.jpg:/media/background-image.jpg
-      - templates:/templates
+      - ${SLOW_VOLUMES:?}/authentik/templates:/templates
     networks:
       internal:
         ipv4_address: 172.18.4.69
@@ -102,12 +102,6 @@ services:
         ipv4_address: 172.18.4.131
     tmpfs:
       - /certs
-
-volumes:
-  database:
-  redis:
-  templates:
-  writable:
 
 networks:
   prom-authentik:

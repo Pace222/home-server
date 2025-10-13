@@ -7,8 +7,8 @@ services:
     read_only: true
     restart: unless-stopped
     volumes:
-      - caddy-data:/data
-      - caddy-config:/config
+      - ${FAST_VOLUMES:?}/dabloon-clicker/caddy-data:/data
+      - ${FAST_VOLUMES:?}/dabloon-clicker/caddy-config:/config
     networks:
       net-dabloon:
         ipv4_address: 172.18.3.4
@@ -18,10 +18,6 @@ services:
       homepage.icon: "/icons/dabloon.png"
       homepage.href: "https://dabloon.${MY_DOMAIN:?}"
       homepage.description: "Click on dabloons to win even more dabloons!"
-
-volumes:
-  caddy-data:
-  caddy-config:
 
 networks:
   net-dabloon:

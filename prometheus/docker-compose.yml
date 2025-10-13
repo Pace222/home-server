@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - data:/prometheus
+      - ${SLOW_VOLUMES:?}/prometheus/data:/prometheus
     networks:
       prom-wg:
         ipv4_address: 172.21.1.2
@@ -29,9 +29,6 @@ services:
       homepage.icon: "prometheus.png"
       homepage.description: "Monitoring system and time series database."
       homepage.weight: "2"
-
-volumes:
-  data:
 
 networks:
   prom-wg:

@@ -19,7 +19,7 @@ services:
       - ${CONFIGS_DIR:?}/webmedia/icons/dabloon.png:/app/public/icons/dabloon.png:ro
       - ${CONFIGS_DIR:?}/webmedia/icons/homepage-favicon.ico:/app/public/favicon.ico:ro
       - ${CONFIGS_DIR:?}/webmedia/icons/homepage-favicon.ico:/app/public/favicon-32x32.png:ro
-      - writable:/app/.next/server/pages
+      - ${FAST_VOLUMES:?}/int-homepage/writable:/app/.next/server/pages
     networks:
       net-int-homepage:
         ipv4_address: 172.19.2.4
@@ -46,9 +46,6 @@ services:
     networks:
       internal:
         ipv4_address: 172.19.2.67
-
-volumes:
-  writable:
 
 networks:
   net-int-homepage:

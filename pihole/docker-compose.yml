@@ -14,7 +14,7 @@ services:
       - "${DNS_IP:?}:53:53/tcp"
       - "${DNS_IP:?}:53:53/udp"
     volumes:
-      - config:/etc/pihole
+      - ${SLOW_VOLUMES:?}/pihole/config:/etc/pihole
     networks:
       net-pihole:
         ipv4_address: 172.19.3.4
@@ -31,9 +31,6 @@ services:
       homepage.instance.internal.widget.version: "6"
       homepage.instance.internal.widget.username: "${PIHOLE_AUTHENTIK_USERNAME:?}"
       homepage.instance.internal.widget.password: "${PIHOLE_AUTHENTIK_PASSWORD:?}"
-
-volumes:
-  config:
 
 networks:
   net-pihole:
