@@ -148,6 +148,8 @@ setup_dirs_and_env() {
     echo "alias services=\"cd \$SERVICES_DIR\"" >> "$rcfile"
     echo "alias secrets=\"cd \$SECRETS_DIR\"" >> "$rcfile"
     echo "alias dockers=\"cd \$DOCKERS_DIR\"" >> "$rcfile"
+    echo "alias slow_volumes=\"cd \$SLOW_VOLUMES\"" >> "$rcfile"
+    echo "alias fast_volumes=\"cd \$FAST_VOLUMES\"" >> "$rcfile"
     echo >> "$rcfile"
     echo "# Networking" >> "$rcfile"
     echo "export PROXMOX_IP=\"$proxmox_ip\"" >> "$rcfile"
