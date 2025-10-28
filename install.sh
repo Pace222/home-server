@@ -110,63 +110,8 @@ setup_dirs_and_env() {
     # Setup directories and environment variables
     echo "Setting up directories and environment variables..."
 
-    local rcfile="$HOME/.bashrc"
-
-    # Ask the user
-    echo "What is the domain name?"
-    read -r domain_name
-    echo "In what folder do you want to store the configs? (e.g. /srv/configs)"
-    read -r configs_folder
-    echo "In what folder do you want to store the services? (e.g. /srv/services)"
-    read -r services_folder
-    echo "In what folder do you want to store the secrets? (e.g. /srv/secrets)"
-    read -r secrets_folder
-    echo "In what folder do you want to store the docker compose files? (e.g. /srv/dockers)"
-    read -r dockers_folder
-    echo "In what folder do you want to store the Docker volumes on slow storage? (e.g. /mnt/slow-volumes)"
-    read -r slow_volumes
-    echo "In what folder do you want to store the Docker volumes on fast storage? (e.g. /mnt/fast-volumes)"
-    read -r fast_volumes
-    echo "What is the Proxmox IP?"
-    read -r proxmox_ip
-    echo "What is the DNS IP?"
-    read -r dns_ip
-    echo "What is the VPN IP?"
-    read -r vpn_ip
-    echo "What is the external proxy IP?"
-    read -r ext_proxy_ip
-    echo "What is the internal proxy IP?"
-    read -r int_proxy_ip
-
-    # Directories
-    mkdir -p "$config_folder" "$services_folder" "$secrets_folder" "$docker_folder"
-
-    # Environment variables
-    echo "export MY_DOMAIN=\"$domain_name\"" >> "$rcfile"
-    echo >> "$rcfile"
-    echo "# Directories" >> "$rcfile"
-    echo "export CONFIGS_DIR=\"$configs_folder\"" >> "$rcfile"
-    echo "export SERVICES_DIR=\"$services_folder\"" >> "$rcfile"
-    echo "export SECRETS_DIR=\"$secrets_folder\"" >> "$rcfile"
-    echo "export DOCKERS_DIR=\"$dockers_folder\"" >> "$rcfile"
-    echo "export SLOW_VOLUMES=\"$slow_volumes\"" >> "$rcfile"
-    echo "export FAST_VOLUMES=\"$fast_volumes\"" >> "$rcfile"
-    echo "alias configs=\"cd \$CONFIGS_DIR\"" >> "$rcfile"
-    echo "alias services=\"cd \$SERVICES_DIR\"" >> "$rcfile"
-    echo "alias secrets=\"cd \$SECRETS_DIR\"" >> "$rcfile"
-    echo "alias dockers=\"cd \$DOCKERS_DIR\"" >> "$rcfile"
-    echo "alias slow_volumes=\"cd \$SLOW_VOLUMES\"" >> "$rcfile"
-    echo "alias fast_volumes=\"cd \$FAST_VOLUMES\"" >> "$rcfile"
-    echo >> "$rcfile"
-    echo "# Networking" >> "$rcfile"
-    echo "export PROXMOX_IP=\"$proxmox_ip\"" >> "$rcfile"
-    echo "export DNS_IP=\"$dns_ip\"" >> "$rcfile"
-    echo "export VPN_IP=\"$vpn_ip\"" >> "$rcfile"
-    echo "export EXT_PROXY_IP=\"$ext_proxy_ip\"" >> "$rcfile"
-    echo "export INT_PROXY_IP=\"$int_proxy_ip\"" >> "$rcfile"
-    echo >> "$rcfile"
-    echo "# Secrets" >> "$rcfile"
-    echo "source $SECRETS_DIR/.env-compose" >> "$rcfile"
+    cp ./install/.serverrc "$HOME/.serverrc"
+    echo "source \$HOME/.serverrc" >> "$HOME/.bashrc"
 
     echo "Directories and environment variables successfully set up!"
 }
@@ -245,7 +190,8 @@ restart_ssh() {
 main() {
     echo "Starting home server setup..."
 
-    echo "Disclaimer: This script assumes you are using Debian or a Debian-based distribution and Bash as your shell."
+    echo "Disclaimer  : This script assumes you are using Debian or a Debian-based distribution and Bash as your shell."
+    echo "Disclaimer 2: This script was not actually ever ran. It is merely a collection of commands I would run to setup a new home server, so use at your own risk."
 
     check_is_root
 
