@@ -6,6 +6,7 @@ set -e
 # Constants
 SSHD_CONFIG="/etc/ssh/sshd_config"
 JOURNALD_CONFIG="/etc/systemd/journald.conf"
+ROOTLESS_USER="dockeruser"
 
 check_is_root() {
     # Check if script is run as root
@@ -79,16 +80,39 @@ install_docker() {
     echo "Do you want to setup rootless Docker? (y/n)"
     read -r rootless_docker_answer
     if [[ "$rootless_docker_answer" == "y" ]]; then
+        echo "Installing rootless Docker for user '$ROOTLESS_USER'..."
+
         apt-get install -y uidmap docker-ce-rootless-extras
 
         systemctl disable --now docker.service docker.socket
         rm /var/run/docker.sock
 
-        echo "Create a new unprivileged user and continue following the instructions with this user here: https://docs.docker.com/engine/security/rootless/"
-        exit 0
+        # https://cmtops.dev/posts/rootless-docker-in-multiuser-environment/
+        useradd -m -s $(which nologin) "$ROOTLESS_USER"
+        groupadd -U "$ROOTLESS_USER" rootlesskit
+        loginctl enable-linger "$ROOTLESS_USER"
+        machinectl shell "$ROOTLESS_USER"@ /bin/bash -c 'dockerd-rootless-setuptool.sh install'
+        echo "net.ipv4.ip_unprivileged_port_start=0" >> /etc/sysctl.d/10-unprivileged-ports.conf
+        cat << END > /usr/lib/tmpfiles.d/rootless.conf
+        D /run/rootlesskit 1700 $ROOTLESS_USER $ROOTLESS_USER - - -
+        a+ /run/rootlesskit - - - - g:rootlesskit:r-x,default:g:rootlesskit:rw-
+        END
+
+        cp ./install/override.conf /home/"$ROOTLESS_USER"/.config/systemd/user/docker.service.d/override.conf
+
+        echo "Rootless Docker successfully installed for user '$ROOTLESS_USER'!"
+
+        cp ./install/10-firewall.sh /home/"$ROOTLESS_USER"/.config/docker/firewall.sh
+        echo "net.netfilter.nf_log_all_netns=1" >> /etc/sysctl.d/20-log-namespace-firewall.conf
+
+        echo "Firewall rules set up."
+
+        echo "You should reboot the system to apply all changes for rootless Docker."
+        echo "You can add your user to the 'rootlesskit' group and run 'docker context create rootless --docker host=unix:///run/rootlesskit/docker.socket' to use rootless Docker."
     fi
 
     echo "Docker successfully installed!"
+    echo "Firewall rules for rootful Docker are not set up by this script. Please refer to './install/10-firewall.sh' for inspiration."
 }
 
 cron_cleanup() {
@@ -139,44 +163,6 @@ create_networks() {
     docker network create --internal --subnet=172.21.5.0/24 --gateway=172.21.5.1 prom-grafana
     docker network create --internal --subnet=172.21.6.0/24 --gateway=172.21.6.1 prom-cadvisor
     docker network create --internal --subnet=172.21.7.0/24 --gateway=172.21.7.1 prom-node-exporter
-}
-
-firewall_rules() {
-    # Create firewall rules
-    echo "Setting up firewall rules..."
-
-    if ! command -v iptables &>/dev/null; then
-        echo "iptables is not installed. Please install it first."
-        exit 1
-    fi
-
-    # Setup LOG_DROP chain
-    iptables -N LOG_DROP
-    iptables -A LOG_DROP                                                                -j LOG --log-prefix "FW_DROP: "
-    iptables -A LOG_DROP                                                                -j DROP
-
-    # External subnet: Prevent communicating with other containers through any local IP
-    iptables -I INPUT       1 -s             172.18.0.0/16 -m addrtype --dst-type LOCAL -j LOG_DROP
-    iptables -I OUTPUT      1 -s             172.18.0.0/16 -m addrtype --dst-type LOCAL -j LOG_DROP
-    iptables -I OUTPUT      2 -m addrtype --src-type LOCAL -d             172.18.0.0/16 -j LOG_DROP
-    iptables -I INPUT       2 -m addrtype --src-type LOCAL -d             172.18.0.0/16 -j LOG_DROP
-    # External subnet: Prevent communicating with LAN
-    iptables -I DOCKER-USER 1 -s             172.18.0.0/16 -d            192.168.0.0/16 -j LOG_DROP
-    iptables -I OUTPUT      3 -s             172.18.0.0/16 -d            192.168.0.0/16 -j LOG_DROP
-    iptables -I DOCKER-USER 2 -s            192.168.0.0/16 -d             172.18.0.0/16 -j LOG_DROP
-    iptables -I INPUT       3 -s            192.168.0.0/16 -d             172.18.0.0/16 -j LOG_DROP
-
-    # Save the rules
-    if command -v iptables-save &>/dev/null; then
-        iptables-save > /etc/iptables/rules.v4
-    elif command -v apt-get &>/dev/null; then
-        apt-get update && apt-get install -y iptables-persistent
-    else
-        echo "Package manager not found. Please install iptables-persistent manually."
-        exit 1
-    fi
-
-    echo "Firewall rules successfully set up!"
 }
 
 restart_ssh() {
@@ -235,12 +221,6 @@ main() {
     read -r create_networks_answer
     if [[ "$create_networks_answer" == "y" ]]; then
         create_networks
-    fi
-
-    echo "Do you want to setup firewall rules? (y/n)"
-    read -r firewall_rules_answer
-    if [[ "$firewall_rules_answer" == "y" ]]; then
-        firewall_rules
     fi
 
     if [[ "$setup_ssh_answer" == "y" ]]; then
