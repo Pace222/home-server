@@ -21,27 +21,8 @@ services:
       retries: 5
       timeout: 5s
 
-  redis:
-    image: docker.io/library/redis:8-alpine
-    container_name: authentik-redis
-    user: 2184:2184
-    read_only: true
-    restart: unless-stopped
-    volumes:
-      - ${FAST_VOLUMES:?}/authentik/redis:/data
-    networks:
-      internal:
-        ipv4_address: 172.18.4.67
-    command: --save 60 1 --loglevel warning
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
-      start_period: 20s
-      interval: 30s
-      retries: 5
-      timeout: 3s
-
   server:
-    image: ghcr.io/goauthentik/server:2025.8.4
+    image: ghcr.io/goauthentik/server:2025.10.0
     command: server
     container_name: authentik-server
     user: 3184:184
@@ -49,8 +30,6 @@ services:
     restart: unless-stopped
     depends_on:
       postgresql:
-        condition: service_healthy
-      redis:
         condition: service_healthy
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
@@ -79,7 +58,7 @@ services:
       homepage.instance.internal.widget.version: "2"
 
   worker:
-    image: ghcr.io/goauthentik/server:2025.8.4
+    image: ghcr.io/goauthentik/server:2025.10.0
     command: worker
     container_name: authentik-worker
     user: 4184:184
@@ -87,8 +66,6 @@ services:
     restart: unless-stopped
     depends_on:
       postgresql:
-        condition: service_healthy
-      redis:
         condition: service_healthy
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
