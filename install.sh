@@ -99,6 +99,13 @@ cron_cleanup() {
     echo "Periodic cleanup of unused Docker data has been set up!"
 }
 
+setup_static_ips() {
+    # Setup static IPs
+    echo "Setting up static IPs..."
+    cp ./install/100-ip-setup /etc/network/interfaces.d/100-ip-setup
+    systemctl restart networking
+}
+
 setup_dirs_and_env() {
     # Setup directories and environment variables
     echo "Setting up directories and environment variables..."
@@ -264,6 +271,12 @@ main() {
     read -r cron_cleanup_answer
     if [[ "$cron_cleanup_answer" == "y" ]]; then
         cron_cleanup
+    fi
+
+    echo "Do you want to setup static IPs? (y/n)"
+    read -r setup_static_ips_answer
+    if [[ "$setup_static_ips_answer" == "y" ]]; then
+        setup_static_ips
     fi
 
     echo "Do you want to setup directories and environment variables? (y/n)"

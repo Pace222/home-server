@@ -1,0 +1,14 @@
+iface eth0 inet static
+    address 192.168.2.2/16
+
+iface eth0 inet static
+    address 192.168.2.3/16
+
+iface eth0 inet static
+    address 192.168.2.4/16
+
+iface eth0 inet static
+    address 192.168.2.5/16
+
+iface eth0 inet static
+    address 192.168.2.6/16
