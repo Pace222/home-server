@@ -3,6 +3,7 @@ services:
     build: ${SERVICES_DIR:?}/fw-monitor
     image: fw-monitor
     container_name: fw-monitor
+    user: 195:195
     read_only: true
     restart: unless-stopped
     environment:
