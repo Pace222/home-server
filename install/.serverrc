@@ -17,6 +17,7 @@ alias fast_volumes="cd $FAST_VOLUMES"
 # Networking
 export HOST_IP="..."
 export PROXMOX_IP="..."
+export OPNSENSE_IP="..."
 
 # Secrets
 source $SECRETS_DIR/.env-compose

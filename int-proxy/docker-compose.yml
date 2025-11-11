@@ -11,6 +11,7 @@ services:
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
       PROXMOX_IP: "${PROXMOX_IP:?}"
+      OPNSENSE_IP: "${OPNSENSE_IP:?}"
     ports:
       - "${HOST_IP:?}:80:80"
       - "${HOST_IP:?}:443:443/tcp"

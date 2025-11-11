@@ -28,6 +28,12 @@ pacemox.{$MY_DOMAIN} {
     }
 }
 
+opnsense.{$MY_DOMAIN} {
+    log
+
+    reverse_proxy {$OPNSENSE_IP}
+}
+
 home.{$MY_DOMAIN} {
     import security
     import error-handling
