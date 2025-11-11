@@ -18,22 +18,6 @@
 
 import /etc/caddy-configs/*
 
-pacemox.{$MY_DOMAIN} {
-    log
-
-    reverse_proxy {$PROXMOX_IP}:8006 {
-        transport http {
-            tls_insecure_skip_verify
-        }
-    }
-}
-
-opnsense.{$MY_DOMAIN} {
-    log
-
-    reverse_proxy {$OPNSENSE_IP}
-}
-
 home.{$MY_DOMAIN} {
     import security
     import error-handling

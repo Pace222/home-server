@@ -1,0 +1,21 @@
+{
+    acme_dns infomaniak {$INFOMANIAK_API_TOKEN}
+}
+
+import /etc/caddy-configs/*
+
+pacemox.{$MY_DOMAIN} {
+    log
+
+    reverse_proxy {$PROXMOX_IP}:8006 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+    }
+}
+
+opnsense.{$MY_DOMAIN} {
+    log
+
+    reverse_proxy {$OPNSENSE_IP}
+}

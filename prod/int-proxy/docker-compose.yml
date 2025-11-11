@@ -1,0 +1,53 @@
+services:
+  int-proxy:
+    build: .
+    image: int-caddy
+    container_name: int-proxy
+    user: 190:190
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/int-proxy/.env
+    environment:
+      MY_DOMAIN: "${MY_DOMAIN:?}"
+    ports:
+      - "${HOST_IP:?}:80:80"
+      - "${HOST_IP:?}:443:443/tcp"
+      - "${HOST_IP:?}:443:443/udp"
+    volumes:
+      - ./conf:/etc/caddy:ro
+      - ../../utils/caddy:/etc/caddy-configs:ro
+      - ${CONFIGS_DIR:?}/error-pages/dist:/srv/error-pages:ro
+      - ${FAST_VOLUMES:?}/int-proxy/caddy-data:/data
+      - ${FAST_VOLUMES:?}/int-proxy/caddy-config:/config
+    networks:
+      prom-int-caddy:
+        ipv4_address: 172.21.3.3
+      net-int-homepage:
+        ipv4_address: 172.19.2.2
+      net-pihole:
+        ipv4_address: 172.19.3.2
+      net-grafana:
+        ipv4_address: 172.19.6.2
+      outgoing:
+        ipv4_address: 172.19.0.130
+    labels:
+      homepage.group: "Internal"
+      homepage.name: "Caddy Reverse Proxy"
+      homepage.icon: "caddy.png"
+      homepage.description: "Reverse proxy for internal services."
+
+networks:
+  prom-int-caddy:
+    external: true
+  net-int-homepage:
+    external: true
+  net-pihole:
+    external: true
+  net-grafana:
+    external: true
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+          gateway: 172.19.0.129
