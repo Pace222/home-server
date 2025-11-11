@@ -11,8 +11,8 @@ services:
       FTLCONF_webserver_api_password: ""
       FTLCONF_dns_listeningMode: "all"
     ports:
-      - "${DNS_IP:?}:53:53/tcp"
-      - "${DNS_IP:?}:53:53/udp"
+      - "${HOST_IP:?}:53:53/tcp"
+      - "${HOST_IP:?}:53:53/udp"
     volumes:
       - ${SLOW_VOLUMES:?}/pihole/config:/etc/pihole
     networks:

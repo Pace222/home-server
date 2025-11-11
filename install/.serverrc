@@ -1,6 +1,3 @@
-# Comment me
-echo "Edit ~/.serverrc and /etc/network/interfaces.d/100-ip-setup as needed"
-
 export MY_DOMAIN="..."
 
 # Directories
@@ -18,11 +15,8 @@ alias slow_volumes="cd $SLOW_VOLUMES"
 alias fast_volumes="cd $FAST_VOLUMES"
 
 # Networking
+export HOST_IP="..."
 export PROXMOX_IP="..."
-export DNS_IP="..."
-export VPN_IP="..."
-export EXT_PROXY_IP="..."
-export INT_PROXY_IP="..."
 
 # Secrets
 source $SECRETS_DIR/.env-compose

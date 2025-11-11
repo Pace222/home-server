@@ -15,7 +15,7 @@ services:
       SERVERPORT: "51820"
       PEERS: "${WIREGUARD_PEERS:?}"
     ports:
-      - "${VPN_IP:?}:51820:51820/udp"
+      - "${HOST_IP:?}:51820:51820/udp"
     volumes:
       - ${SLOW_VOLUMES:?}/wireguard/config:/config:ro
     networks:

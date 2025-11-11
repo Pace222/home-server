@@ -12,9 +12,9 @@ services:
       MY_DOMAIN: "${MY_DOMAIN:?}"
       PROXMOX_IP: "${PROXMOX_IP:?}"
     ports:
-      - "${INT_PROXY_IP:?}:80:80"
-      - "${INT_PROXY_IP:?}:443:443/tcp"
-      - "${INT_PROXY_IP:?}:443:443/udp"
+      - "${HOST_IP:?}:80:80"
+      - "${HOST_IP:?}:443:443/tcp"
+      - "${HOST_IP:?}:443:443/udp"
     volumes:
       - ./conf:/etc/caddy:ro
       - ../utils/caddy:/etc/caddy-configs:ro
