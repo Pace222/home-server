@@ -8,6 +8,7 @@ services:
     restart: unless-stopped
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
+      OPNSENSE_SUBNET_IP: "${OPNSENSE_SUBNET_IP:?}"
     ports:
       - "${HOST_IP:?}:8080:80"
       - "${HOST_IP:?}:8443:443/tcp"

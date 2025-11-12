@@ -14,6 +14,14 @@
     }
 
     servers {
+        listener_wrappers {
+            proxy_protocol {
+                allow {$OPNSENSE_SUBNET_IP}/32
+                fallback_policy require
+            }
+            tls
+        }
+
         trusted_proxies dns {
             host {$MY_DOMAIN}
             interval 5m
