@@ -17,5 +17,9 @@ pacemox.{$MY_DOMAIN} {
 opnsense.{$MY_DOMAIN} {
     log
 
-    reverse_proxy {$OPNSENSE_IP}
+    reverse_proxy {$OPNSENSE_IP}:8006 {
+        transport http {
+            tls_insecure_skip_verify
+        }
+    }
 }
