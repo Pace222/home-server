@@ -46,7 +46,7 @@
 (csp-impl) {
     header {
         ?Content-Security-Policy {args[0]}
-        >Content-Security-Policy "(.*) " "$1 upgrade-insecure-requests; report-uri https://csp-reports.{$MY_DOMAIN}; report-to csp-endpoint;"
+        >Content-Security-Policy "(.*)" "$1 upgrade-insecure-requests; report-uri https://csp-reports.{$MY_DOMAIN}; report-to csp-endpoint;"
 
         >Reporting-Endpoints csp-endpoint="https://csp-reports.{$MY_DOMAIN}"
     }
