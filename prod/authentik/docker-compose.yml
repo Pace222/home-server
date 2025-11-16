@@ -43,7 +43,7 @@ services:
       net-authentik:
         ipv4_address: 172.18.4.4
       internal:
-        ipv4_address: 172.18.4.68
+        ipv4_address: 172.18.4.67
       outgoing:
         ipv4_address: 172.18.4.130
     labels:
@@ -75,7 +75,7 @@ services:
       - ${SLOW_VOLUMES:?}/authentik/templates:/templates
     networks:
       internal:
-        ipv4_address: 172.18.4.69
+        ipv4_address: 172.18.4.68
       outgoing:
         ipv4_address: 172.18.4.131
     tmpfs:
