@@ -36,6 +36,7 @@ services:
 
   wireguard-exporter:
     image: mindflavor/prometheus-wireguard-exporter:3.6.6
+    command: "-a false"
     container_name: wireguard-exporter
     user: 0:0 # required to be the same user as wireguard to read the config file
     read_only: true
@@ -48,7 +49,6 @@ services:
       EXPORT_LATEST_HANDSHAKE_DELAY: "true"
     volumes:
       - ${SLOW_VOLUMES:?}/wireguard/config/wg_confs/wg0.conf:/config/wg_confs/wg0.conf:ro
-    command: "-a false"
     network_mode: "service:wireguard"
 
 networks:
