@@ -65,7 +65,6 @@ networks:
     ipam:
       config:
         - subnet: 172.19.6.64/26
-          gateway: 172.19.6.65
   outgoing:
     ipam:
       config:
