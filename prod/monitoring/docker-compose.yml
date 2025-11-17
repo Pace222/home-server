@@ -14,6 +14,13 @@ services:
     networks:
       prom-cadvisor:
         ipv4_address: 172.21.6.3
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Monitoring"
+      homepage.name: "cAdvisor"
+      homepage.icon: "cadvisor.png"
+      homepage.description: "Container Advisor (cAdvisor) provides container resource usage and performance characteristics."
+      homepage.weight: "5"
 
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1
@@ -28,6 +35,13 @@ services:
     networks:
       prom-node-exporter:
         ipv4_address: 172.21.7.3
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Monitoring"
+      homepage.name: "Node Exporter"
+      homepage.icon: "prometheus.png"
+      homepage.description: "Prometheus exporter for hardware and OS metrics exposed by *NIX kernels."
+      homepage.weight: "6"
 
 networks:
   prom-cadvisor:

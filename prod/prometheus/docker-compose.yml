@@ -28,6 +28,7 @@ services:
       prom-node-exporter:
         ipv4_address: 172.21.7.2
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "Monitoring"
       homepage.name: "Prometheus"
       homepage.icon: "prometheus.png"

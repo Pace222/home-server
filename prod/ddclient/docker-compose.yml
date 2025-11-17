@@ -22,6 +22,7 @@ services:
       - /run:exec
       - /tmp
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "Internal"
       homepage.name: "DDClient"
       homepage.icon: "ddclient.png"

@@ -20,6 +20,8 @@ services:
       interval: 30s
       retries: 5
       timeout: 5s
+    labels:
+      alloy.enable_logging: "true"
 
   server:
     image: ghcr.io/goauthentik/server:2025.10.0
@@ -47,6 +49,7 @@ services:
       outgoing:
         ipv4_address: 172.18.4.130
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "External"
       homepage.name: "Authentik"
       homepage.icon: "authentik.png"
@@ -80,6 +83,8 @@ services:
         ipv4_address: 172.18.4.131
     tmpfs:
       - /certs
+    labels:
+      alloy.enable_logging: "true"
 
 networks:
   prom-authentik:

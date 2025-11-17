@@ -1,10 +1,4 @@
 {
-    log {
-        output net ext-tele-bot:5000 {
-            soft_start
-        }
-    }
-
     metrics {
         per_host
     }

@@ -14,6 +14,7 @@ services:
       ext-outgoing:
         ipv4_address: 172.18.1.130
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "External"
       homepage.name: "Telegram Bot"
       homepage.icon: "telegram.png"
@@ -39,6 +40,7 @@ services:
       int-outgoing:
         ipv4_address: 172.19.1.130
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "Internal"
       homepage.name: "Telegram Bot"
       homepage.icon: "telegram.png"

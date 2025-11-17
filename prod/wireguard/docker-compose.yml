@@ -29,6 +29,7 @@ services:
     tmpfs:
       - /run:exec
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "External"
       homepage.name: "WireGuard"
       homepage.icon: "wireguard.png"
@@ -50,6 +51,8 @@ services:
     volumes:
       - ${SLOW_VOLUMES:?}/wireguard/config/wg_confs/wg0.conf:/config/wg_confs/wg0.conf:ro
     network_mode: "service:wireguard"
+    labels:
+      alloy.enable_logging: "true"
 
 networks:
   prom-wg:

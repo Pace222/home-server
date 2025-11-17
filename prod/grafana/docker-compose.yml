@@ -22,9 +22,12 @@ services:
         ipv4_address: 172.19.6.66
       outgoing:
         ipv4_address: 172.19.6.130
+      net-loki:
+        ipv4_address: 172.19.7.3
     tmpfs:
       - /tmp
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "Monitoring"
       homepage.name: "Grafana"
       homepage.icon: "grafana.png"
@@ -54,6 +57,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    labels:
+      alloy.enable_logging: "true"
 
 networks:
   prom-grafana:
@@ -70,3 +75,5 @@ networks:
       config:
         - subnet: 172.19.6.128/26
           gateway: 172.19.6.129
+  net-loki:
+    external: true

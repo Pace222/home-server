@@ -21,6 +21,7 @@ services:
       outgoing:
         ipv4_address: 172.19.3.130
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "Internal"
       homepage.name: "Pi-hole"
       homepage.icon: "pi-hole.png"

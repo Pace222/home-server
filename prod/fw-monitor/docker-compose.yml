@@ -20,7 +20,7 @@ services:
       homepage.name: "Firewall Monitoring"
       homepage.icon: "firewalla.png"
       homepage.description: "Monitor firewall logs and send alerts."
-      homepage.weight: "3"
+      homepage.weight: "7"
 
 networks:
   net-fw-monitor:

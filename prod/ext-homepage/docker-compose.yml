@@ -29,6 +29,7 @@ services:
       outgoing:
         ipv4_address: 172.18.2.130
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "External"
       homepage.name: "External Homepage"
       homepage.icon: "homepage.png"
@@ -47,6 +48,8 @@ services:
     networks:
       internal:
         ipv4_address: 172.18.2.67
+    labels:
+      alloy.enable_logging: "true"
 
 networks:
   net-ext-homepage:

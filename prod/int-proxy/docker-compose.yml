@@ -32,6 +32,7 @@ services:
       outgoing:
         ipv4_address: 172.19.0.130
     labels:
+      alloy.enable_logging: "true"
       homepage.group: "Internal"
       homepage.name: "Caddy Reverse Proxy"
       homepage.icon: "caddy.png"

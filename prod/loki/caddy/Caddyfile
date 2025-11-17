@@ -1,0 +1,13 @@
+import /etc/caddy-configs/*
+
+http://loki:3100 {
+    log
+
+    route {
+        import authenticate {
+            vars ignore me
+        }
+
+        reverse_proxy loki-instance:3100
+    }
+}

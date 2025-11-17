@@ -147,6 +147,7 @@ create_networks() {
     docker network create --internal --subnet=172.19.4.0/25 --gateway=172.19.4.1 net-ddclient
     docker network create --internal --subnet=172.19.5.0/24 --gateway=172.19.5.1 net-fw-monitor
     docker network create --internal --subnet=172.19.6.0/26 --gateway=172.19.6.1 net-grafana
+    docker network create --internal --subnet=172.19.7.0/26 --gateway=172.19.7.1 net-loki
 
     # Communication with Prometheus
     docker network create --internal --subnet=172.21.1.0/24 --gateway=172.21.1.1 prom-wg
