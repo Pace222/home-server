@@ -35,7 +35,7 @@ services:
   alloy:
     image: grafana/alloy:v1.11.3
     container_name: alloy
-    # user: 2197:2197 # Can't run without it
+    user: 0:0 # required to read docker socket
     read_only: true
     restart: unless-stopped
     depends_on:

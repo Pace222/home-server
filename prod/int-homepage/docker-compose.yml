@@ -39,6 +39,7 @@ services:
   int-dockerproxy:
     image: tecnativa/docker-socket-proxy:v0.4.1
     container_name: int-dockerproxy
+    user: 0:0 # required to read docker socket
     restart: unless-stopped
     environment:
       CONTAINERS: 1
