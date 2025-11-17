@@ -1,17 +1,19 @@
 services:
-  loki-instance:
+  loki:
     image: grafana/loki:3.5.8
     command:
       - "-config.file=/etc/loki/config.yml"
-    container_name: loki-instance
+    container_name: loki
     user: 1197:1197
     read_only: true
     restart: unless-stopped
     volumes:
       - ./loki-config.yml:/etc/loki/config.yml:ro
-      - ${SLOW_VOLUMES:?}/loki-instance/data:/loki
+      - ${SLOW_VOLUMES:?}/loki/data:/loki
     networks:
-      loki-proxy:
+      net-loki:
+        ipv4_address: 172.19.7.2
+      alloy-loki:
         ipv4_address: 172.19.7.66
     healthcheck:
       test:
@@ -30,48 +32,21 @@ services:
       homepage.description: "Centralized log aggregation system."
       homepage.weight: "3"
 
-  loki:
-    image: caddy:2.10.2-alpine
-    container_name: loki
-    user: 2197:2197
-    read_only: true
-    restart: unless-stopped
-    depends_on:
-      loki-instance:
-        condition: service_healthy
-    environment:
-      MY_DOMAIN: "${MY_DOMAIN:?}"
-    volumes:
-      - ./caddy:/etc/caddy:ro
-      - ../../utils/caddy:/etc/caddy-configs:ro
-      - ${FAST_VOLUMES:?}/loki/caddy-data:/data
-      - ${FAST_VOLUMES:?}/loki/caddy-config:/config
-    networks:
-      net-loki:
-        ipv4_address: 172.19.7.2
-      loki-proxy:
-        ipv4_address: 172.19.7.67
-      outgoing:
-        ipv4_address: 172.19.7.130
-      alloy-loki:
-        ipv4_address: 172.19.7.194
-
   alloy:
     image: grafana/alloy:v1.11.3
     container_name: alloy
-    # user: 3197:3197 # Can't run without it
+    # user: 2197:2197 # Can't run without it
     read_only: true
     restart: unless-stopped
     depends_on:
-      - loki
-    env_file:
-      - ${SECRETS_DIR:?}/alloy/.env
+      loki:
+        condition: service_healthy
     volumes:
       - ./config.alloy:/etc/alloy/config.alloy:ro
       - /run/rootlesskit/docker.socket:/var/run/docker.sock:ro
     networks:
       alloy-loki:
-        ipv4_address: 172.19.7.195
+        ipv4_address: 172.19.7.67
     tmpfs:
       - /var/lib/alloy/data
     labels:
@@ -85,18 +60,8 @@ services:
 networks:
   net-loki:
     external: true
-  loki-proxy:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.7.64/26
-  outgoing:
-    ipam:
-      config:
-        - subnet: 172.19.7.128/26
-          gateway: 172.19.7.129
   alloy-loki:
     internal: true
     ipam:
       config:
-        - subnet: 172.19.7.192/26
+        - subnet: 172.19.7.64/26

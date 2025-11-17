@@ -29,9 +29,5 @@ loki.source.docker "default" {
 loki.write "local" {
   endpoint {
     url = "http://loki:3100/loki/api/v1/push"
-    basic_auth {
-      username = sys.env("ALLOY_LOKI_USERNAME")
-      password = sys.env("ALLOY_LOKI_PASSWORD")
-    }
   }
 }
