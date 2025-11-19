@@ -1,0 +1,38 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server:2025.10.5-java21-alpine
+    container_name: minecraft
+    user: 186:186
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/minecraft/.env
+    environment:
+      EULA: "true"
+      TZ: "Europe/Zurich"
+      ENABLE_ROLLING_LOGS: "true"
+      LOG_TIMESTAMP: "true"
+      SERVER_NAME: "Pace's Minecraft Server"
+      ENABLE_WHITELIST: "true"
+      EXISTING_WHITELIST_FILE: "SYNCHRONIZE"
+      EXISTING_OPS_FILE: "SYNCHRONIZE"
+    ports:
+      - "${HOST_IP:?}:25565:25565/tcp"
+    volumes:
+      - ${SLOW_VOLUMES:?}/minecraft/data:/data
+    networks:
+      outgoing:
+        ipv4_address: 172.18.6.130
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Games"
+      homepage.name: "Minecraft Server"
+      homepage.icon: "minecraft.png"
+      homepage.description: "A Minecraft server running the latest Java edition."
+
+networks:
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.6.0/24
+          gateway: 172.18.6.129

@@ -146,6 +146,22 @@ cs2.{$MY_DOMAIN} {
     }
 }
 
+mc.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN} permanent
+    }
+}
+
 mta-sts.{$MY_DOMAIN} {
     import security
     import no-crawl-no-index
