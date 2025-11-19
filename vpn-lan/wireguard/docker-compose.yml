@@ -1,0 +1,36 @@
+services:
+  wireguard:
+    image: linuxserver/wireguard:1.0.20250521
+    container_name: wireguard
+    user: 0:0 # required
+    read_only: true
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    env_file:
+      - ${SECRETS_DIR:?}/wireguard/.env
+    environment:
+      # PUID: "911" # default user of linuxserver images, nonmodifiable because read_only: true
+      # PGID: "1001" # default user of linuxserver images, nonmodifiable because read_only: true
+      TZ: "Europe/Zurich"
+      SERVERURL: "vpn.${MY_DOMAIN:?}"
+      SERVERPORT: "51820"
+    ports:
+      - "${HOST_IP:?}:51820:51820/udp"
+    volumes:
+      - ${SLOW_VOLUMES:?}/wireguard/config:/config:ro
+    networks:
+      outgoing:
+        ipv4_address: 172.20.0.130
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+      net.ipv4.ip_forward: 1
+    tmpfs:
+      - /run:exec
+
+networks:
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.129
