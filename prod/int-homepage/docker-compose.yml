@@ -27,6 +27,8 @@ services:
         ipv4_address: 172.19.2.66
       outgoing:
         ipv4_address: 172.19.2.130
+    extra_hosts:
+      - "pihole.${MY_DOMAIN:?}=172.19.2.2" # Resolve pihole to int-proxy otherwise firewall blocks it
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Internal"
