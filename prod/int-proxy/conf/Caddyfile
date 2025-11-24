@@ -1,4 +1,18 @@
 {
+    log loki {
+        format json {
+            time_format iso8601
+        }
+    }
+
+    log telegram {
+        output net int-tele-bot:5000 {
+            soft_start
+        }
+
+        include http.log.access
+    }
+
     metrics {
         per_host
     }
