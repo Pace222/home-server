@@ -1,0 +1,120 @@
+www.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN}{uri} permanent
+    }
+}
+
+vpn.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN} permanent
+    }
+}
+
+cs2.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN} permanent
+    }
+}
+
+mc.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        redir https://{$MY_DOMAIN} permanent
+    }
+}
+
+mta-sts.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    import csp {
+        vars ignore me
+    }
+
+    route {
+        respond /.well-known/mta-sts.txt <<EOF
+            version: STSv1
+            mode: enforce
+            mx: mailserver.purelymail.com
+            max_age: 86400
+
+            EOF 200
+
+        error 404
+    }
+}
+
+csp-reports.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+
+    route {
+        import csp {
+            vars ignore me
+        }
+
+        @new-report {
+            path /
+            method POST
+        }
+        handle @new-report {
+            log_append report {http.request.body}
+            respond 200
+        }
+
+        @wrong-path not path /
+        handle @wrong-path {
+            error 404
+        }
+
+        # Wrong method (i.e., not POST)
+        handle {
+            error 405
+        }
+    }
+}
