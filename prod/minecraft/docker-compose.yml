@@ -10,6 +10,7 @@ services:
     environment:
       EULA: "true"
       TZ: "Europe/Zurich"
+      MEMORY: "8G"
       ENABLE_ROLLING_LOGS: "true"
       LOG_TIMESTAMP: "true"
       SERVER_NAME: "Pace's Minecraft Server"
