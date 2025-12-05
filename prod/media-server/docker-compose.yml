@@ -1,0 +1,37 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.3
+    container_name: jellyfin
+    user: 1187:65537 # host's `media` <-> container's 65537
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/jellyfin/config:/config
+      - ${FAST_VOLUMES:?}/media-server/jellyfin/cache:/cache
+      - ${STORAGE_DIR:?}/media-server/media:/media:ro
+    networks:
+      prom-jellyfin:
+        ipv4_address: 172.21.8.3
+      net-ext-media:
+        ipv4_address: 172.18.7.4
+      jellyfin-out:
+        ipv4_address: 172.18.7.130
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Jellyfin"
+      homepage.icon: "jellyfin.png"
+      homepage.description: "Jellyfin is a free software media system that puts you in control of managing and streaming your media."
+
+networks:
+  prom-jellyfin:
+    external: true
+  net-ext-media:
+    external: true
+  jellyfin-out:
+    ipam:
+      config:
+        - subnet: 172.18.7.128/30
+          gateway: 172.18.7.129

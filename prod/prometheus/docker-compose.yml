@@ -27,6 +27,8 @@ services:
         ipv4_address: 172.21.6.2
       prom-node-exporter:
         ipv4_address: 172.21.7.2
+      prom-jellyfin:
+        ipv4_address: 172.21.8.2
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Monitoring"
@@ -49,4 +51,6 @@ networks:
   prom-cadvisor:
     external: true
   prom-node-exporter:
+    external: true
+  prom-jellyfin:
     external: true

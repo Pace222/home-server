@@ -113,3 +113,33 @@ dabloon.{$MY_DOMAIN} {
     }
 }
 
+tv.{$MY_DOMAIN} {
+    header >X-Frame-Options SAMEORIGIN
+
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import csp {
+            vars {
+                csp-form-action "'self' auth.{$MY_DOMAIN}"
+                csp-frame-ancestors "'self'"
+                csp-script-src "'self' blob: 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-img-src "'self' data: https://cdn.jsdelivr.net/"
+                csp-media-src "'self' blob:"
+            }
+        }
+
+        # Prometheus reaches the endpoint by bypassing Caddy
+        error /metrics 403
+
+        reverse_proxy jellyfin:8096 {
+            import forward-proxy-error
+        }
+    }
+}

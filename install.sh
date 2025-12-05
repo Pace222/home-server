@@ -6,6 +6,7 @@ set -e
 # Constants
 SSHD_CONFIG="/etc/ssh/sshd_config"
 JOURNALD_CONFIG="/etc/systemd/journald.conf"
+MAIN_USER="pace"
 ROOTLESS_USER="dockeruser"
 
 check_is_root() {
@@ -89,7 +90,7 @@ install_docker() {
 
         # https://cmtops.dev/posts/rootless-docker-in-multiuser-environment/
         useradd -m -s $(which nologin) "$ROOTLESS_USER"
-        groupadd -U "$ROOTLESS_USER" rootlesskit
+        groupadd -U "$MAIN_USER","$ROOTLESS_USER" rootlesskit
         loginctl enable-linger "$ROOTLESS_USER"
         machinectl shell "$ROOTLESS_USER"@ /bin/bash -c 'dockerd-rootless-setuptool.sh install'
         echo "net.ipv4.ip_unprivileged_port_start=0" >> /etc/sysctl.d/10-unprivileged-ports.conf
@@ -108,7 +109,7 @@ install_docker() {
         echo "Firewall rules set up."
 
         echo "You should reboot the system to apply all changes for rootless Docker."
-        echo "You can add your user to the 'rootlesskit' group and run 'docker context create rootless --docker host=unix:///run/rootlesskit/docker.socket' to use rootless Docker."
+        echo "Then run 'docker context create rootless --docker host=unix:///run/rootlesskit/docker.socket' to use rootless Docker."
     fi
 
     echo "Docker successfully installed!"
@@ -143,6 +144,8 @@ create_networks() {
     docker network create --internal --subnet=172.18.4.0/26 --gateway=172.18.4.1 net-authentik
     # 172.18.5.0/24 used by CS2
     # 172.18.6.0/24 used by Minecraft
+    docker network create --internal --subnet=172.18.7.0/29 --gateway=172.18.7.1 net-ext-media
+
     # Internal subnet
     docker network create --internal --subnet=172.19.2.0/26 --gateway=172.19.2.1 net-int-homepage
     docker network create --internal --subnet=172.19.3.0/25 --gateway=172.19.3.1 net-pihole
@@ -159,6 +162,19 @@ create_networks() {
     docker network create --internal --subnet=172.21.5.0/24 --gateway=172.21.5.1 prom-grafana
     docker network create --internal --subnet=172.21.6.0/24 --gateway=172.21.6.1 prom-cadvisor
     docker network create --internal --subnet=172.21.7.0/24 --gateway=172.21.7.1 prom-node-exporter
+    docker network create --internal --subnet=172.21.8.0/24 --gateway=172.21.8.1 prom-jellyfin
+}
+
+add_media_group() {
+    # Add media group
+    echo "Adding media group..."
+
+    echo "$ROOTLESS_USER:1003:1" >> /etc/subuid # Such that host's  user `media` (UID 1003) is mapped to a non-nobody  user in rootless Docker
+    echo "$ROOTLESS_USER:1003:1" >> /etc/subgid # Such that host's group `media` (GID 1003) is mapped to a non-nobody group in rootless Docker
+    useradd -m media -u 1003 -s /sbin/nologin
+    usermod -aG media "$MAIN_USER"
+
+    echo "Media group successfully added!"
 }
 
 restart_ssh() {
@@ -211,6 +227,12 @@ main() {
     read -r create_networks_answer
     if [[ "$create_networks_answer" == "y" ]]; then
         create_networks
+    fi
+
+    echo "Do you want to add the media group? (y/n)"
+    read -r add_media_group_answer
+    if [[ "$add_media_group_answer" == "y" ]]; then
+        add_media_group
     fi
 
     if [[ "$setup_ssh_answer" == "y" ]]; then

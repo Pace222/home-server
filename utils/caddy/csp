@@ -29,11 +29,14 @@
         @img-src-set not vars {vars.csp-img-src} ""
         vars @img-src-set csp-img-src-full "img-src {vars.csp-img-src}; "
 
+        @media-src-set not vars {vars.csp-media-src} ""
+        vars @media-src-set csp-media-src-full "media-src {vars.csp-media-src}; "
+
         @connect-src-set not vars {vars.csp-connect-src} ""
         vars @connect-src-set csp-connect-src-full "connect-src {vars.csp-connect-src}; "
 
 
-        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-connect-src-full}"
+        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}"
         import csp-impl {vars.csp-header}
     }
 }

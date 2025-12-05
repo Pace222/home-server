@@ -22,3 +22,5 @@ docker compose -f fw-monitor/docker-compose.yml up -d
 docker compose -f ddclient/docker-compose.yml up -d
 
 docker compose -f minecraft/docker-compose.yml up -d
+
+docker compose -f media-server/docker-compose.yml up -d
