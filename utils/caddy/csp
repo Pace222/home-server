@@ -35,8 +35,10 @@
         @connect-src-set not vars {vars.csp-connect-src} ""
         vars @connect-src-set csp-connect-src-full "connect-src {vars.csp-connect-src}; "
 
+        @font-src-set not vars {vars.csp-font-src} ""
+        vars @font-src-set csp-font-src-full "font-src {vars.csp-font-src}; "
 
-        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}"
+        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}{vars.csp-font-src-full}"
         import csp-impl {vars.csp-header}
     }
 }

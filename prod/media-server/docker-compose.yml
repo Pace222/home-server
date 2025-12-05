@@ -25,13 +25,46 @@ services:
       homepage.icon: "jellyfin.png"
       homepage.description: "Jellyfin is a free software media system that puts you in control of managing and streaming your media."
 
+  radarr:
+    image: ghcr.io/hotio/radarr:release-6.0.4.10291
+    container_name: radarr
+    # user: 2187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    environment:
+      PUID: "2187"
+      PGID: "65537" # host's `media` <-> container's 65537
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/radarr/config:/config
+      - ${STORAGE_DIR:?}/media-server:/data
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.4
+      radarr-out:
+        ipv4_address: 172.19.8.130
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Radarr"
+      homepage.icon: "radarr.png"
+      homepage.description: "Radarr is a movie collection manager for Usenet and BitTorrent users."
+
 networks:
   prom-jellyfin:
     external: true
   net-ext-media:
+    external: true
+  net-int-media:
     external: true
   jellyfin-out:
     ipam:
       config:
         - subnet: 172.18.7.128/30
           gateway: 172.18.7.129
+  radarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.128/30
+          gateway: 172.19.8.129

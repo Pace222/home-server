@@ -105,3 +105,32 @@ grafana.{$MY_DOMAIN} {
         }
     }
 }
+
+radarr.{$MY_DOMAIN} {
+    header -Cross-Origin-Embedder-Policy
+
+    import security
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import authenticate {
+            vars ignore me
+        }
+
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-img-src "'self' data: image.tmdb.org"
+                csp-font-src "'self' data:"
+            }
+        }
+
+        reverse_proxy radarr:7878 {
+            import forward-proxy-error
+        }
+    }
+}

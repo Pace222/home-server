@@ -16,12 +16,12 @@
 
         # referrer privacy
         >Referrer-Policy no-referrer
-
-        # disable other websites to load my resources
-        ?Cross-Origin-Resource-Policy same-origin
-        ?Cross-Origin-Embedder-Policy require-corp
-        ?Cross-Origin-Opener-Policy same-origin
     }
+    # Splitting up default headers into separate directives: https://caddy.community/t/about-setting-headers-in-header-block/26500/2
+    # disable other websites to load my resources
+    header ?Cross-Origin-Resource-Policy same-origin
+    header ?Cross-Origin-Embedder-Policy require-corp
+    header ?Cross-Origin-Opener-Policy same-origin
 
     route /.well-known/security.txt {
         respond <<EOF
