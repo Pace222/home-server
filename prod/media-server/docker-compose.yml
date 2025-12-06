@@ -31,6 +31,8 @@ services:
     # user: 2187:65537 # set below
     # read_only: true # doesn't work otherwise
     restart: unless-stopped
+    depends_on:
+      - prowlarr
     environment:
       PUID: "2187"
       PGID: "65537" # host's `media` <-> container's 65537
@@ -51,6 +53,30 @@ services:
       homepage.icon: "radarr.png"
       homepage.description: "Radarr is a movie collection manager for Usenet and BitTorrent users."
 
+  prowlarr:
+    image: ghcr.io/hotio/prowlarr:release-2.3.0.5236
+    container_name: prowlarr
+    # user: 3187:3187 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    environment:
+      PUID: "3187"
+      PGID: "3187"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/prowlarr/config:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.5
+      prowlarr-out:
+        ipv4_address: 172.19.8.134
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Prowlarr"
+      homepage.icon: "prowlarr.png"
+      homepage.description: "Prowlarr is a indexer manager/proxy for Usenet and BitTorrent indexers."
+
 networks:
   prom-jellyfin:
     external: true
@@ -68,3 +94,8 @@ networks:
       config:
         - subnet: 172.19.8.128/30
           gateway: 172.19.8.129
+  prowlarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.132/30
+          gateway: 172.19.8.133

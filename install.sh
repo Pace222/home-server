@@ -144,7 +144,7 @@ create_networks() {
     docker network create --internal --subnet=172.18.4.0/26 --gateway=172.18.4.1 net-authentik
     # 172.18.5.0/24 used by CS2
     # 172.18.6.0/24 used by Minecraft
-    docker network create --internal --subnet=172.18.7.0/29 --gateway=172.18.7.1 net-ext-media
+    docker network create --internal --subnet=172.18.7.0/28 --gateway=172.18.7.1 net-ext-media
 
     # Internal subnet
     docker network create --internal --subnet=172.19.2.0/26 --gateway=172.19.2.1 net-int-homepage
@@ -153,7 +153,7 @@ create_networks() {
     docker network create --internal --subnet=172.19.5.0/24 --gateway=172.19.5.1 net-fw-monitor
     docker network create --internal --subnet=172.19.6.0/26 --gateway=172.19.6.1 net-grafana
     docker network create --internal --subnet=172.19.7.0/26 --gateway=172.19.7.1 net-loki
-    docker network create --internal --subnet=172.19.8.0/29 --gateway=172.19.8.1 net-int-media
+    docker network create --internal --subnet=172.19.8.0/28 --gateway=172.19.8.1 net-int-media
 
     # Communication with Prometheus
     docker network create --internal --subnet=172.21.1.0/24 --gateway=172.21.1.1 prom-wg
