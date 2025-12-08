@@ -33,6 +33,7 @@ services:
     restart: unless-stopped
     depends_on:
       - prowlarr
+      - qbittorrent
     environment:
       PUID: "2187"
       PGID: "65537" # host's `media` <-> container's 65537
@@ -101,6 +102,32 @@ services:
       homepage.icon: "flaresolverr.png"
       homepage.description: "FlareSolverr is a proxy server to bypass Cloudflare's anti-bot page using headless browsers."
 
+  qbittorrent:
+    image: ghcr.io/hotio/qbittorrent:release-5.1.4
+    container_name: qbittorrent
+    # user: 5187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    environment:
+      PUID: "5187"
+      PGID: "65537" # host's `media` <-> container's 65537
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/qbittorrent/config:/config
+      - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.6
+      qbittorrent-out:
+        ipv4_address: 172.19.8.142
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "qBittorrent"
+      homepage.icon: "qbittorrent.png"
+      homepage.description: "qBittorrent is a free and reliable P2P BitTorrent client."
+
 networks:
   prom-jellyfin:
     external: true
@@ -134,3 +161,8 @@ networks:
       config:
         - subnet: 172.19.8.136/30
           gateway: 172.19.8.137
+  qbittorrent-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.140/30
+          gateway: 172.19.8.141

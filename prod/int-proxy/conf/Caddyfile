@@ -160,3 +160,25 @@ prowlarr.{$MY_DOMAIN} {
         }
     }
 }
+
+torrents.{$MY_DOMAIN} {
+    import security
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import authenticate {
+            vars ignore me
+        }
+
+        import csp {
+            vars ignore me
+        }
+
+        reverse_proxy qbittorrent:8080 {
+            import forward-proxy-error
+        }
+    }
+}
