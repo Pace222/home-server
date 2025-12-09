@@ -33,7 +33,7 @@ services:
     restart: unless-stopped
     depends_on:
       - prowlarr
-      - qbittorrent
+      - qui
     environment:
       PUID: "2187"
       PGID: "65537" # host's `media` <-> container's 65537
@@ -117,8 +117,8 @@ services:
       - ${SLOW_VOLUMES:?}/media-server/qbittorrent/config:/config
       - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents
     networks:
-      net-int-media:
-        ipv4_address: 172.19.8.6
+      qui-qbittorrent:
+        ipv4_address: 172.19.8.26
       qbittorrent-out:
         ipv4_address: 172.19.8.142
     labels:
@@ -127,6 +127,35 @@ services:
       homepage.name: "qBittorrent"
       homepage.icon: "qbittorrent.png"
       homepage.description: "qBittorrent is a free and reliable P2P BitTorrent client."
+
+  qui:
+    image: ghcr.io/autobrr/qui:v1.10.0
+    container_name: qui
+    user: 6187:6187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - qbittorrent
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/qui/.env
+    environment:
+      # OIDC-related configuration is set in the .env file
+      QUI__OIDC_ENABLED: "true"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/qui/config:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.6
+      qui-qbittorrent:
+        ipv4_address: 172.19.8.27
+      qui-out:
+        ipv4_address: 172.19.8.146
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "qui"
+      homepage.icon: "qui.png"
+      homepage.description: "qui is a UI upgrade for managing qBittorrent."
 
 networks:
   prom-jellyfin:
@@ -141,6 +170,12 @@ networks:
       config:
         - subnet: 172.19.8.16/29
           gateway: 172.19.8.17
+  qui-qbittorrent:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.24/29
+          gateway: 172.19.8.25
   jellyfin-out:
     ipam:
       config:
@@ -166,3 +201,8 @@ networks:
       config:
         - subnet: 172.19.8.140/30
           gateway: 172.19.8.141
+  qui-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.144/30
+          gateway: 172.19.8.145
