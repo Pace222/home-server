@@ -65,3 +65,4 @@ networks:
     ipam:
       config:
         - subnet: 172.19.7.64/26
+          gateway: 172.19.7.65
