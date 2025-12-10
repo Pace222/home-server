@@ -4,6 +4,8 @@
     reverse_proxy /outpost.goauthentik.io/* https://auth.{$MY_DOMAIN} {
         # Upstream is HTTPS
         header_up Host {upstream_hostport}
+        # Remove auth's response CSP header to not interfere with the requested origin
+        header_down -Content-Security-Policy
     }
 
     # https://caddyserver.com/docs/caddyfile/directives/forward_auth#expanded-form
@@ -25,6 +27,8 @@
         # headers already set by reverse_proxy
         header_up X-Forwarded-Method {method}
         header_up X-Forwarded-Uri {uri}
+        # Remove auth's response CSP header to not interfere with the requested origin
+        header_down -Content-Security-Policy
 
         # On a successful response, copy response headers
         @good status 2xx

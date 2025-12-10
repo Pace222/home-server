@@ -99,9 +99,9 @@ dabloon.{$MY_DOMAIN} {
 
         import csp {
             vars {
-                csp-default-src "'self' 'auth.{$MY_DOMAIN}'"
-                csp-script-src "'self' 'auth.{$MY_DOMAIN}' 'unsafe-inline' 'unsafe-eval'"
-                csp-style-src "'self' 'auth.{$MY_DOMAIN}' 'unsafe-inline'"
+                csp-default-src "'self' auth.{$MY_DOMAIN}"
+                csp-script-src "'self' auth.{$MY_DOMAIN} 'unsafe-inline' 'unsafe-eval'"
+                csp-style-src "'self' auth.{$MY_DOMAIN} 'unsafe-inline'"
             }
         }
 
