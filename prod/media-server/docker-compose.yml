@@ -45,6 +45,8 @@ services:
     networks:
       net-int-media:
         ipv4_address: 172.19.8.4
+      seerr-radarr:
+        ipv4_address: 172.18.7.18
       radarr-out:
         ipv4_address: 172.19.8.130
     labels:
@@ -157,6 +159,40 @@ services:
       homepage.icon: "qui.png"
       homepage.description: "qui is a UI upgrade for managing qBittorrent."
 
+  seerr:
+    image: fallenbagel/jellyseerr:preview-OIDC
+    container_name: seerr
+    user: 7187:7187
+    read_only: true
+    init: true
+    restart: unless-stopped
+    depends_on:
+      - jellyfin
+      - radarr
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/seerr/config:/app/config
+    networks:
+      net-ext-media:
+        ipv4_address: 172.18.7.5
+      seerr-radarr:
+        ipv4_address: 172.18.7.19
+      seerr-out:
+        ipv4_address: 172.18.7.134
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Seerr"
+      homepage.icon: "jellyseerr.png"
+      homepage.description: "Seerr is a media request and management system for Jellyfin."
+
 networks:
   prom-jellyfin:
     external: true
@@ -176,6 +212,12 @@ networks:
       config:
         - subnet: 172.19.8.24/29
           gateway: 172.19.8.25
+  seerr-radarr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.7.16/29
+          gateway: 172.18.7.17
   jellyfin-out:
     ipam:
       config:
@@ -206,3 +248,8 @@ networks:
       config:
         - subnet: 172.19.8.144/30
           gateway: 172.19.8.145
+  seerr-out:
+    ipam:
+      config:
+        - subnet: 172.18.7.132/30
+          gateway: 172.18.7.133

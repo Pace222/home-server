@@ -143,3 +143,28 @@ tv.{$MY_DOMAIN} {
         }
     }
 }
+
+requests.tv.{$MY_DOMAIN} {
+    header -Cross-Origin-Embedder-Policy
+
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import csp {
+            vars {
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-img-src "'self' data: image.tmdb.org gravatar.com"
+                csp-font-src "'self' fonts.gstatic.com"
+            }
+        }
+
+        reverse_proxy seerr:5055 {
+            import forward-proxy-error
+        }
+    }
+}
