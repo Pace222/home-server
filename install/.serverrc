@@ -17,6 +17,7 @@ alias fast_volumes="cd $FAST_VOLUMES"
 alias storage="cd $STORAGE_DIR"
 
 # Networking
+export LAN_SUBNET="..."
 export HOST_IP="..."
 export OPNSENSE_SUBNET_IP="..."
 export PROXMOX_IP="..."

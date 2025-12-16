@@ -119,6 +119,25 @@ services:
       PGID: "65537" # host's `media` <-> container's 65537
       UMASK: "002"
       TZ: "Europe/Zurich"
+      ### VPN CONFIGURATION BELOW ###
+      VPN_ENABLED: true
+      VPN_CONF: wg0
+      VPN_PROVIDER: proton
+      VPN_LAN_NETWORK: ${LAN_SUBNET:?}
+      VPN_LAN_LEAK_ENABLED: false
+      VPN_AUTO_PORT_FORWARD: true
+      VPN_PORT_REDIRECTS:
+      VPN_HEALTHCHECK_ENABLED: true
+      VPN_NAMESERVERS:
+      PRIVOXY_ENABLED: false
+      UNBOUND_ENABLED: false
+      UNBOUND_NAMESERVERS:
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+      net.ipv6.conf.all.disable_ipv6: 1
+    ### VPN CONFIGURATION ABOVE ###
     volumes:
       - ${SLOW_VOLUMES:?}/media-server/qbittorrent/config:/config
       - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents
