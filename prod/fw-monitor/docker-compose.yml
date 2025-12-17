@@ -4,6 +4,8 @@ services:
     image: fw-monitor
     container_name: fw-monitor
     user: 195:195
+    group_add:
+      - 65538 # host's `adm` <-> container's 65538
     read_only: true
     restart: unless-stopped
     environment:

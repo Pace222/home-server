@@ -174,6 +174,7 @@ add_media_group() {
     echo "$ROOTLESS_USER:1003:1" >> /etc/subgid # Such that host's group `media` (GID 1003) is mapped to a non-nobody group in rootless Docker
     useradd -m media -u 1003 -s /sbin/nologin
     usermod -aG media "$MAIN_USER"
+    echo "$ROOTLESS_USER:4:1" >> /etc/subgid    # Such that host's group `adm` (GID 4) is mapped to a non-nobody group in rootless Docker
 
     echo "Media group successfully added!"
 }
