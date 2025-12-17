@@ -17,10 +17,10 @@ docker compose -f ext-homepage/docker-compose.yml down
 docker compose -f authentik/docker-compose.yml down
 docker compose -f ext-proxy/docker-compose.yml down
 
-docker compose -f pihole/docker-compose.yml down
-
 docker compose -f telegram-bot/docker-compose.yml down
 
 docker compose -f monitoring/docker-compose.yml down
 docker compose -f prometheus/docker-compose.yml down
 docker compose -f loki/docker-compose.yml down
+
+docker compose -f pihole/docker-compose.yml down

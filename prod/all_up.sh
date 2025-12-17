@@ -1,13 +1,13 @@
 #!/bin/sh
 set -e
 
+docker compose -f pihole/docker-compose.yml up -d
+
 docker compose -f loki/docker-compose.yml up -d
 docker compose -f prometheus/docker-compose.yml up -d
 docker compose -f monitoring/docker-compose.yml up -d
 
 docker compose -f telegram-bot/docker-compose.yml up -d
-
-docker compose -f pihole/docker-compose.yml up -d
 
 docker compose -f ext-proxy/docker-compose.yml up -d
 docker compose -f authentik/docker-compose.yml up -d
