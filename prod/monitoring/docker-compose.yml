@@ -26,7 +26,7 @@ services:
     image: quay.io/prometheus/node-exporter:v1.9.1
     command: "--path.rootfs=/host"
     container_name: node-exporter
-    user: 217:217
+    user: 2217:2217
     read_only: true
     restart: unless-stopped
     pid: "host"

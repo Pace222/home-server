@@ -41,6 +41,7 @@ services:
     image: tecnativa/docker-socket-proxy:v0.4.1
     container_name: ext-dockerproxy
     user: 0:0 # required to read docker socket
+    read_only: true
     restart: unless-stopped
     environment:
       CONTAINERS: 1
@@ -49,6 +50,9 @@ services:
     networks:
       internal:
         ipv4_address: 172.18.2.67
+    tmpfs:
+      - /run
+      - /tmp
     labels:
       alloy.enable_logging: "true"
 
