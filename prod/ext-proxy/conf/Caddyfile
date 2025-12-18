@@ -99,9 +99,9 @@ dabloon.{$MY_DOMAIN} {
 
         import csp {
             vars {
-                csp-default-src "'self' auth.{$MY_DOMAIN}"
-                csp-script-src "'self' auth.{$MY_DOMAIN} 'unsafe-inline' 'unsafe-eval'"
-                csp-style-src "'self' auth.{$MY_DOMAIN} 'unsafe-inline'"
+                csp-default-src "'self' auth.{$PROD_DOMAIN}"
+                csp-script-src "'self' auth.{$PROD_DOMAIN} 'unsafe-inline' 'unsafe-eval'"
+                csp-style-src "'self' auth.{$PROD_DOMAIN} 'unsafe-inline'"
             }
         }
 
@@ -126,7 +126,7 @@ tv.{$MY_DOMAIN} {
     route {
         import csp {
             vars {
-                csp-form-action "'self' auth.{$MY_DOMAIN}"
+                csp-form-action "'self' auth.{$PROD_DOMAIN}"
                 csp-frame-ancestors "'self'"
                 csp-script-src "'self' blob: 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"

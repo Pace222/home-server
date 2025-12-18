@@ -1,3 +1,4 @@
+export PROD_DOMAIN="..."
 export MY_DOMAIN="..."
 
 # Directories

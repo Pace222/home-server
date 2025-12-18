@@ -1,7 +1,7 @@
 (authenticate) {
     {block}
 
-    reverse_proxy /outpost.goauthentik.io/* https://auth.{$MY_DOMAIN} {
+    reverse_proxy /outpost.goauthentik.io/* https://auth.{$PROD_DOMAIN} {
         # Upstream is HTTPS
         header_up Host {upstream_hostport}
         # Remove auth's response CSP header to not interfere with the requested origin
@@ -9,7 +9,7 @@
     }
 
     # https://caddyserver.com/docs/caddyfile/directives/forward_auth#expanded-form
-    reverse_proxy https://auth.{$MY_DOMAIN} {
+    reverse_proxy https://auth.{$PROD_DOMAIN} {
         # Upstream is HTTPS
         header_up Host {upstream_hostport}
 
