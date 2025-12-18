@@ -84,7 +84,7 @@ services:
       homepage.group: "Media"
       homepage.name: "Prowlarr"
       homepage.icon: "prowlarr.png"
-      homepage.description: "Prowlarr is a indexer manager/proxy for Usenet and BitTorrent indexers."
+      homepage.description: "Prowlarr is an indexer manager/proxy for Usenet and BitTorrent indexers."
       homepage.weight: "3"
 
   flaresolverr:
