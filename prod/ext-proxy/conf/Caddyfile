@@ -114,8 +114,6 @@ dabloon.{$MY_DOMAIN} {
 }
 
 tv.{$MY_DOMAIN} {
-    header >X-Frame-Options SAMEORIGIN
-
     import security
     import no-crawl-no-index
     import error-handling
@@ -127,7 +125,7 @@ tv.{$MY_DOMAIN} {
         import csp {
             vars {
                 csp-form-action "'self' auth.{$PROD_DOMAIN}"
-                csp-frame-ancestors "'self'"
+                csp-frame-ancestors "'self'" # SSO plugin requires Jellyfin to frame itself
                 csp-script-src "'self' blob: 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' data: https://cdn.jsdelivr.net/"
