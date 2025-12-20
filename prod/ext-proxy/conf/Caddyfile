@@ -117,6 +117,8 @@ dabloon.{$MY_DOMAIN} {
 }
 
 tv.{$MY_DOMAIN} {
+    header -Cross-Origin-Embedder-Policy # Necessary to frame YouTube, which itself does not set COEP
+
     import security
     import no-crawl-no-index
     import error-handling
@@ -129,11 +131,11 @@ tv.{$MY_DOMAIN} {
             vars {
                 csp-form-action "'self' auth.{$PROD_DOMAIN}"
                 csp-frame-ancestors "'self'" # SSO plugin requires Jellyfin to frame itself
-                csp-script-src "'self' blob: 'unsafe-inline'"
+                csp-script-src "'self' blob: www.youtube.com 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "*" # Jellyfin plugin descriptions display arbitrary images
                 csp-media-src "'self' blob:"
-                csp-frame-src "'self' requests.tv.{$MY_DOMAIN} auth.{$PROD_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
+                csp-frame-src "'self' www.youtube.com requests.tv.{$MY_DOMAIN} auth.{$PROD_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
             }
         }
 
