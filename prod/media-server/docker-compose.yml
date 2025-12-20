@@ -255,6 +255,12 @@ networks:
     external: true
   net-int-media:
     external: true
+  seerr-radarr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.7.16/29
+          gateway: 172.18.7.17
   prowlarr-flaresolverr:
     internal: true
     ipam:
@@ -267,17 +273,16 @@ networks:
       config:
         - subnet: 172.19.8.24/29
           gateway: 172.19.8.25
-  seerr-radarr:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.18.7.16/29
-          gateway: 172.18.7.17
   jellyfin-out:
     ipam:
       config:
         - subnet: 172.18.7.128/30
           gateway: 172.18.7.129
+  seerr-out:
+    ipam:
+      config:
+        - subnet: 172.18.7.132/30
+          gateway: 172.18.7.133
   radarr-out:
     ipam:
       config:
@@ -303,11 +308,6 @@ networks:
       config:
         - subnet: 172.19.8.144/30
           gateway: 172.19.8.145
-  seerr-out:
-    ipam:
-      config:
-        - subnet: 172.18.7.132/30
-          gateway: 172.18.7.133
   recyclarr-out:
     ipam:
       config:
