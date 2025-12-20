@@ -62,6 +62,8 @@ import /etc/caddy/Caddyfile-chore
 }
 
 auth.{$MY_DOMAIN} {
+    header >Cross-Origin-Resource-Policy same-site # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
+
     import security
     import no-crawl-no-index
     import error-handling
@@ -72,6 +74,7 @@ auth.{$MY_DOMAIN} {
     route {
         import csp {
             vars {
+                csp-frame-ancestors "tv.{$MY_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
                 csp-script-src "'self' 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' data:"
@@ -130,6 +133,7 @@ tv.{$MY_DOMAIN} {
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' data: https://cdn.jsdelivr.net/"
                 csp-media-src "'self' blob:"
+                csp-frame-src "'self' requests.tv.{$MY_DOMAIN} auth.{$PROD_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
             }
         }
 
@@ -144,6 +148,7 @@ tv.{$MY_DOMAIN} {
 
 requests.tv.{$MY_DOMAIN} {
     header -Cross-Origin-Embedder-Policy
+    header >Cross-Origin-Resource-Policy same-site # Requests tab in Jellyfin requires to frame Seerr
 
     import security
     import no-crawl-no-index
@@ -155,6 +160,7 @@ requests.tv.{$MY_DOMAIN} {
     route {
         import csp {
             vars {
+                csp-frame-ancestors "tv.{$MY_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' data: image.tmdb.org gravatar.com"
                 csp-font-src "'self' fonts.gstatic.com"

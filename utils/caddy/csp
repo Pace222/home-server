@@ -38,7 +38,11 @@
         @font-src-set not vars {vars.csp-font-src} ""
         vars @font-src-set csp-font-src-full "font-src {vars.csp-font-src}; "
 
-        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}{vars.csp-font-src-full}"
+        @frame-src-set not vars {vars.csp-frame-src} ""
+        vars @frame-src-set csp-frame-src-full "frame-src {vars.csp-frame-src}; "
+
+
+        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}{vars.csp-font-src-full}{vars.csp-frame-src-full}"
         import csp-impl {vars.csp-header}
     }
 }
