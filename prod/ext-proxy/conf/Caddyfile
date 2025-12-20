@@ -147,7 +147,7 @@ tv.{$MY_DOMAIN} {
 }
 
 requests.tv.{$MY_DOMAIN} {
-    header -Cross-Origin-Embedder-Policy
+    header >Cross-Origin-Embedder-Policy credentialless # Load images that do not set CORP
     header >Cross-Origin-Resource-Policy same-site # Requests tab in Jellyfin requires to frame Seerr
 
     import security

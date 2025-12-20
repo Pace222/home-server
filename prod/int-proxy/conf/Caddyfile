@@ -107,7 +107,7 @@ grafana.{$MY_DOMAIN} {
 }
 
 radarr.{$MY_DOMAIN} {
-    header -Cross-Origin-Embedder-Policy
+    header >Cross-Origin-Embedder-Policy credentialless # Load images that do not set CORP
 
     import security
     import error-handling
