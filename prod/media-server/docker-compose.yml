@@ -44,7 +44,7 @@ services:
       net-ext-media:
         ipv4_address: 172.18.7.5
       seerr-radarr:
-        ipv4_address: 172.18.7.19
+        ipv4_address: 172.19.8.35
       seerr-out:
         ipv4_address: 172.18.7.134
     healthcheck:
@@ -82,7 +82,7 @@ services:
       net-int-media:
         ipv4_address: 172.19.8.4
       seerr-radarr:
-        ipv4_address: 172.18.7.18
+        ipv4_address: 172.19.8.34
       radarr-out:
         ipv4_address: 172.19.8.130
     labels:
@@ -261,8 +261,8 @@ networks:
     internal: true
     ipam:
       config:
-        - subnet: 172.18.7.16/29
-          gateway: 172.18.7.17
+        - subnet: 172.19.8.32/29
+          gateway: 172.19.8.33
   prowlarr-flaresolverr:
     internal: true
     ipam:
