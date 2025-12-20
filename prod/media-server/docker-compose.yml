@@ -26,6 +26,41 @@ services:
       homepage.description: "Jellyfin is a free software media system that puts you in control of managing and streaming your media."
       homepage.weight: "1"
 
+  seerr:
+    image: fallenbagel/jellyseerr:preview-OIDC
+    container_name: seerr
+    user: 7187:7187
+    read_only: true
+    init: true
+    restart: unless-stopped
+    depends_on:
+      - jellyfin
+      - radarr
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/seerr/config:/app/config
+    networks:
+      net-ext-media:
+        ipv4_address: 172.18.7.5
+      seerr-radarr:
+        ipv4_address: 172.18.7.19
+      seerr-out:
+        ipv4_address: 172.18.7.134
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Seerr"
+      homepage.icon: "jellyseerr.png"
+      homepage.description: "Seerr is a media request and management system for Jellyfin."
+      homepage.weight: "1.5"
+
   radarr:
     image: ghcr.io/hotio/radarr:release-6.0.4.10291
     container_name: radarr
@@ -57,6 +92,35 @@ services:
       homepage.icon: "radarr.png"
       homepage.description: "Radarr is a movie collection manager for Usenet and BitTorrent users."
       homepage.weight: "2"
+
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:7.5.2
+    container_name: recyclarr
+    user: 8187:8187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - radarr
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/recyclarr/.env
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${CONFIGS_DIR:?}/media-server/recyclarr:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.7
+      recyclarr-out:
+        ipv4_address: 172.19.8.150
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Recyclarr"
+      homepage.icon: "recyclarr.png"
+      homepage.description: "Recyclarr is a tool to update and sync your Radarr and Sonarr custom formats."
+      homepage.weight: "2.5"
 
   prowlarr:
     image: ghcr.io/hotio/prowlarr:release-2.3.0.5236
@@ -184,69 +248,7 @@ services:
       homepage.description: "qui is a UI upgrade for managing qBittorrent."
       homepage.weight: "6"
 
-  seerr:
-    image: fallenbagel/jellyseerr:preview-OIDC
-    container_name: seerr
-    user: 7187:7187
-    read_only: true
-    init: true
-    restart: unless-stopped
-    depends_on:
-      - jellyfin
-      - radarr
-    environment:
-      TZ: "Europe/Zurich"
-    volumes:
-      - ${SLOW_VOLUMES:?}/media-server/seerr/config:/app/config
-    networks:
-      net-ext-media:
-        ipv4_address: 172.18.7.5
-      seerr-radarr:
-        ipv4_address: 172.18.7.19
-      seerr-out:
-        ipv4_address: 172.18.7.134
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
-      start_period: 20s
-      timeout: 3s
-      interval: 15s
-      retries: 3
-    labels:
-      alloy.enable_logging: "true"
-      homepage.group: "Media"
-      homepage.name: "Seerr"
-      homepage.icon: "jellyseerr.png"
-      homepage.description: "Seerr is a media request and management system for Jellyfin."
-      homepage.weight: "1.5"
 
-  recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:7.5.2
-    container_name: recyclarr
-    user: 8187:8187
-    read_only: true
-    restart: unless-stopped
-    depends_on:
-      - radarr
-    env_file:
-      - ${SECRETS_DIR:?}/media-server/recyclarr/.env
-    environment:
-      TZ: "Europe/Zurich"
-    volumes:
-      - ${CONFIGS_DIR:?}/media-server/recyclarr:/config
-    networks:
-      net-int-media:
-        ipv4_address: 172.19.8.7
-      recyclarr-out:
-        ipv4_address: 172.19.8.150
-    tmpfs:
-      - /tmp
-    labels:
-      alloy.enable_logging: "true"
-      homepage.group: "Media"
-      homepage.name: "Recyclarr"
-      homepage.icon: "recyclarr.png"
-      homepage.description: "Recyclarr is a tool to update and sync your Radarr and Sonarr custom formats."
-      homepage.weight: "2.5"
 
 networks:
   prom-jellyfin:
@@ -288,6 +290,11 @@ networks:
       config:
         - subnet: 172.19.8.128/30
           gateway: 172.19.8.129
+  recyclarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.148/30
+          gateway: 172.19.8.149
   prowlarr-out:
     ipam:
       config:
@@ -308,8 +315,3 @@ networks:
       config:
         - subnet: 172.19.8.144/30
           gateway: 172.19.8.145
-  recyclarr-out:
-    ipam:
-      config:
-        - subnet: 172.19.8.148/30
-          gateway: 172.19.8.149
