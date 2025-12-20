@@ -10,6 +10,7 @@ services:
       - ${SECRETS_DIR:?}/int-proxy/.env
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
+      PROD_DOMAIN: "${PROD_DOMAIN:?}"
     ports:
       - "${HOST_IP:?}:80:80"
       - "${HOST_IP:?}:443:443/tcp"
