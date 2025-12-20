@@ -219,6 +219,35 @@ services:
       homepage.description: "Seerr is a media request and management system for Jellyfin."
       homepage.weight: "1.5"
 
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:7.5.2
+    container_name: recyclarr
+    user: 8187:8187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - radarr
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/recyclarr/.env
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${CONFIGS_DIR:?}/media-server/recyclarr:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.7
+      recyclarr-out:
+        ipv4_address: 172.19.8.150
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Recyclarr"
+      homepage.icon: "recyclarr.png"
+      homepage.description: "Recyclarr is a tool to update and sync your Radarr and Sonarr custom formats."
+      homepage.weight: "2.5"
+
 networks:
   prom-jellyfin:
     external: true
@@ -279,3 +308,8 @@ networks:
       config:
         - subnet: 172.18.7.132/30
           gateway: 172.18.7.133
+  recyclarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.148/30
+          gateway: 172.19.8.149
