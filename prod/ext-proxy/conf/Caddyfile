@@ -131,7 +131,7 @@ tv.{$MY_DOMAIN} {
                 csp-frame-ancestors "'self'" # SSO plugin requires Jellyfin to frame itself
                 csp-script-src "'self' blob: 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
-                csp-img-src "'self' data: https://cdn.jsdelivr.net/"
+                csp-img-src "*" # Jellyfin plugin descriptions display arbitrary images
                 csp-media-src "'self' blob:"
                 csp-frame-src "'self' requests.tv.{$MY_DOMAIN} auth.{$PROD_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
             }
