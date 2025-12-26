@@ -133,9 +133,9 @@ tv.{$MY_DOMAIN} {
             vars {
                 csp-form-action "'self' auth.{$PROD_DOMAIN}"
                 csp-empty-frame-ancestors SET # To be framed in Jellyfin WebOS
-                csp-script-src "'self' blob: www.youtube.com 'unsafe-inline'"
+                csp-script-src "'self' blob: https://www.gstatic.com https://www.youtube.com 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
-                csp-img-src "*" # Jellyfin plugin descriptions display arbitrary images
+                csp-img-src "'self' https://*" # Jellyfin plugin descriptions display arbitrary images
                 csp-media-src "'self' blob:"
                 csp-frame-src "'self' www.youtube.com requests.tv.{$MY_DOMAIN} auth.{$PROD_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
             }
