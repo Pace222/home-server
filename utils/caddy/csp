@@ -18,7 +18,10 @@
 
         @frame-ancestors-not-set vars {vars.csp-frame-ancestors} ""
         vars @frame-ancestors-not-set csp-frame-ancestors "'none'"
-        vars csp-frame-ancestors-full "frame-ancestors {vars.csp-frame-ancestors}; "
+        @empty-frame-ancestors-set not vars {vars.csp-empty-frame-ancestors} ""
+        vars @empty-frame-ancestors-set csp-frame-ancestors ""
+        @frame-ancestors-set not vars {vars.csp-frame-ancestors} ""
+        vars @frame-ancestors-set csp-frame-ancestors-full "frame-ancestors {vars.csp-frame-ancestors}; "
 
         @script-src-set not vars {vars.csp-script-src} ""
         vars @script-src-set csp-script-src-full "script-src {vars.csp-script-src}; "

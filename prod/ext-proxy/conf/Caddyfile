@@ -62,6 +62,7 @@ import /etc/caddy/Caddyfile-chore
 }
 
 auth.{$MY_DOMAIN} {
+    header -X-Frame-Options # To be framed in Jellyfin WebOS
     header >Cross-Origin-Resource-Policy same-site # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
 
     import security
@@ -74,7 +75,7 @@ auth.{$MY_DOMAIN} {
     route {
         import csp {
             vars {
-                csp-frame-ancestors "tv.{$MY_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
+                csp-empty-frame-ancestors SET # To be framed in Jellyfin WebOS
                 csp-script-src "'self' 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' data:"
@@ -117,6 +118,7 @@ dabloon.{$MY_DOMAIN} {
 }
 
 tv.{$MY_DOMAIN} {
+    header -X-Frame-Options # To be framed in Jellyfin WebOS
     header -Cross-Origin-Embedder-Policy # Necessary to frame YouTube, which itself does not set COEP
 
     import security
@@ -130,7 +132,7 @@ tv.{$MY_DOMAIN} {
         import csp {
             vars {
                 csp-form-action "'self' auth.{$PROD_DOMAIN}"
-                csp-frame-ancestors "'self'" # SSO plugin requires Jellyfin to frame itself
+                csp-empty-frame-ancestors SET # To be framed in Jellyfin WebOS
                 csp-script-src "'self' blob: www.youtube.com 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "*" # Jellyfin plugin descriptions display arbitrary images
