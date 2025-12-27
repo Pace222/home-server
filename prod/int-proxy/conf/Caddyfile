@@ -135,6 +135,32 @@ radarr.{$MY_DOMAIN} {
     }
 }
 
+sonarr.{$MY_DOMAIN} {
+    import security
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import authenticate {
+            vars ignore me
+        }
+
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-img-src "'self' data:"
+            }
+        }
+
+        reverse_proxy sonarr:8989 {
+            import forward-proxy-error
+        }
+    }
+}
+
 prowlarr.{$MY_DOMAIN} {
     import security
     import error-handling

@@ -45,6 +45,8 @@ services:
         ipv4_address: 172.18.7.5
       seerr-radarr:
         ipv4_address: 172.19.8.35
+      seerr-sonarr:
+        ipv4_address: 172.19.8.43
       seerr-out:
         ipv4_address: 172.18.7.134
     healthcheck:
@@ -92,6 +94,38 @@ services:
       homepage.icon: "radarr.png"
       homepage.description: "Radarr is a movie collection manager for Usenet and BitTorrent users."
       homepage.weight: "2"
+
+  sonarr:
+    image: ghcr.io/hotio/sonarr:release-4.0.16.2944
+    container_name: sonarr
+    # user: 9187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    depends_on:
+      - prowlarr
+      - qui
+    environment:
+      PUID: "9187"
+      PGID: "65537" # host's `media` <-> container's 65537
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/sonarr/config:/config
+      - ${STORAGE_DIR:?}/media-server:/data
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.8
+      seerr-sonarr:
+        ipv4_address: 172.19.8.42
+      sonarr-out:
+        ipv4_address: 172.19.8.154
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Sonarr"
+      homepage.icon: "sonarr.png"
+      homepage.description: "Sonarr is a TV series collection manager for Usenet and BitTorrent users."
+      homepage.weight: "2.25"
 
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:7.5.2
@@ -263,6 +297,12 @@ networks:
       config:
         - subnet: 172.19.8.32/29
           gateway: 172.19.8.33
+  seerr-sonarr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.40/29
+          gateway: 172.19.8.41
   prowlarr-flaresolverr:
     internal: true
     ipam:
@@ -290,6 +330,11 @@ networks:
       config:
         - subnet: 172.19.8.128/30
           gateway: 172.19.8.129
+  sonarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.152/30
+          gateway: 172.19.8.153
   recyclarr-out:
     ipam:
       config:
