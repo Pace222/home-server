@@ -10,6 +10,8 @@ services:
       TZ: "Europe/Zurich"
       FTLCONF_webserver_api_password: ""
       FTLCONF_dns_listeningMode: "all"
+      FTLCONF_dns_rateLimit_count: "0"
+      FTLCONF_dns_rateLimit_interval: "0"
     ports:
       - "${HOST_IP:?}:53:53/tcp"
       - "${HOST_IP:?}:53:53/udp"
