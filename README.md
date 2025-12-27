@@ -8,12 +8,17 @@
 - [WireGuard](/vpn-lan/wireguard) (vpn.pierugo.ch): A VPN server that allows to connect to the home network securely from anywhere in the world.
 - [Minecraft Server](/prod/minecraft) (mc.pierugo.ch): A Minecraft server that I host for me and my friends to play together.
 - [CS2 Server](/prod/cs2) (cs2.pierugo.ch): A Counter-Strike 2 server that I (also) host for me and my friends to play together.
+- [Jellyfin](/prod/media-server) (https://tv.pierugo.ch): A media server that allows to stream my personal collection of movies and TV shows to any device.
+- [Seerr](/prod/media-server) (https://requests.tv.pierugo.ch): A media request and management system that integrates with Jellyfin to allow users to request new content and manage their media library.
 
 ## Available only from my home network or VPN
 
 - [Internal Homepage](/prod/homepage) (https://home.pierugo.ch): A more comprehensive homepage, displaying links also for internal services.
 - [Pi-hole](/prod/pihole) (https://pihole.pierugo.ch): A DNS sinkhole that blocks ads and trackers at the network level. It also serves as a DNS server to resolve local hostnames.
 - [Grafana](/prod/grafana) (https://grafana.pierugo.ch): A monitoring dashboard that collects and visualizes metrics from various services running on my home server.
+- [Radarr/Sonarr](/prod/media-server) (https://radarr.pierugo.ch, https://sonarr.pierugo.ch): Automated media downloaders that integrate with my media server to automatically download movies and TV shows based on my preferences.
+- [Prowlarr](/prod/media-server) (https://prowlarr.pierugo.ch): An indexer manager that integrates with Radarr and Sonarr to manage and organize the various indexers used for media downloads.
+- [qBittorrent](/prod/media-server) (https://torrents.pierugo.ch): A torrent client that I use to download media files, which are then automatically organized and added to my media server by Radarr and Sonarr.
 
 ## Internal services
 
