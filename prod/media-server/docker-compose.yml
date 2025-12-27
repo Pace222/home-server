@@ -36,6 +36,7 @@ services:
     depends_on:
       - jellyfin
       - radarr
+      - sonarr
     environment:
       TZ: "Europe/Zurich"
     volumes:
@@ -135,6 +136,7 @@ services:
     restart: unless-stopped
     depends_on:
       - radarr
+      - sonarr
     env_file:
       - ${SECRETS_DIR:?}/media-server/recyclarr/.env
     environment:
