@@ -209,3 +209,31 @@ torrents.{$MY_DOMAIN} {
         }
     }
 }
+
+huntarr.{$MY_DOMAIN} {
+    import security
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import authenticate {
+            vars ignore me
+        }
+
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' https://cdnjs.cloudflare.com 'unsafe-inline'"
+                csp-img-src "'self' https://avatars.githubusercontent.com"
+                csp-connect-src "'self' https://api.github.com"
+                csp-font-src "'self' https://cdnjs.cloudflare.com"
+            }
+        }
+
+        reverse_proxy huntarr:9705 {
+            import forward-proxy-error
+        }
+    }
+}

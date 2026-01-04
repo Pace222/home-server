@@ -128,6 +128,35 @@ services:
       homepage.description: "Sonarr is a TV series collection manager for Usenet and BitTorrent users."
       homepage.weight: "225"
 
+  huntarr:
+    image: ghcr.io/plexguide/huntarr:8.2.10
+    container_name: huntarr
+    user: 10187:10187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - radarr
+      - sonarr
+      - prowlarr
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/huntarr/config:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.9
+      huntarr-out:
+        ipv4_address: 172.19.8.158
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Huntarr"
+      homepage.icon: "huntarr.png"
+      homepage.description: "Huntarr continually searches your media libraries for missing content and items that need quality upgrades."
+      homepage.weight: "237"
+
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:7.5.2
     container_name: recyclarr
@@ -362,3 +391,8 @@ networks:
       config:
         - subnet: 172.19.8.144/30
           gateway: 172.19.8.145
+  huntarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.156/30
+          gateway: 172.19.8.157
