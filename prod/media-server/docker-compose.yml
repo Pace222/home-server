@@ -17,7 +17,7 @@ services:
       - /tmp
       - /var/run/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       start_period: 20s
       interval: 30s
       retries: 5
@@ -114,7 +114,7 @@ services:
       - /tmp
       - /var/run/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
       start_period: 20s
       interval: 30s
       retries: 5
