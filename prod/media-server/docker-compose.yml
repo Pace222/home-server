@@ -331,6 +331,7 @@ services:
     volumes:
       - ${SLOW_VOLUMES:?}/media-server/qbittorrent/config:/config
       - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents
+      - ${SLOW_NOSNAP:?}/autobrr-torrents:/data/autobrr-torrents
     networks:
       qui-qbittorrent:
         ipv4_address: 172.19.8.26
@@ -374,7 +375,39 @@ services:
       homepage.description: "qui is a UI upgrade for managing qBittorrent."
       homepage.weight: "600"
 
-
+  autobrr:
+    image: ghcr.io/autobrr/autobrr:v1.72.1
+    container_name: autobrr
+    user: 13187:13187
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/autobrr/.env
+    environment:
+      # OIDC-related configuration is set in the .env file
+      AUTOBRR__OIDC_ENABLED: "true"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/autobrr/config:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.11
+      autobrr-out:
+        ipv4_address: 172.19.8.162
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:7474/api/healthz/readiness"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "autobrr"
+      homepage.icon: "autobrr.png"
+      homepage.description: "autobrr is a torrent automation tool to keep a high seeding ratio on private trackers."
+      homepage.weight: "700"
 
 networks:
   prom-jellyfin:
@@ -427,6 +460,11 @@ networks:
       config:
         - subnet: 172.19.8.152/30
           gateway: 172.19.8.153
+  huntarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.156/30
+          gateway: 172.19.8.157
   recyclarr-out:
     ipam:
       config:
@@ -452,8 +490,8 @@ networks:
       config:
         - subnet: 172.19.8.144/30
           gateway: 172.19.8.145
-  huntarr-out:
+  autobrr-out:
     ipam:
       config:
-        - subnet: 172.19.8.156/30
-          gateway: 172.19.8.157
+        - subnet: 172.19.8.160/30
+          gateway: 172.19.8.161
