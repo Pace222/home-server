@@ -33,3 +33,15 @@ scrape_configs:
   - job_name: "jellyfin"
     static_configs:
       - targets: ["jellyfin:8096"]
+
+  - job_name: "flaresolverr"
+    static_configs:
+      - targets: ["flaresolverr:8192"]
+
+  - job_name: "qui"
+    static_configs:
+      - targets: ["qui:9074"]
+
+  - job_name: "autobrr"
+    static_configs:
+      - targets: ["autobrr:9074"]

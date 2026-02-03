@@ -285,7 +285,10 @@ services:
     restart: unless-stopped
     environment:
       TZ: "Europe/Zurich"
+      PROMETHEUS_ENABLED: "true"
     networks:
+      prom-flaresolverr:
+        ipv4_address: 172.21.9.3
       prowlarr-flaresolverr:
         ipv4_address: 172.19.8.19
       flaresolverr-out:
@@ -358,9 +361,13 @@ services:
     environment:
       # OIDC-related configuration is set in the .env file
       QUI__OIDC_ENABLED: "true"
+      QUI__METRICS_ENABLED: "true"
+      QUI__METRICS_HOST: "172.21.10.3"
     volumes:
       - ${SLOW_VOLUMES:?}/media-server/qui/config:/config
     networks:
+      prom-qui:
+        ipv4_address: 172.21.10.3
       net-int-media:
         ipv4_address: 172.19.8.6
       qui-qbittorrent:
@@ -386,9 +393,13 @@ services:
     environment:
       # OIDC-related configuration is set in the .env file
       AUTOBRR__OIDC_ENABLED: "true"
+      AUTOBRR__METRICS_ENABLED: "true"
+      AUTOBRR__METRICS_HOST: "172.21.11.3"
     volumes:
       - ${SLOW_VOLUMES:?}/media-server/autobrr/config:/config
     networks:
+      prom-autobrr:
+        ipv4_address: 172.21.11.3
       net-int-media:
         ipv4_address: 172.19.8.11
       autobrr-out:
@@ -411,6 +422,12 @@ services:
 
 networks:
   prom-jellyfin:
+    external: true
+  prom-flaresolverr:
+    external: true
+  prom-qui:
+    external: true
+  prom-autobrr:
     external: true
   net-ext-media:
     external: true
