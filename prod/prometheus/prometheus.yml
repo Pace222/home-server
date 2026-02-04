@@ -45,3 +45,7 @@ scrape_configs:
   - job_name: "autobrr"
     static_configs:
       - targets: ["autobrr:9074"]
+
+  - job_name: "scraparr"
+    static_configs:
+      - targets: ["scraparr:7100"]

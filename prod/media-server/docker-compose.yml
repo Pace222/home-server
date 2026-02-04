@@ -77,6 +77,8 @@ services:
         ipv4_address: 172.19.8.35
       seerr-sonarr:
         ipv4_address: 172.19.8.43
+      seerr-scraparr:
+        ipv4_address: 172.19.8.51
       seerr-out:
         ipv4_address: 172.18.7.134
     healthcheck:
@@ -420,6 +422,35 @@ services:
       homepage.description: "autobrr is a torrent automation tool to keep a high seeding ratio on private trackers."
       homepage.weight: "700"
 
+  scraparr:
+    image: ghcr.io/thecfu/scraparr:2.2.5
+    container_name: scraparr
+    user: 14187:14187
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/scraparr/.env
+    environment:
+      GENERAL_ADDRESS: "172.21.12.3"
+      RADARR_URL: "http://radarr:7878"
+      SONARR_URL: "http://sonarr:8989"
+      PROWLARR_URL: "http://prowlarr:9696"
+      JELLYSEERR_URL: "http://seerr:5055"
+    networks:
+      prom-scraparr:
+        ipv4_address: 172.21.12.3
+      net-int-media:
+        ipv4_address: 172.19.8.12
+      seerr-scraparr:
+        ipv4_address: 172.19.8.50
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Monitoring"
+      homepage.name: "Scraparr"
+      homepage.icon: "sh-scraparr.png"
+      homepage.description: "Scraparr is a Prometheus exporter for the *arr stack."
+      homepage.weight: "800"
+
 networks:
   prom-jellyfin:
     external: true
@@ -428,6 +459,8 @@ networks:
   prom-qui:
     external: true
   prom-autobrr:
+    external: true
+  prom-scraparr:
     external: true
   net-ext-media:
     external: true
@@ -445,6 +478,12 @@ networks:
       config:
         - subnet: 172.19.8.40/29
           gateway: 172.19.8.41
+  seerr-scraparr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.48/29
+          gateway: 172.19.8.49
   prowlarr-flaresolverr:
     internal: true
     ipam:
