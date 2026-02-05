@@ -168,6 +168,7 @@ create_networks() {
     docker network create --internal --subnet=172.21.10.0/24 --gateway=172.21.10.1 prom-qui
     docker network create --internal --subnet=172.21.11.0/24 --gateway=172.21.11.1 prom-autobrr
     docker network create --internal --subnet=172.21.12.0/24 --gateway=172.21.12.1 prom-scraparr
+    docker network create --internal --subnet=172.21.13.0/24 --gateway=172.21.13.1 prom-int-homepage
 }
 
 add_media_group() {

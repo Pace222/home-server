@@ -37,12 +37,16 @@ services:
         ipv4_address: 172.21.11.2
       prom-scraparr:
         ipv4_address: 172.21.12.2
+      prom-int-homepage:
+        ipv4_address: 172.21.13.2
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Monitoring"
       homepage.name: "Prometheus"
       homepage.icon: "prometheus.png"
       homepage.description: "Monitoring system and time series database."
+      homepage.instance.internal.widget.type: "prometheus"
+      homepage.instance.internal.widget.url: "http://prometheus:9090"
       homepage.weight: "2"
 
 networks:
@@ -69,4 +73,6 @@ networks:
   prom-autobrr:
     external: true
   prom-scraparr:
+    external: true
+  prom-int-homepage:
     external: true

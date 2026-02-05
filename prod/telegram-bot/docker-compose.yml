@@ -18,7 +18,7 @@ services:
       homepage.group: "External"
       homepage.name: "Telegram Bot"
       homepage.icon: "telegram.png"
-      homepage.instance.internal.href: "${TELEGRAM_CHAT_INVITE_LINK:?}"
+      homepage.instance.internal.href: "${INT_HOMEPAGE_TELEGRAM_BOT_URL:?}"
       homepage.description: "Telegram bot for external services."
 
   int-tele-bot:
@@ -44,7 +44,7 @@ services:
       homepage.group: "Internal"
       homepage.name: "Telegram Bot"
       homepage.icon: "telegram.png"
-      homepage.instance.internal.href: "${TELEGRAM_CHAT_INVITE_LINK:?}"
+      homepage.instance.internal.href: "${INT_HOMEPAGE_TELEGRAM_BOT_URL:?}"
       homepage.description: "Telegram bot for internal services."
 
 networks:

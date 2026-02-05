@@ -40,6 +40,8 @@ services:
       homepage.name: "Caddy Reverse Proxy"
       homepage.icon: "caddy.png"
       homepage.description: "Reverse proxy for internal services."
+      homepage.instance.internal.widget.type: "caddy"
+      homepage.instance.internal.widget.url: "http://int-proxy:2019"
 
 networks:
   prom-int-caddy:

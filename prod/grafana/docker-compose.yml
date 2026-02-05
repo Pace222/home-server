@@ -31,8 +31,13 @@ services:
       homepage.group: "Monitoring"
       homepage.name: "Grafana"
       homepage.icon: "grafana.png"
-      homepage.description: "Visualization and analytics software."
       homepage.instance.internal.href: "https://grafana.${MY_DOMAIN:?}"
+      homepage.description: "Visualization and analytics software."
+      homepage.instance.internal.widget.type: "grafana"
+      homepage.instance.internal.widget.url: "https://grafana.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.version: "2"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
       homepage.weight: "1"
 
   db:

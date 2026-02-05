@@ -14,9 +14,9 @@ scrape_configs:
     static_configs:
       - targets: ["cadvisor:8080"]
 
-  - job_name: "wireguard"
-    static_configs:
-      - targets: ["wireguard:9586"]
+  #  - job_name: "wireguard"
+  #    static_configs:
+  #      - targets: ["wireguard:9586"]
 
   - job_name: "ext-proxy"
     static_configs:

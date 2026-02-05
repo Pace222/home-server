@@ -34,6 +34,8 @@ services:
       homepage.name: "Minecraft Server"
       homepage.icon: "minecraft.png"
       homepage.description: "A Minecraft server running the latest Java edition."
+      homepage.instance.internal.widget.type: "minecraft"
+      homepage.instance.internal.widget.url: "udp://mc.${MY_DOMAIN:?}:25565"
 
 networks:
   outgoing:

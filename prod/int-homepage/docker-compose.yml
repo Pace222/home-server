@@ -21,6 +21,8 @@ services:
       - ${CONFIGS_DIR:?}/webmedia/icons/homepage-favicon.ico:/app/public/favicon-32x32.png:ro
       - ${FAST_VOLUMES:?}/int-homepage/writable:/app/.next/server/pages
     networks:
+      prom-int-homepage:
+        ipv4_address: 172.21.13.3
       net-int-homepage:
         ipv4_address: 172.19.2.4
       internal:
@@ -28,7 +30,14 @@ services:
       outgoing:
         ipv4_address: 172.19.2.130
     extra_hosts:
-      - "pihole.${MY_DOMAIN:?}=172.19.2.2" # Resolve pihole to int-proxy otherwise firewall blocks it
+      # Resolve internal domains to int-proxy otherwise firewall blocks them
+      - "pihole.${MY_DOMAIN:?}=172.19.2.2"
+      - "grafana.${MY_DOMAIN:?}=172.19.2.2"
+      - "radarr.${MY_DOMAIN:?}=172.19.2.2"
+      - "sonarr.${MY_DOMAIN:?}=172.19.2.2"
+      - "prowlarr.${MY_DOMAIN:?}=172.19.2.2"
+      - "torrents.${MY_DOMAIN:?}=172.19.2.2"
+      - "autobrr.${MY_DOMAIN:?}=172.19.2.2"
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Internal"
@@ -58,6 +67,8 @@ services:
       alloy.enable_logging: "true"
 
 networks:
+  prom-int-homepage:
+    external: true
   net-int-homepage:
     external: true
   internal:

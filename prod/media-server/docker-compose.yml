@@ -49,7 +49,17 @@ services:
       homepage.group: "Media"
       homepage.name: "Jellyfin"
       homepage.icon: "jellyfin.png"
+      homepage.href: "https://tv.${MY_DOMAIN:?}"
       homepage.description: "Jellyfin is a free software media system that puts you in control of managing and streaming your media."
+      homepage.instance.internal.widget.type: "jellyfin"
+      homepage.instance.internal.widget.url: "https://tv.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_JELLYFIN_API_KEY:?}"
+      homepage.instance.internal.widget.enableBlocks: "true"
+      homepage.instance.internal.widget.enableNowPlaying: "true"
+      homepage.instance.internal.widget.enableUser: "true"
+      homepage.instance.internal.widget.enableMediaControl: "false"
+      homepage.instance.internal.widget.showEpisodeNumber: "false"
+      homepage.instance.internal.widget.expandOneStreamToTwoRows: "true"
       homepage.weight: "100"
 
   seerr:
@@ -92,7 +102,12 @@ services:
       homepage.group: "Media"
       homepage.name: "Seerr"
       homepage.icon: "jellyseerr.png"
+      homepage.href: "https://requests.tv.${MY_DOMAIN:?}"
       homepage.description: "Seerr is a media request and management system for Jellyfin."
+      homepage.instance.internal.widget.type: "jellyseerr"
+      homepage.instance.internal.widget.url: "https://requests.tv.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_SEERR_API_KEY:?}"
+      homepage.instance.internal.widget.fields: '["pending","approved", "issues"]'
       homepage.weight: "150"
 
   ### External services above ###
@@ -154,7 +169,13 @@ services:
       homepage.group: "Media"
       homepage.name: "Radarr"
       homepage.icon: "radarr.png"
+      homepage.instance.internal.href: "https://radarr.${MY_DOMAIN:?}"
       homepage.description: "Radarr is a movie collection manager for Usenet and BitTorrent users."
+      homepage.instance.internal.widget.type: "radarr"
+      homepage.instance.internal.widget.url: "https://radarr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_RADARR_API_KEY:?}"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
       homepage.weight: "200"
 
   sonarr:
@@ -187,7 +208,13 @@ services:
       homepage.group: "Media"
       homepage.name: "Sonarr"
       homepage.icon: "sonarr.png"
+      homepage.instance.internal.href: "https://sonarr.${MY_DOMAIN:?}"
       homepage.description: "Sonarr is a TV series collection manager for Usenet and BitTorrent users."
+      homepage.instance.internal.widget.type: "sonarr"
+      homepage.instance.internal.widget.url: "https://sonarr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_SONARR_API_KEY:?}"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
       homepage.weight: "225"
 
   huntarr:
@@ -216,6 +243,7 @@ services:
       homepage.group: "Media"
       homepage.name: "Huntarr"
       homepage.icon: "huntarr.png"
+      homepage.instance.internal.href: "https://huntarr.${MY_DOMAIN:?}"
       homepage.description: "Huntarr continually searches your media libraries for missing content and items that need quality upgrades."
       homepage.weight: "237"
 
@@ -276,7 +304,13 @@ services:
       homepage.group: "Media"
       homepage.name: "Prowlarr"
       homepage.icon: "prowlarr.png"
+      homepage.instance.internal.href: "https://prowlarr.${MY_DOMAIN:?}"
       homepage.description: "Prowlarr is an indexer manager/proxy for Usenet and BitTorrent indexers."
+      homepage.instance.internal.widget.type: "prowlarr"
+      homepage.instance.internal.widget.url: "https://prowlarr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_PROWLARR_API_KEY:?}"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
       homepage.weight: "300"
 
   flaresolverr:
@@ -381,7 +415,12 @@ services:
       homepage.group: "Media"
       homepage.name: "qui"
       homepage.icon: "qui.png"
+      homepage.instance.internal.href: "https://torrents.${MY_DOMAIN:?}"
       homepage.description: "qui is a UI upgrade for managing qBittorrent."
+      homepage.instance.internal.widget.type: "qbittorrent"
+      homepage.instance.internal.widget.url: "https://torrents.${MY_DOMAIN:?}/proxy/${INT_HOMEPAGE_QUI_API_KEY:?}"
+      homepage.instance.internal.widget.enableLeechProgress: "true"
+      homepage.instance.internal.widget.enableLeechSize: "false"
       homepage.weight: "600"
 
   autobrr:
@@ -419,7 +458,11 @@ services:
       homepage.group: "Media"
       homepage.name: "autobrr"
       homepage.icon: "autobrr.png"
+      homepage.instance.internal.href: "https://autobrr.${MY_DOMAIN:?}"
       homepage.description: "autobrr is a torrent automation tool to keep a high seeding ratio on private trackers."
+      homepage.instance.internal.widget.type: "autobrr"
+      homepage.instance.internal.widget.url: "https://autobrr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_AUTOBRR_API_KEY:?}"
       homepage.weight: "700"
 
   scraparr:
