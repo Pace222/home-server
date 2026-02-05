@@ -429,6 +429,9 @@ services:
     user: 13187:13187
     read_only: true
     restart: unless-stopped
+    depends_on:
+      - int-postgresql
+      - qui
     env_file:
       - ${SECRETS_DIR:?}/media-server/autobrr/.env
     environment:
@@ -471,6 +474,11 @@ services:
     user: 14187:14187
     read_only: true
     restart: unless-stopped
+    depends_on:
+      - radarr
+      - sonarr
+      - prowlarr
+      - seerr
     env_file:
       - ${SECRETS_DIR:?}/media-server/scraparr/.env
     environment:
