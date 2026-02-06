@@ -218,7 +218,7 @@ services:
       homepage.weight: "225"
 
   huntarr:
-    image: ghcr.io/plexguide/huntarr:8.2.10
+    image: ghcr.io/plexguide/huntarr:9.2.1
     container_name: huntarr
     user: 10187:10187
     read_only: true
