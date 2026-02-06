@@ -35,6 +35,7 @@ services:
       - "grafana.${MY_DOMAIN:?}=172.19.2.2"
       - "radarr.${MY_DOMAIN:?}=172.19.2.2"
       - "sonarr.${MY_DOMAIN:?}=172.19.2.2"
+      - "bazarr.${MY_DOMAIN:?}=172.19.2.2"
       - "prowlarr.${MY_DOMAIN:?}=172.19.2.2"
       - "torrents.${MY_DOMAIN:?}=172.19.2.2"
       - "autobrr.${MY_DOMAIN:?}=172.19.2.2"

@@ -259,3 +259,30 @@ autobrr.{$MY_DOMAIN} {
         }
     }
 }
+
+bazarr.{$MY_DOMAIN} {
+    import security
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import authenticate {
+            vars ignore me
+        }
+
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-font-src "'self' data:"
+            }
+        }
+
+        reverse_proxy bazarr:6767 {
+            import forward-proxy-error
+        }
+    }
+}
+
