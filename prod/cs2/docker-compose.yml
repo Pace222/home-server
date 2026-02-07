@@ -53,7 +53,7 @@ services:
       - "${HOST_IP:?}:27015:27015/tcp"
       - "${HOST_IP:?}:27015:27015/udp"
     volumes:
-      - ${SLOW_VOLUMES:?}/cs2/cs2-dedicated:/home/steam/cs2-dedicated
+      - ${SLOW_NOSNAP:?}/volumes/cs2/cs2-dedicated:/home/steam/cs2-dedicated
     networks:
       outgoing:
         ipv4_address: 172.18.5.130
