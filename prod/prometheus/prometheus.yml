@@ -49,3 +49,7 @@ scrape_configs:
   - job_name: "scraparr"
     static_configs:
       - targets: ["scraparr:7100"]
+
+  - job_name: "unpackerr"
+    static_configs:
+      - targets: ["unpackerr:5656"]

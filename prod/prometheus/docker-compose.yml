@@ -39,6 +39,8 @@ services:
         ipv4_address: 172.21.12.2
       prom-int-homepage:
         ipv4_address: 172.21.13.2
+      prom-unpackerr:
+        ipv4_address: 172.21.14.2
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Monitoring"
@@ -75,4 +77,6 @@ networks:
   prom-scraparr:
     external: true
   prom-int-homepage:
+    external: true
+  prom-unpackerr:
     external: true

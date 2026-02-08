@@ -282,6 +282,44 @@ services:
       homepage.description: "Recyclarr is a tool to update and sync your Radarr and Sonarr custom formats."
       homepage.weight: "250"
 
+  unpackerr:
+    image: ghcr.io/hotio/unpackerr:release-0.14.5
+    container_name: unpackerr
+    # user: 16187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    depends_on:
+      - radarr
+      - sonarr
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/unpackerr/.env
+    environment:
+      PUID: "16187"
+      PGID: "65537" # host's `media` <-> container's
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+      UN_FILE_MODE: "0664"
+      UN_DIR_MODE: "0775"
+      UN_WEBSERVER_METRICS: "true"
+      UN_WEBSERVER_LISTEN_ADDR: "172.21.14.3:5656"
+    volumes:
+      - ${CONFIGS_DIR:?}/media-server/unpackerr/webhook-templates:/templates:ro
+      - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents
+    networks:
+      prom-unpackerr:
+        ipv4_address: 172.21.14.3
+      net-int-media:
+        ipv4_address: 172.19.8.14
+      unpackerr-out:
+        ipv4_address: 172.19.8.170
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Unpackerr"
+      homepage.icon: "sh-unpackerr.png"
+      homepage.description: "Unpackerr automatically extracts downloaded archives and organizes the extracted files for Sonarr and Radarr to import."
+      homepage.weight: "267"
+
   bazarr:
     image: ghcr.io/hotio/bazarr:release-c06938f
     container_name: bazarr
@@ -559,6 +597,8 @@ networks:
     external: true
   prom-scraparr:
     external: true
+  prom-unpackerr:
+    external: true
   net-ext-media:
     external: true
   net-int-media:
@@ -623,6 +663,11 @@ networks:
       config:
         - subnet: 172.19.8.148/30
           gateway: 172.19.8.149
+  unpackerr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.168/30
+          gateway: 172.19.8.169
   bazarr-out:
     ipam:
       config:
