@@ -180,6 +180,7 @@ add_media_group() {
     useradd -m media -u 1003 -s /sbin/nologin
     usermod -aG media "$MAIN_USER"
     echo "$ROOTLESS_USER:4:1" >> /etc/subgid    # Such that host's group `adm` (GID 4) is mapped to a non-nobody group in rootless Docker
+    echo "$ROOTLESS_USER:992:1" >> /etc/subgid  # Such that host's group `render` (GID 992) is mapped to a non-nobody group in rootless Docker
 
     echo "Media group successfully added!"
 }
@@ -190,6 +191,19 @@ restart_ssh() {
     systemctl restart sshd
 
     echo "SSH service restarted successfully! (You should probably not see this message)"
+}
+
+setup_hw_accel() {
+    # Setup hardware acceleration for Jellyfin
+    echo "Installing the necessary drivers and tools for hardware acceleration for Jellyfin..."
+
+    # Add `contrib non-free` to apt sources
+    sed -i 's/^\(deb.*\)$/\1 contrib non-free/' /etc/apt/sources.list
+
+    apt-get update
+    apt-get install -y intel-gpu-tools intel-media-va-driver-non-free firmware-intel-graphics
+
+    echo "Hardware acceleration for Jellyfin successfully set up!"
 }
 
 main() {
@@ -240,6 +254,12 @@ main() {
     read -r add_media_group_answer
     if [[ "$add_media_group_answer" == "y" ]]; then
         add_media_group
+    fi
+
+    echo "Do you want to setup hardware acceleration for Jellyfin? (y/n)"
+    read -r setup_hw_accel_answer
+    if [[ "$setup_hw_accel_answer" == "y" ]]; then
+        setup_hw_accel
     fi
 
     if [[ "$setup_ssh_answer" == "y" ]]; then
