@@ -36,6 +36,7 @@ services:
     volumes:
       - ${SLOW_VOLUMES:?}/media-server/jellyfin/config:/config
       - ${FAST_VOLUMES:?}/media-server/jellyfin/cache:/cache
+      - ${FAST_NOSNAP:?}/volumes/media-server/jellyfin/cache/transcodes:/cache/transcodes
       - ${STORAGE_DIR:?}/media-server/media:/media:ro
     networks:
       prom-jellyfin:
