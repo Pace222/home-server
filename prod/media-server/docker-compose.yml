@@ -301,7 +301,7 @@ services:
       TZ: "Europe/Zurich"
     volumes:
       - ${SLOW_VOLUMES:?}/media-server/bazarr/config:/config
-      - ${STORAGE_DIR:?}/media-server:/data
+      - ${STORAGE_DIR:?}/media-server/media:/data/media
     networks:
       net-int-media:
         ipv4_address: 172.19.8.13
