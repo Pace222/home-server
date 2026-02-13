@@ -24,7 +24,7 @@ services:
       alloy.enable_logging: "true"
 
   server:
-    image: ghcr.io/goauthentik/server:2025.10.0
+    image: ghcr.io/goauthentik/server:2025.12.4
     command: server
     container_name: authentik-server
     user: 3184:184
@@ -36,8 +36,7 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
     volumes:
-      - ${SLOW_VOLUMES:?}/authentik/media:/media
-      - ${CONFIGS_DIR:?}/webmedia/images/background-image.jpg:/media/background-image.jpg:ro
+      - ${SLOW_VOLUMES:?}/authentik/data:/data
       - ${SLOW_VOLUMES:?}/authentik/templates:/templates
     networks:
       prom-authentik:
@@ -61,7 +60,7 @@ services:
       homepage.instance.internal.widget.version: "2"
 
   worker:
-    image: ghcr.io/goauthentik/server:2025.10.0
+    image: ghcr.io/goauthentik/server:2025.12.4
     command: worker
     container_name: authentik-worker
     user: 4184:184
@@ -73,8 +72,7 @@ services:
     env_file:
       - ${SECRETS_DIR:?}/authentik/.env-authentik
     volumes:
-      - ${SLOW_VOLUMES:?}/authentik/media:/media
-      - ${CONFIGS_DIR:?}/webmedia/images/background-image.jpg:/media/background-image.jpg
+      - ${SLOW_VOLUMES:?}/authentik/data:/data
       - ${SLOW_VOLUMES:?}/authentik/templates:/templates
     networks:
       internal:
