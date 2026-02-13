@@ -1,39 +1,17 @@
 include:
-  - ext-postgresql.yml
-  - jellyfin.yml
-  - seerr.yml
-  - int-postgresql.yml
-  - radarr.yml
-  - sonarr.yml
-  - huntarr.yml
-  - recyclarr.yml
-  - unpackerr.yml
-  - bazarr.yml
-  - prowlarr.yml
-  - qbittorrent.yml
-  - autobrr.yml
-  - scraparr.yml
+  - networks.yml
 
-networks:
-  net-ext-media:
-    external: true
-  net-int-media:
-    external: true
-  seerr-radarr:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.8.32/29
-          gateway: 172.19.8.33
-  seerr-sonarr:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.8.40/29
-          gateway: 172.19.8.41
-  seerr-scraparr:
-    internal: true
-    ipam:
-      config:
-        - subnet: 172.19.8.48/29
-          gateway: 172.19.8.49
+  - services/ext-postgresql.yml
+  - services/jellyfin.yml
+  - services/seerr.yml
+  - services/int-postgresql.yml
+  - services/radarr.yml
+  - services/sonarr.yml
+  - services/huntarr.yml
+  - services/recyclarr.yml
+  - services/unpackerr.yml
+  - services/bazarr.yml
+  - services/prowlarr.yml
+  - services/qbittorrent.yml
+  - services/autobrr.yml
+  - services/scraparr.yml

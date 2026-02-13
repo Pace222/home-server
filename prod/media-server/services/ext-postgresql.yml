@@ -1,18 +1,18 @@
 services:
-  int-postgresql:
+  ext-postgresql:
     image: docker.io/library/postgres:18-alpine
-    container_name: media-int-postgresql
-    user: 12187:12187
+    container_name: media-ext-postgresql
+    user: 11187:11187
     read_only: true
     restart: unless-stopped
     env_file:
-      - ${SECRETS_DIR:?}/media-server/int-postgresql/.env
+      - ${SECRETS_DIR:?}/media-server/ext-postgresql/.env
     volumes:
-      - ./postgres-initdb.d:/docker-entrypoint-initdb.d:ro
-      - ${SLOW_VOLUMES:?}/media-server/int-postgresql/data:/var/lib/postgresql
+      - ../postgres-initdb.d:/docker-entrypoint-initdb.d:ro
+      - ${SLOW_VOLUMES:?}/media-server/ext-postgresql/data:/var/lib/postgresql
     networks:
-      net-int-media:
-        ipv4_address: 172.19.8.10
+      net-ext-media:
+        ipv4_address: 172.18.7.6
     tmpfs:
       - /tmp
       - /var/run/postgresql

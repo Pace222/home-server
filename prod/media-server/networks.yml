@@ -1,0 +1,23 @@
+networks:
+  net-ext-media:
+    external: true
+  net-int-media:
+    external: true
+  seerr-radarr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.32/29
+          gateway: 172.19.8.33
+  seerr-sonarr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.40/29
+          gateway: 172.19.8.41
+  seerr-scraparr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.48/29
+          gateway: 172.19.8.49
