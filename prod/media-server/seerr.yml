@@ -1,0 +1,55 @@
+services:
+  seerr:
+    image: fallenbagel/jellyseerr:preview-OIDC
+    container_name: seerr
+    user: 7187:7187
+    read_only: true
+    init: true
+    restart: unless-stopped
+    depends_on:
+      - ext-postgresql
+      - jellyfin
+      - radarr
+      - sonarr
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/seerr/.env
+    environment:
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/seerr/config:/app/config
+    networks:
+      net-ext-media:
+        ipv4_address: 172.18.7.5
+      seerr-radarr:
+        ipv4_address: 172.19.8.35
+      seerr-sonarr:
+        ipv4_address: 172.19.8.43
+      seerr-scraparr:
+        ipv4_address: 172.19.8.51
+      seerr-out:
+        ipv4_address: 172.18.7.134
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Seerr"
+      homepage.icon: "jellyseerr.png"
+      homepage.href: "https://requests.tv.${MY_DOMAIN:?}"
+      homepage.description: "Seerr is a media request and management system for Jellyfin."
+      homepage.instance.internal.widget.type: "jellyseerr"
+      homepage.instance.internal.widget.url: "https://requests.tv.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_SEERR_API_KEY:?}"
+      homepage.instance.internal.widget.fields: '["pending","approved", "issues"]'
+      homepage.weight: "150"
+
+networks:
+  seerr-out:
+    ipam:
+      config:
+        - subnet: 172.18.7.132/30
+          gateway: 172.18.7.133

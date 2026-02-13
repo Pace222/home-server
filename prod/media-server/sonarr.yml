@@ -1,0 +1,46 @@
+services:
+  sonarr:
+    image: ghcr.io/hotio/sonarr:release-4.0.16.2944
+    container_name: sonarr
+    # user: 9187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    depends_on:
+      - int-postgresql
+      - prowlarr
+      - qui
+    environment:
+      PUID: "9187"
+      PGID: "65537" # host's `media` <-> container's 65537
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/sonarr/config:/config
+      - ${STORAGE_DIR:?}/media-server:/data
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.8
+      seerr-sonarr:
+        ipv4_address: 172.19.8.42
+      sonarr-out:
+        ipv4_address: 172.19.8.154
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Sonarr"
+      homepage.icon: "sonarr.png"
+      homepage.instance.internal.href: "https://sonarr.${MY_DOMAIN:?}"
+      homepage.description: "Sonarr is a TV series collection manager for Usenet and BitTorrent users."
+      homepage.instance.internal.widget.type: "sonarr"
+      homepage.instance.internal.widget.url: "https://sonarr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_SONARR_API_KEY:?}"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
+      homepage.weight: "225"
+
+networks:
+  sonarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.152/30
+          gateway: 172.19.8.153

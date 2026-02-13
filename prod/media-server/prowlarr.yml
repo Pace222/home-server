@@ -1,0 +1,80 @@
+services:
+  prowlarr:
+    image: ghcr.io/hotio/prowlarr:release-2.3.0.5236
+    container_name: prowlarr
+    # user: 3187:3187 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    depends_on:
+      - int-postgresql
+      - flaresolverr
+    environment:
+      PUID: "3187"
+      PGID: "3187"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/prowlarr/config:/config
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.5
+      prowlarr-flaresolverr:
+        ipv4_address: 172.19.8.18
+      prowlarr-out:
+        ipv4_address: 172.19.8.134
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Prowlarr"
+      homepage.icon: "prowlarr.png"
+      homepage.instance.internal.href: "https://prowlarr.${MY_DOMAIN:?}"
+      homepage.description: "Prowlarr is an indexer manager/proxy for Usenet and BitTorrent indexers."
+      homepage.instance.internal.widget.type: "prowlarr"
+      homepage.instance.internal.widget.url: "https://prowlarr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_PROWLARR_API_KEY:?}"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
+      homepage.weight: "300"
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:v3.4.6
+    container_name: flaresolverr
+    # user: 4187:4187 # doesn't work otherwise
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Zurich"
+      PROMETHEUS_ENABLED: "true"
+    networks:
+      prom-flaresolverr:
+        ipv4_address: 172.21.9.3
+      prowlarr-flaresolverr:
+        ipv4_address: 172.19.8.19
+      flaresolverr-out:
+        ipv4_address: 172.19.8.138
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "FlareSolverr"
+      homepage.icon: "flaresolverr.png"
+      homepage.description: "FlareSolverr is a proxy server to bypass Cloudflare's anti-bot page using headless browsers."
+      homepage.weight: "400"
+
+networks:
+  prom-flaresolverr:
+    external: true
+  prowlarr-flaresolverr:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.16/29
+          gateway: 172.19.8.17
+  prowlarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.132/30
+          gateway: 172.19.8.133
+  flaresolverr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.136/30
+          gateway: 172.19.8.137

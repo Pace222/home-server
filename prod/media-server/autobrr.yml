@@ -1,0 +1,54 @@
+services:
+  autobrr:
+    image: ghcr.io/autobrr/autobrr:v1.72.1
+    container_name: autobrr
+    user: 13187:13187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - int-postgresql
+      - qui
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/autobrr/.env
+    environment:
+      # OIDC-related configuration is set in the .env file
+      AUTOBRR__OIDC_ENABLED: "true"
+      AUTOBRR__METRICS_ENABLED: "true"
+      AUTOBRR__METRICS_HOST: "172.21.11.3"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/autobrr/config:/config
+    networks:
+      prom-autobrr:
+        ipv4_address: 172.21.11.3
+      net-int-media:
+        ipv4_address: 172.19.8.11
+      autobrr-out:
+        ipv4_address: 172.19.8.162
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:7474/api/healthz/readiness"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "autobrr"
+      homepage.icon: "autobrr.png"
+      homepage.instance.internal.href: "https://autobrr.${MY_DOMAIN:?}"
+      homepage.description: "autobrr is a torrent automation tool to keep a high seeding ratio on private trackers."
+      homepage.instance.internal.widget.type: "autobrr"
+      homepage.instance.internal.widget.url: "https://autobrr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_AUTOBRR_API_KEY:?}"
+      homepage.weight: "700"
+
+networks:
+  prom-autobrr:
+    external: true
+  autobrr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.160/30
+          gateway: 172.19.8.161

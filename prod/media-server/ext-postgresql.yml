@@ -1,0 +1,26 @@
+services:
+  ext-postgresql:
+    image: docker.io/library/postgres:18-alpine
+    container_name: media-ext-postgresql
+    user: 11187:11187
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/ext-postgresql/.env
+    volumes:
+      - ./postgres-initdb.d:/docker-entrypoint-initdb.d:ro
+      - ${SLOW_VOLUMES:?}/media-server/ext-postgresql/data:/var/lib/postgresql
+    networks:
+      net-ext-media:
+        ipv4_address: 172.18.7.6
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    labels:
+      alloy.enable_logging: "true"

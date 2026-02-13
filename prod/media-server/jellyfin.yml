@@ -1,0 +1,51 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.3
+    container_name: jellyfin
+    user: 1187:65537 # host's `media` <-> container's 65537
+    group_add:
+      - 65539 # host's `render` <-> container's 65539
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/jellyfin/config:/config
+      - ${FAST_VOLUMES:?}/media-server/jellyfin/cache:/cache
+      - ${FAST_NOSNAP:?}/volumes/media-server/jellyfin/cache/transcodes:/cache/transcodes
+      - ${STORAGE_DIR:?}/media-server/media:/media:ro
+    networks:
+      prom-jellyfin:
+        ipv4_address: 172.21.8.3
+      net-ext-media:
+        ipv4_address: 172.18.7.4
+      jellyfin-out:
+        ipv4_address: 172.18.7.130
+    tmpfs:
+      - /tmp
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Jellyfin"
+      homepage.icon: "jellyfin.png"
+      homepage.href: "https://tv.${MY_DOMAIN:?}"
+      homepage.description: "Jellyfin is a free software media system that puts you in control of managing and streaming your media."
+      homepage.instance.internal.widget.type: "jellyfin"
+      homepage.instance.internal.widget.url: "https://tv.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_JELLYFIN_API_KEY:?}"
+      homepage.instance.internal.widget.enableBlocks: "true"
+      homepage.instance.internal.widget.enableNowPlaying: "true"
+      homepage.instance.internal.widget.enableUser: "true"
+      homepage.instance.internal.widget.enableMediaControl: "false"
+      homepage.instance.internal.widget.showEpisodeNumber: "false"
+      homepage.instance.internal.widget.expandOneStreamToTwoRows: "true"
+      homepage.weight: "100"
+
+networks:
+  prom-jellyfin:
+    external: true
+  jellyfin-out:
+    ipam:
+      config:
+        - subnet: 172.18.7.128/30
+          gateway: 172.18.7.129

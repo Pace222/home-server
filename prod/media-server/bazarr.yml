@@ -1,0 +1,46 @@
+services:
+  bazarr:
+    image: ghcr.io/hotio/bazarr:release-c06938f
+    container_name: bazarr
+    # user: 15187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    depends_on:
+      - int-postgresql
+      - radarr
+      - sonarr
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/bazarr/.env
+    environment:
+      PUID: "15187"
+      PGID: "65537" # host's `media` <-> container's 65537
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/bazarr/config:/config
+      - ${STORAGE_DIR:?}/media-server/media:/data/media
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.13
+      bazarr-out:
+        ipv4_address: 172.19.8.166
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "Bazarr"
+      homepage.icon: "bazarr.png"
+      homepage.instance.internal.href: "https://bazarr.${MY_DOMAIN:?}"
+      homepage.description: "Bazarr is a companion application to Sonarr and Radarr that manages and downloads subtitles."
+      homepage.instance.internal.widget.type: "bazarr"
+      homepage.instance.internal.widget.url: "https://bazarr.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_BAZARR_API_KEY:?}"
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
+      homepage.weight: "275"
+
+networks:
+  bazarr-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.164/30
+          gateway: 172.19.8.165

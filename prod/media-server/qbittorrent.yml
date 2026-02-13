@@ -1,0 +1,106 @@
+services:
+  qbittorrent:
+    image: ghcr.io/hotio/qbittorrent:release-5.1.4
+    container_name: qbittorrent
+    # user: 5187:65537 # set below
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    environment:
+      PUID: "5187"
+      PGID: "65537" # host's `media` <-> container's 65537
+      UMASK: "002"
+      TZ: "Europe/Zurich"
+      ### VPN CONFIGURATION BELOW ###
+      VPN_ENABLED: true
+      VPN_CONF: wg0
+      VPN_PROVIDER: proton
+      VPN_LAN_NETWORK: ${LAN_SUBNET:?}
+      VPN_LAN_LEAK_ENABLED: false
+      VPN_AUTO_PORT_FORWARD: true
+      VPN_PORT_REDIRECTS:
+      VPN_HEALTHCHECK_ENABLED: true
+      VPN_NAMESERVERS:
+      PRIVOXY_ENABLED: false
+      UNBOUND_ENABLED: false
+      UNBOUND_NAMESERVERS:
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      net.ipv4.conf.all.src_valid_mark: 1
+      net.ipv6.conf.all.disable_ipv6: 1
+    ### VPN CONFIGURATION ABOVE ###
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/qbittorrent/config:/config
+      - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents
+      - ${SLOW_NOSNAP:?}/autobrr-torrents:/data/autobrr-torrents
+    networks:
+      qui-qbittorrent:
+        ipv4_address: 172.19.8.26
+      qbittorrent-out:
+        ipv4_address: 172.19.8.142
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "qBittorrent"
+      homepage.icon: "qbittorrent.png"
+      homepage.description: "qBittorrent is a free and reliable P2P BitTorrent client."
+      homepage.weight: "500"
+
+  qui:
+    image: ghcr.io/autobrr/qui:v1.10.0
+    container_name: qui
+    user: 6187:6187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - qbittorrent
+    env_file:
+      - ${SECRETS_DIR:?}/media-server/qui/.env
+    environment:
+      # OIDC-related configuration is set in the .env file
+      QUI__OIDC_ENABLED: "true"
+      QUI__METRICS_ENABLED: "true"
+      QUI__METRICS_HOST: "172.21.10.3"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/qui/config:/config
+    networks:
+      prom-qui:
+        ipv4_address: 172.21.10.3
+      net-int-media:
+        ipv4_address: 172.19.8.6
+      qui-qbittorrent:
+        ipv4_address: 172.19.8.27
+      qui-out:
+        ipv4_address: 172.19.8.146
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "qui"
+      homepage.icon: "qui.png"
+      homepage.instance.internal.href: "https://torrents.${MY_DOMAIN:?}"
+      homepage.description: "qui is a UI upgrade for managing qBittorrent."
+      homepage.instance.internal.widget.type: "qbittorrent"
+      homepage.instance.internal.widget.url: "https://torrents.${MY_DOMAIN:?}/proxy/${INT_HOMEPAGE_QUI_API_KEY:?}"
+      homepage.instance.internal.widget.enableLeechProgress: "true"
+      homepage.instance.internal.widget.enableLeechSize: "false"
+      homepage.weight: "600"
+
+networks:
+  prom-qui:
+    external: true
+  qui-qbittorrent:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.19.8.24/29
+          gateway: 172.19.8.25
+  qbittorrent-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.140/30
+          gateway: 172.19.8.141
+  qui-out:
+    ipam:
+      config:
+        - subnet: 172.19.8.144/30
+          gateway: 172.19.8.145
