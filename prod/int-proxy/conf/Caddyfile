@@ -226,7 +226,7 @@ huntarr.{$MY_DOMAIN} {
             vars {
                 csp-script-src "'self' 'unsafe-inline'"
                 csp-style-src "'self' https://cdnjs.cloudflare.com 'unsafe-inline'"
-                csp-img-src "'self' https://avatars.githubusercontent.com"
+                csp-img-src "'self' data: https://avatars.githubusercontent.com https://image.tmdb.org"
                 csp-connect-src "'self' https://api.github.com"
                 csp-font-src "'self' https://cdnjs.cloudflare.com"
             }
