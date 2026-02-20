@@ -144,9 +144,7 @@ tv.{$MY_DOMAIN} {
         # Prometheus reaches the endpoint by bypassing Caddy
         error /metrics 403
 
-        reverse_proxy jellyfin:8096 {
-            import forward-proxy-error
-        }
+        reverse_proxy jellyfin:8096
     }
 }
 
@@ -171,8 +169,6 @@ requests.tv.{$MY_DOMAIN} {
             }
         }
 
-        reverse_proxy seerr:5055 {
-            import forward-proxy-error
-        }
+        reverse_proxy seerr:5055
     }
 }
