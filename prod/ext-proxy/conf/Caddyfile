@@ -62,7 +62,6 @@ import /etc/caddy/Caddyfile-chore
 }
 
 auth.{$MY_DOMAIN} {
-    header -X-Frame-Options # To be framed in Jellyfin WebOS
     header >Cross-Origin-Resource-Policy same-site # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
 
     import security
@@ -75,7 +74,7 @@ auth.{$MY_DOMAIN} {
     route {
         import csp {
             vars {
-                csp-empty-frame-ancestors SET # To be framed in Jellyfin WebOS
+                csp-frame-ancestors "tv.{$MY_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
                 csp-script-src "'self' 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' data:"
@@ -117,8 +116,29 @@ dabloon.{$MY_DOMAIN} {
     }
 }
 
+# WebOS requires HTTP
+http://tv.{$MY_DOMAIN} {
+    header -Strict-Transport-Security
+    header -X-Frame-Options # To be framed in WebOS
+    header -Cross-Origin-Embedder-Policy # Necessary to frame YouTube, which itself does not set COEP
+
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+    encode
+
+    route {
+        # Prometheus reaches the endpoint by bypassing Caddy
+        error /metrics 403
+
+        reverse_proxy jellyfin:8096
+    }
+}
+
 tv.{$MY_DOMAIN} {
-    header -X-Frame-Options # To be framed in Jellyfin WebOS
+    header -X-Frame-Options # To be framed in WebOS
     header -Cross-Origin-Embedder-Policy # Necessary to frame YouTube, which itself does not set COEP
 
     import security
@@ -132,7 +152,7 @@ tv.{$MY_DOMAIN} {
         import csp {
             vars {
                 csp-form-action "'self' auth.{$PROD_DOMAIN}"
-                csp-empty-frame-ancestors SET # To be framed in Jellyfin WebOS
+                csp-empty-frame-ancestors SET # To be framed in WebOS
                 csp-script-src "'self' blob: https://www.gstatic.com https://www.youtube.com 'unsafe-inline'"
                 csp-style-src "'self' 'unsafe-inline'"
                 csp-img-src "'self' https://*" # Jellyfin plugin descriptions display arbitrary images
