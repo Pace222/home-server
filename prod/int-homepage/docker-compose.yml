@@ -7,7 +7,7 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - int-dockerproxy
+      - int-homepage-dockerproxy
     environment:
       PUID: "1192"
       PGID: "1192"
@@ -48,9 +48,9 @@ services:
       homepage.instance.internal.description: "This very homepage!"
       homepage.instance.external.description: "A hidden homepage... displaying more details about every service!"
 
-  int-dockerproxy:
+  int-homepage-dockerproxy:
     image: tecnativa/docker-socket-proxy:v0.4.1
-    container_name: int-dockerproxy
+    container_name: int-homepage-dockerproxy
     user: 0:0 # required to read docker socket
     read_only: true
     restart: unless-stopped
