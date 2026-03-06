@@ -44,7 +44,7 @@ services:
       homepage.group: "Internal"
       homepage.name: "Internal Homepage"
       homepage.icon: "homepage.png"
-      homepage.instance.internal.href: "https://${MY_DOMAIN:?}"
+      homepage.instance.internal.href: "https://home.${MY_DOMAIN:?}"
       homepage.instance.internal.description: "This very homepage!"
       homepage.instance.external.description: "A hidden homepage... displaying more details about every service!"
 
