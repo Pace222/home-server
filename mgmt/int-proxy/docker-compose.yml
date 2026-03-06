@@ -10,6 +10,7 @@ services:
       - ${SECRETS_DIR:?}/int-proxy/.env
     environment:
       MY_DOMAIN: "${MY_DOMAIN:?}"
+      PROD_DOMAIN: "${PROD_DOMAIN:?}"
       PROXMOX_IP: "${PROXMOX_IP:?}"
       OPNSENSE_LAN_IP: "${OPNSENSE_LAN_IP:?}"
     ports:
