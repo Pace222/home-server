@@ -24,12 +24,13 @@ services:
       alloy.enable_logging: "true"
 
   server:
-    image: ghcr.io/goauthentik/server:2025.12.4
+    image: ghcr.io/goauthentik/server:2026.2.1
     command: server
     container_name: authentik-server
     user: 3184:184
     read_only: true
     restart: unless-stopped
+    shm_size: 512mb
     depends_on:
       postgresql:
         condition: service_healthy
@@ -60,12 +61,13 @@ services:
       homepage.instance.internal.widget.version: "2"
 
   worker:
-    image: ghcr.io/goauthentik/server:2025.12.4
+    image: ghcr.io/goauthentik/server:2026.2.1
     command: worker
     container_name: authentik-worker
     user: 4184:184
     read_only: true
     restart: unless-stopped
+    shm_size: 512mb
     depends_on:
       postgresql:
         condition: service_healthy
