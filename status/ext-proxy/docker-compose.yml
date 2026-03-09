@@ -1,0 +1,38 @@
+services:
+  ext-proxy:
+    build: .
+    image: ext-caddy
+    container_name: ext-proxy
+    user: 180:180
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/ext-proxy/.env
+    environment:
+      MY_DOMAIN: "${MY_DOMAIN:?}"
+      PROD_DOMAIN: "${PROD_DOMAIN:?}"
+      OPNSENSE_SUBNET_IP: "${OPNSENSE_SUBNET_IP:?}"
+    ports:
+      - "${HOST_IP:?}:8080:80"
+      - "${HOST_IP:?}:8443:443/tcp"
+      - "${HOST_IP:?}:8443:443/udp"
+    volumes:
+      - ./conf:/etc/caddy:ro
+      - ../../utils/caddy:/etc/caddy-configs:ro
+      - ${CONFIGS_DIR:?}/error-pages/dist:/srv/error-pages:ro
+      - ${FAST_VOLUMES:?}/ext-proxy/caddy-data:/data
+      - ${FAST_VOLUMES:?}/ext-proxy/caddy-config:/config
+    networks:
+      net-uptime:
+        ipv4_address: 172.18.9.2
+      outgoing:
+        ipv4_address: 172.18.0.130
+
+networks:
+  net-uptime:
+    external: true
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.129

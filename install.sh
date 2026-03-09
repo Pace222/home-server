@@ -145,6 +145,7 @@ create_networks() {
     # 172.18.5.0/24 used by CS2
     # 172.18.6.0/24 used by Minecraft
     docker network create --internal --subnet=172.18.7.0/28 --gateway=172.18.7.1 net-ext-media
+    docker network create --internal --subnet=172.18.9.0/28 --gateway=172.18.9.1 net-uptime
 
     # Internal subnet
     docker network create --internal --subnet=172.19.2.0/26 --gateway=172.19.2.1 net-int-homepage

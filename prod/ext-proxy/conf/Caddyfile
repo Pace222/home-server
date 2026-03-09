@@ -40,6 +40,10 @@
 import /etc/caddy-configs/*
 import /etc/caddy/Caddyfile-chore
 
+# Required to apply the `proxy_protocol` `listener_wrapper` (https://github.com/caddyserver/caddy/issues/5602#issuecomment-1611421901)
+http:// {
+}
+
 {$MY_DOMAIN} {
     import security
     import error-handling

@@ -1,0 +1,59 @@
+{
+    acme_dns infomaniak {$INFOMANIAK_API_TOKEN}
+
+    servers {
+        listener_wrappers {
+            proxy_protocol {
+                allow {$OPNSENSE_SUBNET_IP}/32
+                fallback_policy require
+            }
+            tls
+        }
+    }
+}
+
+import /etc/caddy-configs/*
+
+# Required to apply the `proxy_protocol` `listener_wrapper` (https://github.com/caddyserver/caddy/issues/5602#issuecomment-1611421901)
+http:// {
+}
+
+{$MY_DOMAIN}, auth.{$MY_DOMAIN}, dabloon.{$MY_DOMAIN}, tv.{$MY_DOMAIN}, requests.tv.{$MY_DOMAIN}, dev.{$MY_DOMAIN}, auth.dev.{$MY_DOMAIN}, dabloon.dev.{$MY_DOMAIN}, tv.dev.{$MY_DOMAIN}, requests.tv.dev.{$MY_DOMAIN} {
+    redir https://status.{$MY_DOMAIN} 303
+}
+
+status.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+    encode
+
+    route {
+        @unauthenticated path / /status/default /assets/* /icon.svg /serviceWorker.js /api/entry-page /api/status-page/heartbeat/default /api/status-page/default /api/status-page/default/incident-history /manifest.json /api/status-page/default/manifest.json
+        reverse_proxy @unauthenticated uptime:3001 {
+            import forward-proxy-error
+        }
+
+        import authenticate {
+            vars ignore me
+        }
+
+        import csp {
+            vars {
+                csp-default-src "'self' auth.{$PROD_DOMAIN}"
+                csp-frame-ancestors "'self'"
+                csp-script-src "'self' auth.{$PROD_DOMAIN} 'unsafe-inline' 'unsafe-eval'"
+                csp-style-src "'self' auth.{$PROD_DOMAIN} 'unsafe-inline'"
+                csp-img-src "'self' data:"
+                csp-font-src "'self' https://cdn.jsdelivr.net/"
+            }
+        }
+
+        reverse_proxy uptime:3001 {
+            import forward-proxy-error
+        }
+    }
+}
+

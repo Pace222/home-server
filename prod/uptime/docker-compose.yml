@@ -1,0 +1,30 @@
+services:
+  # The actual Uptime Kuma runs on the STATUS VM
+
+  uptime-dockerproxy:
+    image: tecnativa/docker-socket-proxy:v0.4.2
+    container_name: uptime-dockerproxy
+    user: 0:0 # required to read docker socket
+    read_only: true
+    restart: unless-stopped
+    environment:
+      CONTAINERS: 1
+    ports:
+      - "${HOST_IP:?}:2375:2375/tcp" # Used by STATUS VM
+    volumes:
+      - /run/rootlesskit/docker.socket:/var/run/docker.sock:ro
+    networks:
+      dockerproxy-outgoing:
+        ipv4_address: 172.18.9.138
+    tmpfs:
+      - /run
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+
+networks:
+  dockerproxy-outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.9.136/30
+          gateway: 172.18.9.137

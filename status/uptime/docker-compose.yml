@@ -1,0 +1,59 @@
+services:
+  uptime:
+    image: louislam/uptime-kuma:2.2.0-slim-rootless
+    container_name: uptime
+    user: 1189:1189
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      uptime-db:
+        condition: service_healthy
+    env_file:
+      - ${SECRETS_DIR:?}/uptime/.env-uptime
+    volumes:
+      - ${SLOW_VOLUMES:?}/uptime/data:/app/data
+    networks:
+      net-uptime:
+        ipv4_address: 172.18.9.4
+      uptime-db:
+        ipv4_address: 172.18.9.18
+      uptime-outgoing:
+        ipv4_address: 172.18.9.130
+
+  uptime-db:
+    image: mariadb:12.2.2
+    container_name: uptime-db
+    user: 2189:2189
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/uptime/.env-uptime-db
+    volumes:
+      - ${SLOW_VOLUMES:?}/uptime/db:/var/lib/mysql
+    networks:
+      uptime-db:
+        ipv4_address: 172.18.9.19
+    tmpfs:
+      - /run/mysqld
+      - /tmp
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+networks:
+  net-uptime:
+    external: true
+  uptime-db:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.9.16/29
+          gateway: 172.18.9.17
+  uptime-outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.9.128/30
+          gateway: 172.18.9.129
