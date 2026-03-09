@@ -20,6 +20,7 @@ services:
       homepage.icon: "telegram.png"
       homepage.instance.internal.href: "${INT_HOMEPAGE_TELEGRAM_BOT_URL:?}"
       homepage.description: "Telegram bot for external services."
+      kuma.__monitor: '{"name": "Telegram Bot", "group": "infra"}'
 
   int-tele-bot:
     build: ${SERVICES_DIR:?}/telegram-bot
@@ -46,6 +47,7 @@ services:
       homepage.icon: "telegram.png"
       homepage.instance.internal.href: "${INT_HOMEPAGE_TELEGRAM_BOT_URL:?}"
       homepage.description: "Telegram bot for internal services."
+      kuma.__monitor: '{"name": "Internal Telegram Bot", "group": "infra"}'
 
 networks:
   net-dabloon:

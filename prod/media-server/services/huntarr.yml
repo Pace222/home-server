@@ -28,6 +28,7 @@ services:
       homepage.instance.internal.href: "https://huntarr.${MY_DOMAIN:?}"
       homepage.description: "Huntarr continually searches your media libraries for missing content and items that need quality upgrades."
       homepage.weight: "237"
+      kuma.__monitor: '{"name": "Huntarr", "group": "media"}'
 
 networks:
   huntarr-out:

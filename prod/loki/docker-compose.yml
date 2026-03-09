@@ -33,6 +33,7 @@ services:
       homepage.icon: "loki.png"
       homepage.description: "Centralized log aggregation system."
       homepage.weight: "3"
+      kuma.__monitor: '{"name": "Loki", "group": "monitoring"}'
 
   alloy:
     image: grafana/alloy:v1.11.3
@@ -58,6 +59,7 @@ services:
       homepage.icon: "alloy.png"
       homepage.description: "Log collection agent for Loki."
       homepage.weight: "4"
+      kuma.__monitor: '{"name": "Alloy", "group": "monitoring"}'
 
 networks:
   net-loki:

@@ -50,6 +50,7 @@ services:
       homepage.instance.internal.widget.type: "prometheus"
       homepage.instance.internal.widget.url: "http://prometheus:9090"
       homepage.weight: "2"
+      kuma.__monitor: '{"name": "Prometheus", "group": "monitoring"}'
 
 networks:
   prom-wg:

@@ -1,6 +1,87 @@
 services:
   # The actual Uptime Kuma runs on the STATUS VM
 
+  autokuma:
+    image: ghcr.io/bigboot/autokuma:sha-da72ebe
+    container_name: autokuma
+    user: 3189:3189
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      - uptime-dockerproxy
+    env_file:
+      - ${SECRETS_DIR:?}/uptime/.env-autokuma
+    environment:
+      AUTOKUMA__KUMA__URL: https://status.${MY_DOMAIN:?}
+      AUTOKUMA__DOCKER__HOSTS: "tcp://uptime-dockerproxy:2375"
+      AUTOKUMA__FILES__ENABLED: "false"
+      AUTOKUMA__DEFAULT_SETTINGS: |-
+        docker.docker_host: 3
+        docker.docker_container: {{ container_name }}
+        http.max_redirects: 0
+        *.interval: 60
+        *.max_retries: 5
+        *.retry_interval: 60
+        *.resend_interval: 5
+        *.notification_name_list: ["telegram"]
+      AUTOKUMA__SNIPPETS__MONITOR: |-
+        {# Assign the first snippet arg to args to make access easier #}
+        {% set args = args[0] %}
+
+        {# below are the actual lines which end up defining the monitor #}
+
+        {# If the container is external, also monitor its HTTP endpoint #}
+        {% if args.url %}
+          {{ container_name }}_http.http.name: {{ args.name }}
+          {{ container_name }}_http.http.url: {{ args.url }}
+          {% if args.forward_auth %}
+            {{ container_name }}_http.http.authMethod: "basic"
+            {{ container_name }}_http.http.basic_auth_user: "${UPTIMEKUMA_AUTHENTIK_USERNAME:?}"
+            {{ container_name }}_http.http.basic_auth_pass: "${UPTIMEKUMA_AUTHENTIK_PASSWORD:?}"
+          {% endif %}
+          {% if args.group %}
+            {{ container_name }}_http.http.parent_name: {{ args.group }}
+          {% endif %}
+        {% endif %}
+
+        {{ container_name }}_docker.docker.name: {{ args.name }} (Container)
+        {{ container_name }}_docker.docker.docker_container: {{ container_name }}
+        {% if args.group %}
+          {{ container_name }}_docker.docker.parent_name: {{ args.group }}
+        {% endif %}
+    volumes:
+      - ${SLOW_VOLUMES:?}/uptime/autokuma:/data
+    networks:
+      autokuma-dockerproxy:
+        ipv4_address: 172.18.9.26
+      autokuma-outgoing:
+        ipv4_address: 172.18.9.134
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Monitoring"
+      homepage.name: "Uptime Kuma"
+      homepage.icon: "uptime-kuma.png"
+      homepage.href: "https://status.${MY_DOMAIN:?}"
+      homepage.description: "Uptime Kuma is a self-hosted monitoring tool. Check out the status page to know if any of the services are down!"
+      homepage.widget.type: "uptimekuma"
+      homepage.widget.url: "https://status.${MY_DOMAIN:?}"
+      homepage.widget.slug: "default"
+      homepage.weight: "0"
+      kuma.__monitor: '{"name": "AutoKuma", "group": "infra"}'
+
+      kuma.prod.docker_host.name: "PROD Docker socket"
+      kuma.prod.docker_host.connection_type: "tcp"
+      kuma.prod.docker_host.host: "http://${HOST_IP:?}:2375"
+
+      kuma.telegram.notification.name: "Telegram Alert"
+      kuma.telegram.notification.active: "true"
+      kuma.telegram.notification.config: '{"isDefault": true, "name": "Telegram Alert", "telegramBotToken": "${AUTOKUMA_TELEGRAM_BOT_TOKEN:?}", "telegramChatID": "${AUTOKUMA_TELEGRAM_CHAT_ID:?}", "telegramMessageThreadID":"${AUTOKUMA_TELEGRAM_THREAD_ID:?}","telegramServerUrl":"https://api.telegram.org", "type": "telegram"}'
+
+      kuma.infra.group.name: "Infrastructure"
+      kuma.monitoring.group.name: "Monitoring"
+      kuma.games.group.name: "Games"
+      kuma.media.group.name: "Media"
+
   uptime-dockerproxy:
     image: tecnativa/docker-socket-proxy:v0.4.2
     container_name: uptime-dockerproxy
@@ -14,6 +95,8 @@ services:
     volumes:
       - /run/rootlesskit/docker.socket:/var/run/docker.sock:ro
     networks:
+      autokuma-dockerproxy:
+        ipv4_address: 172.18.9.27
       dockerproxy-outgoing:
         ipv4_address: 172.18.9.138
     tmpfs:
@@ -23,6 +106,17 @@ services:
       alloy.enable_logging: "true"
 
 networks:
+  autokuma-dockerproxy:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.9.24/29
+          gateway: 172.18.9.25
+  autokuma-outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.9.132/30
+          gateway: 172.18.9.133
   dockerproxy-outgoing:
     ipam:
       config:

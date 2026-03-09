@@ -42,6 +42,7 @@ services:
       homepage.description: "Reverse proxy for internal services."
       homepage.instance.internal.widget.type: "caddy"
       homepage.instance.internal.widget.url: "http://int-proxy:2019"
+      kuma.__monitor: '{"name": "Internal Reverse Proxy", "group": "infra"}'
 
 networks:
   prom-int-caddy:

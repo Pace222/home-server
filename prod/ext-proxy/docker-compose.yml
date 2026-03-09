@@ -39,6 +39,7 @@ services:
       homepage.name: "Caddy Reverse Proxy"
       homepage.icon: "caddy.png"
       homepage.description: "Reverse proxy for external services."
+      kuma.__monitor: '{"name": "Reverse Proxy", "group": "infra"}'
 
 networks:
   prom-ext-caddy:

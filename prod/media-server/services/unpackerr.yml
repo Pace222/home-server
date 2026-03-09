@@ -36,6 +36,7 @@ services:
       homepage.icon: "sh-unpackerr.png"
       homepage.description: "Unpackerr automatically extracts downloaded archives and organizes the extracted files for Sonarr and Radarr to import."
       homepage.weight: "267"
+      kuma.__monitor: '{"name": "Unpackerr", "group": "media"}'
 
 networks:
   prom-unpackerr:

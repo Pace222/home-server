@@ -28,6 +28,7 @@ services:
       homepage.icon: "recyclarr.png"
       homepage.description: "Recyclarr is a tool to update and sync your Radarr and Sonarr custom formats."
       homepage.weight: "250"
+      kuma.__monitor: '{"name": "Recyclarr", "group": "media"}'
 
 networks:
   recyclarr-out:

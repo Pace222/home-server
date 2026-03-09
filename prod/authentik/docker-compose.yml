@@ -59,6 +59,7 @@ services:
       homepage.instance.internal.widget.url: "https://auth.${MY_DOMAIN:?}"
       homepage.instance.internal.widget.key: "${INT_HOMEPAGE_AUTHENTIK_API_KEY:?}"
       homepage.instance.internal.widget.version: "2"
+      kuma.__monitor: '{"name": "Authentik", "url": "https://auth.${MY_DOMAIN:?}/if/flow/auth/?next=%2F", "group": "infra"}'
 
   worker:
     image: ghcr.io/goauthentik/server:2026.2.1
@@ -85,6 +86,7 @@ services:
       - /certs
     labels:
       alloy.enable_logging: "true"
+      kuma.__monitor: '{"name": "Authentik Worker", "group": "infra"}'
 
 networks:
   prom-authentik:

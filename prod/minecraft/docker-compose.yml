@@ -36,6 +36,10 @@ services:
       homepage.description: "A Minecraft server running the latest Java edition."
       homepage.instance.internal.widget.type: "minecraft"
       homepage.instance.internal.widget.url: "udp://mc.${MY_DOMAIN:?}:25565"
+      kuma.minecraft_gamedig.gamedig.name: "Minecraft Server"
+      kuma.minecraft_gamedig.gamedig.game: "minecraft"
+      kuma.minecraft_gamedig.gamedig.hostname: "mc.${MY_DOMAIN:?}"
+      kuma.minecraft_gamedig.gamedig.parent_name: "games"
 
 networks:
   outgoing:

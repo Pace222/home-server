@@ -36,6 +36,7 @@ services:
       homepage.href: "https://${MY_DOMAIN:?}"
       homepage.instance.external.description: "This very homepage!"
       homepage.instance.internal.description: "The external homepage... displaying only a subset of available information!"
+      kuma.__monitor: '{"name": "Homepage", "url": "https://${MY_DOMAIN:?}"}'
 
   ext-homepage-dockerproxy:
     image: tecnativa/docker-socket-proxy:v0.4.1

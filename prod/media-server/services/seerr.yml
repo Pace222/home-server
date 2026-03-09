@@ -46,6 +46,7 @@ services:
       homepage.instance.internal.widget.key: "${INT_HOMEPAGE_SEERR_API_KEY:?}"
       homepage.instance.internal.widget.fields: '["pending","approved", "issues"]'
       homepage.weight: "150"
+      kuma.__monitor: '{"name": "Jellyseerr", "url": "https://requests.tv.${MY_DOMAIN:?}/login", "group": "media"}'
 
 networks:
   seerr-out:

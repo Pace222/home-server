@@ -23,6 +23,7 @@ services:
       homepage.icon: "firewalla.png"
       homepage.description: "Monitor firewall logs and send alerts."
       homepage.weight: "7"
+      kuma.__monitor: '{"name": "Firewall monitoring", "group": "monitoring"}'
 
 networks:
   net-fw-monitor:

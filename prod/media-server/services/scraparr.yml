@@ -34,6 +34,7 @@ services:
       homepage.icon: "sh-scraparr.png"
       homepage.description: "Scraparr is a Prometheus exporter for the *arr stack."
       homepage.weight: "800"
+      kuma.__monitor: '{"name": "Scraparr", "group": "monitoring"}'
 
 networks:
   prom-scraparr:

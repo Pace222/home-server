@@ -45,6 +45,7 @@ services:
       homepage.icon: "qbittorrent.png"
       homepage.description: "qBittorrent is a free and reliable P2P BitTorrent client."
       homepage.weight: "500"
+      kuma.__monitor: '{"name": "qBittorrent", "group": "media"}'
 
   qui:
     image: ghcr.io/autobrr/qui:v1.10.0
@@ -84,6 +85,7 @@ services:
       homepage.instance.internal.widget.enableLeechProgress: "true"
       homepage.instance.internal.widget.enableLeechSize: "false"
       homepage.weight: "600"
+      kuma.__monitor: '{"name": "qui", "group": "media"}'
 
 networks:
   prom-qui:

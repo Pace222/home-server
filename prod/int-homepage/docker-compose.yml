@@ -47,6 +47,7 @@ services:
       homepage.instance.internal.href: "https://home.${MY_DOMAIN:?}"
       homepage.instance.internal.description: "This very homepage!"
       homepage.instance.external.description: "A hidden homepage... displaying more details about every service!"
+      kuma.__monitor: '{"name": "Internal Homepage"}'
 
   int-homepage-dockerproxy:
     image: tecnativa/docker-socket-proxy:v0.4.1

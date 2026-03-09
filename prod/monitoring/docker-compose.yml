@@ -21,6 +21,7 @@ services:
       homepage.icon: "cadvisor.png"
       homepage.description: "Container Advisor (cAdvisor) provides container resource usage and performance characteristics."
       homepage.weight: "5"
+      kuma.__monitor: '{"name": "cAdvisor", "group": "monitoring"}'
 
   node-exporter:
     image: quay.io/prometheus/node-exporter:v1.9.1
@@ -42,6 +43,7 @@ services:
       homepage.icon: "prometheus.png"
       homepage.description: "Prometheus exporter for hardware and OS metrics exposed by *NIX kernels."
       homepage.weight: "6"
+      kuma.__monitor: '{"name": "Node Exporter", "group": "monitoring"}'
 
 networks:
   prom-cadvisor:

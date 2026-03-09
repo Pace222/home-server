@@ -34,6 +34,11 @@ services:
       homepage.instance.internal.widget.version: "6"
       homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
       homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
+      kuma.__monitor: '{"name": "Pi-hole", "group": "infra"}'
+      kuma.pihole_dns.dns.name: "Pi-hole (DNS)"
+      kuma.pihole_dns.dns.dns_resolve_server: "${HOST_IP:?}"
+      kuma.pihole_dns.dns.hostname: "pihole.${MY_DOMAIN:?}"
+      kuma.pihole_dns.dns.parent_name: "infra"
 
 networks:
   net-pihole:

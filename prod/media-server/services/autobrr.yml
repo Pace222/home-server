@@ -43,6 +43,7 @@ services:
       homepage.instance.internal.widget.url: "https://autobrr.${MY_DOMAIN:?}"
       homepage.instance.internal.widget.key: "${INT_HOMEPAGE_AUTOBRR_API_KEY:?}"
       homepage.weight: "700"
+      kuma.__monitor: '{"name": "Autobrr", "group": "media"}'
 
 networks:
   prom-autobrr:

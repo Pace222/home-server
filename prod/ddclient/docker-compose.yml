@@ -28,6 +28,7 @@ services:
       homepage.icon: "ddclient.png"
       homepage.instance.internal.href: "${INT_HOMEPAGE_DDCLIENT_URL:?}"
       homepage.description: "Update DNS records dynamically."
+      kuma.__monitor: '{"name": "ddclient", "group": "infra"}'
 
 networks:
   net-ddclient:

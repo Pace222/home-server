@@ -37,6 +37,7 @@ services:
       homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
       homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
       homepage.weight: "200"
+      kuma.__monitor: '{"name": "Radarr", "group": "media"}'
 
 networks:
   radarr-out:

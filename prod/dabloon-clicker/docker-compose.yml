@@ -18,6 +18,7 @@ services:
       homepage.icon: "/icons/dabloon.png"
       homepage.href: "https://dabloon.${MY_DOMAIN:?}"
       homepage.description: "Click on dabloons to win even more dabloons!"
+      kuma.__monitor: '{"name": "DabloonClicker", "url": "https://dabloon.${MY_DOMAIN:?}", "forward_auth": "true"}'
 
 networks:
   net-dabloon:

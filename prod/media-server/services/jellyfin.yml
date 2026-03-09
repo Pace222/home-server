@@ -40,6 +40,7 @@ services:
       homepage.instance.internal.widget.showEpisodeNumber: "false"
       homepage.instance.internal.widget.expandOneStreamToTwoRows: "true"
       homepage.weight: "100"
+      kuma.__monitor: '{"name": "Jellyfin", "url": "https://tv.${MY_DOMAIN:?}/web/", "group": "media"}'
 
 networks:
   prom-jellyfin:

@@ -66,6 +66,10 @@ services:
       homepage.name: "Counter-Strike 2 Server"
       homepage.icon: "counter-strike-2.png"
       homepage.description: "Private dedicated server for Counter-Strike 2."
+      kuma.cs2_gamedig.gamedig.name: "CS2 Server"
+      kuma.cs2_gamedig.gamedig.game: "counterstrike2"
+      kuma.cs2_gamedig.gamedig.hostname: "cs2.${MY_DOMAIN:?}"
+      kuma.cs2_gamedig.gamedig.parent_name: "games"
 
 networks:
   outgoing:
