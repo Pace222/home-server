@@ -18,9 +18,13 @@ import /etc/caddy-configs/*
 http:// {
 }
 
-{$MY_DOMAIN}, auth.{$MY_DOMAIN}, dabloon.{$MY_DOMAIN}, tv.{$MY_DOMAIN}, requests.tv.{$MY_DOMAIN}, dev.{$MY_DOMAIN}, auth.dev.{$MY_DOMAIN}, dabloon.dev.{$MY_DOMAIN}, tv.dev.{$MY_DOMAIN}, requests.tv.dev.{$MY_DOMAIN} {
-    redir https://status.{$MY_DOMAIN} 303
+(shadow-domains) {
+    {args[0]}, auth.{args[0]}, dabloon.{args[0]}, tv.{args[0]}, requests.tv.{args[0]} {
+        redir https://status.{$MY_DOMAIN} 303
+    }
 }
+import shadow-domains {$MY_DOMAIN}
+import shadow-domains dev.{$MY_DOMAIN}
 
 status.{$MY_DOMAIN} {
     import security
