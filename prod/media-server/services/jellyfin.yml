@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.11.3
+    image: jellyfin/jellyfin:10.11.6
     container_name: jellyfin
     user: 1187:65537 # host's `media` <-> container's 65537
     group_add:
