@@ -160,7 +160,7 @@ tv.{$MY_DOMAIN} {
                 csp-script-src "'self' blob: https://www.gstatic.com https://cdn.jsdelivr.net https://www.youtube.com 'unsafe-inline'"
                 csp-style-src "'self' https://cdn.jsdelivr.net https://fonts.googleapis.com 'unsafe-inline'"
                 csp-img-src "'self' blob: https://*" # Jellyfin plugin descriptions display arbitrary images
-                csp-connect-src "'self' https://sponsor.ajay.app"
+                csp-connect-src "'self' https://sponsor.ajay.app https://raw.githubusercontent.com:443"
                 csp-font-src "'self' https://fonts.gstatic.com"
                 csp-media-src "'self' blob:"
                 csp-frame-src "'self' www.youtube.com requests.tv.{$MY_DOMAIN} auth.{$PROD_DOMAIN}" # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
