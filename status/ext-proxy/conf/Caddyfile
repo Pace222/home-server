@@ -35,15 +35,6 @@ status.{$MY_DOMAIN} {
     encode
 
     route {
-        @unauthenticated path / /status/default /assets/* /icon.svg /serviceWorker.js /api/entry-page /api/status-page/heartbeat/default /api/status-page/default /api/status-page/default/incident-history /manifest.json /api/status-page/default/manifest.json
-        reverse_proxy @unauthenticated uptime:3001 {
-            import forward-proxy-error
-        }
-
-        import authenticate {
-            vars ignore me
-        }
-
         import csp {
             vars {
                 csp-default-src "'self' auth.{$PROD_DOMAIN}"
