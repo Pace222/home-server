@@ -7,10 +7,14 @@ services:
     init: true
     restart: unless-stopped
     depends_on:
-      - ext-postgresql
-      - jellyfin
-      - radarr
-      - sonarr
+      ext-postgresql:
+        condition: service_healthy
+      jellyfin:
+        condition: service_healthy
+      radarr:
+        condition: service_started
+      sonarr:
+        condition: service_started
     env_file:
       - ${SECRETS_DIR:?}/media-server/seerr/.env
     environment:

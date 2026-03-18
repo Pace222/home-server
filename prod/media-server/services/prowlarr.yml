@@ -6,8 +6,10 @@ services:
     # read_only: true # doesn't work otherwise
     restart: unless-stopped
     depends_on:
-      - int-postgresql
-      - flaresolverr
+      int-postgresql:
+        condition: service_healthy
+      flaresolverr:
+        condition: service_started
     environment:
       PUID: "3187"
       PGID: "3187"

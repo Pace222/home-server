@@ -6,11 +6,16 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - radarr
-      - sonarr
-      - bazarr
-      - prowlarr
-      - seerr
+      radarr:
+        condition: service_started
+      sonarr:
+        condition: service_started
+      bazarr:
+        condition: service_started
+      prowlarr:
+        condition: service_started
+      seerr:
+        condition: service_healthy
     env_file:
       - ${SECRETS_DIR:?}/media-server/scraparr/.env
     environment:

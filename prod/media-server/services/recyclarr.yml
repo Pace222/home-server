@@ -6,8 +6,10 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - radarr
-      - sonarr
+      radarr:
+        condition: service_started
+      sonarr:
+        condition: service_started
     env_file:
       - ${SECRETS_DIR:?}/media-server/recyclarr/.env
     environment:

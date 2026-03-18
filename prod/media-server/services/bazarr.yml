@@ -6,9 +6,12 @@ services:
     # read_only: true # doesn't work otherwise
     restart: unless-stopped
     depends_on:
-      - int-postgresql
-      - radarr
-      - sonarr
+      int-postgresql:
+        condition: service_healthy
+      radarr:
+        condition: service_started
+      sonarr:
+        condition: service_started
     env_file:
       - ${SECRETS_DIR:?}/media-server/bazarr/.env
     environment:

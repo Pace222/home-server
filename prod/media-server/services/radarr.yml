@@ -6,9 +6,12 @@ services:
     # read_only: true # doesn't work otherwise
     restart: unless-stopped
     depends_on:
-      - int-postgresql
-      - prowlarr
-      - qui
+      int-postgresql:
+        condition: service_healthy
+      prowlarr:
+        condition: service_started
+      qui:
+        condition: service_healthy
     environment:
       PUID: "2187"
       PGID: "65537" # host's `media` <-> container's 65537

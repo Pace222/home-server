@@ -54,7 +54,8 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - qbittorrent
+      qbittorrent:
+        condition: service_started
     env_file:
       - ${SECRETS_DIR:?}/media-server/qui/.env
     environment:

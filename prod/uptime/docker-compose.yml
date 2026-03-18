@@ -8,7 +8,8 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - uptime-dockerproxy
+      uptime-dockerproxy:
+        condition: service_started
     env_file:
       - ${SECRETS_DIR:?}/uptime/.env-autokuma
     environment:

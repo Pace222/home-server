@@ -7,7 +7,8 @@ services:
     read_only: true
     restart: unless-stopped
     depends_on:
-      - int-homepage-dockerproxy
+      int-homepage-dockerproxy:
+        condition: service_started
     environment:
       PUID: "1192"
       PGID: "1192"
