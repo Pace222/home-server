@@ -1,0 +1,20 @@
+services:
+  tika:
+    image: apache/tika:3.2.3.0
+    container_name: tika
+    user: 1188:1188
+    read_only: true
+    restart: unless-stopped
+    networks:
+      opencloud-tika:
+        ipv4_address: 172.18.8.19
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Drive"
+      homepage.name: "Apache Tika"
+      homepage.icon: "sh-apache-tika.png"
+      homepage.description: "Apache Tika is a content analysis toolkit."
+      homepage.weight: "400"
+      kuma.__monitor: '{"name": "Apache Tika", "group": "drive"}'

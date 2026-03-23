@@ -1,0 +1,9 @@
+networks:
+  net-drive:
+    external: true
+  opencloud-tika:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.8.16/29
+          gateway: 172.18.8.17

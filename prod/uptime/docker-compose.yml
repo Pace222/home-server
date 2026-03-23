@@ -40,6 +40,9 @@ services:
             {{ container_name }}_http.http.basic_auth_user: "${UPTIMEKUMA_AUTHENTIK_USERNAME:?}"
             {{ container_name }}_http.http.basic_auth_pass: "${UPTIMEKUMA_AUTHENTIK_PASSWORD:?}"
           {% endif %}
+          {% if args.status_codes %}
+            {{ container_name }}_http.http.accepted_statuscodes: {{ args.status_codes }}
+          {% endif %}
           {% if args.group %}
             {{ container_name }}_http.http.parent_name: {{ args.group }}
           {% endif %}
@@ -82,6 +85,7 @@ services:
       kuma.monitoring.group.name: "Monitoring"
       kuma.games.group.name: "Games"
       kuma.media.group.name: "Media"
+      kuma.drive.group.name: "Drive"
 
   uptime-dockerproxy:
     image: tecnativa/docker-socket-proxy:v0.4.2

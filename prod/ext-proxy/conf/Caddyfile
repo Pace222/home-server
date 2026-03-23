@@ -198,3 +198,59 @@ requests.tv.{$MY_DOMAIN} {
         reverse_proxy seerr:5055
     }
 }
+
+drive.{$MY_DOMAIN} {
+    header >Referrer-Policy strict-origin # OpenStreetMap's tile usage policy requires the Referer header
+
+    import security
+    import no-crawl-no-index
+
+    log
+    encode
+
+    route {
+        import csp {
+            vars {
+                ignore me
+            }
+        }
+
+        reverse_proxy opencloud:9200
+    }
+}
+
+wopi.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+
+    log
+    encode
+
+    route {
+        reverse_proxy collaboration:9300
+    }
+}
+
+office.{$MY_DOMAIN} {
+    header >Cross-Origin-Resource-Policy same-site # OpenCloud requires to frame Collabora
+
+    import security
+    import no-crawl-no-index
+
+    log
+    encode
+
+    route {
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline'"
+                csp-style-src "'self' 'unsafe-inline'"
+            }
+        }
+
+        # Prometheus reaches the endpoint by bypassing Caddy
+        error /cool/getMetrics 403
+
+        reverse_proxy collabora:9980
+    }
+}

@@ -1,0 +1,6 @@
+include:
+  - networks.yml
+
+  - services/opencloud/opencloud.yml
+  - services/collabora/collabora.yml
+  - services/tika/tika.yml

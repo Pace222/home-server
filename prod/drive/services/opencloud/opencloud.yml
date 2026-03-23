@@ -1,0 +1,100 @@
+services:
+  opencloud:
+    image: opencloudeu/opencloud:4.0.3
+    command: ["-c", "opencloud init || true; opencloud server"]
+    entrypoint:
+      - /bin/sh
+    container_name: opencloud
+    user: 65540:65540 # host's `opencloud` <-> container's `65540`
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/drive/opencloud/.env
+    environment:
+      ### OPENCLOUD CONFIGURATION BELOW ###
+      OC_ADD_RUN_SERVICES: "notifications"
+      OC_URL: "https://${OC_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      OC_LOG_LEVEL: "${LOG_LEVEL:?}"
+      OC_LOG_COLOR: "false"
+      OC_LOG_PRETTY: "false"
+      PROXY_TLS: "false"
+      OC_INSECURE: "false"
+      PROXY_ENABLE_BASIC_AUTH: "false"
+      IDM_CREATE_DEMO_USERS: "false"
+      # IDM_ADMIN_PASSWORD set in the .env file
+      # email server set in the .env file
+      FRONTEND_ARCHIVER_MAX_SIZE: "10000000000"
+      FRONTEND_CHECK_FOR_UPDATES: "true"
+      PROXY_CSP_CONFIG_FILE_LOCATION: /etc/opencloud/csp.yaml
+      OC_SHARING_PUBLIC_SHARE_MUST_HAVE_PASSWORD: "true"
+      OC_SHARING_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD: "true"
+      OC_PASSWORD_POLICY_DISABLED: "false"
+      # password policy set in the .env file
+      OC_DEFAULT_LANGUAGE: "en"
+      ### OPENCLOUD CONFIGURATION ABOVE ###
+      ### COLLABORA CONFIGURATION BELOW ###
+      COLLABORA_DOMAIN: "${COLLABORA_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      NATS_NATS_HOST: "0.0.0.0"
+      GATEWAY_GRPC_ADDR: "0.0.0.0:9142"
+      FRONTEND_APP_HANDLER_SECURE_VIEW_APP_ADDR: "eu.opencloud.api.collaboration"
+      GRAPH_AVAILABLE_ROLES: "b1e2218d-eef8-4d4c-b82d-0f1a1b48f3b5,a8d5fe5e-96e3-418d-825b-534dbdf22b99,fb6c3e19-e378-47e5-b277-9732f9de6e21,58c63c02-1d89-4572-916a-870abc5a1b7d,2d00ce52-1fc2-4dbc-8b95-a73b73395f5a,1c996275-f1c9-4e71-abdf-a42f6495e960,312c0871-5ef7-4b3a-85b6-0e4074c64049,aa97fe03-7980-45ac-9e50-b325749fd7e6"
+      ### COLLABORA CONFIGURATION ABOVE ###
+      ### TIKA CONFIGURATION BELOW ###
+      SEARCH_EXTRACTOR_TYPE: "tika"
+      SEARCH_EXTRACTOR_TIKA_TIKA_URL: http://tika:9998
+      FRONTEND_FULL_TEXT_SEARCH_ENABLED: "true"
+      ### TIKA CONFIGURATION ABOVE ###
+      ### IDP CONFIGURATION BELOW ###
+      OC_EXCLUDE_RUN_SERVICES: "idp"
+      IDP_DOMAIN: "auth.${PROD_DOMAIN:?}"
+      # OIDC-related configuration is set in the .env file
+      PROXY_OIDC_REWRITE_WELLKNOWN: "true"
+      PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: "none"
+      PROXY_ROLE_ASSIGNMENT_DRIVER: "oidc"
+      PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: "groups"
+      PROXY_USER_OIDC_CLAIM: "preferred_username"
+      PROXY_USER_CS3_CLAIM: "username"
+      PROXY_AUTOPROVISION_ACCOUNTS: "true"
+      PROXY_AUTOPROVISION_CLAIM_USERNAME: "preferred_username"
+      SETTINGS_SETUP_DEFAULT_ASSIGNMENTS: "false"
+      GRAPH_ASSIGN_DEFAULT_USER_ROLE: "false"
+      GRAPH_USERNAME_MATCH: "none"
+      FRONTEND_READONLY_USER_ATTRIBUTES: "user.onPremisesSamAccountName,user.displayName,user.mail,user.passwordProfile,user.accountEnabled,user.appRoleAssignments"
+      WEB_OPTION_ACCOUNT_EDIT_LINK_HREF: "https://auth.${PROD_DOMAIN:?}/if/user/#/settings"
+      WEB_OIDC_SCOPE: "openid profile email offline_access"
+      ### IDP CONFIGURATION ABOVE ###
+      ### CUSTOM CONFIGURATION BELOW ###
+      FRONTEND_DISABLE_RADICALE: "true"
+      PROXY_HTTP_ADDR: "172.18.8.4:9200"
+      PROXY_DEBUG_ADDR: "172.21.15.3:9205"
+      ### CUSTOM CONFIGURATION ABOVE ###
+    volumes:
+      - ${SLOW_VOLUMES:?}/drive/opencloud/config:/etc/opencloud:ro
+      - ${STORAGE_DIR:?}/drive:/var/lib/opencloud
+    networks:
+      prom-opencloud:
+        ipv4_address: 172.21.15.3
+      net-drive:
+        ipv4_address: 172.18.8.4
+      opencloud-tika:
+        ipv4_address: 172.18.8.18
+      opencloud-out:
+        ipv4_address: 172.18.8.130
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Drive"
+      homepage.name: "OpenCloud"
+      homepage.icon: "open-cloud-dark.png"
+      homepage.href: "https://${OC_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      homepage.description: "OpenCloud is a self-hosted Drive/Dropbox alternative that syncs files across devices and allows sharing and collaboration on files."
+      homepage.weight: "100"
+      kuma.__monitor: '{"name": "OpenCloud", "url": "https://${OC_SUBDOMAIN:?}.${MY_DOMAIN:?}", "group": "drive"}'
+
+networks:
+  prom-opencloud:
+    external: true
+  opencloud-out:
+    ipam:
+      config:
+        - subnet: 172.18.8.128/30
+          gateway: 172.18.8.129

@@ -1,0 +1,123 @@
+services:
+  collaboration:
+    image: opencloudeu/opencloud:4.0.3
+    command: ["-c", "opencloud collaboration server"]
+    entrypoint:
+      - /bin/sh
+    container_name: collaboration
+    user: 65540:65540 # host's `opencloud` <-> container's `65540`
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      opencloud:
+        condition: service_started
+      collabora:
+        condition: service_healthy
+    environment:
+      COLLABORATION_GRPC_ADDR: "172.18.8.5:9301"
+      COLLABORATION_HTTP_ADDR: "172.18.8.5:9300"
+      MICRO_REGISTRY: "nats-js-kv"
+      MICRO_REGISTRY_ADDRESS: "opencloud:9233"
+      COLLABORATION_WOPI_SRC: "https://${WOPI_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      COLLABORATION_APP_NAME: "CollaboraOnline"
+      COLLABORATION_APP_PRODUCT: "Collabora"
+      COLLABORATION_APP_ADDR: "https://${COLLABORA_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      COLLABORATION_APP_ICON: "https://${COLLABORA_SUBDOMAIN:?}.${MY_DOMAIN:?}/favicon.ico"
+      COLLABORATION_APP_INSECURE: "false"
+      COLLABORATION_CS3API_DATAGATEWAY_INSECURE: "false"
+      COLLABORATION_LOG_LEVEL: "${LOG_LEVEL:?}"
+      OC_URL: "https://${OC_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      ### CUSTOM CONFIGURATION BELOW ###
+      OC_REVA_GATEWAY: "dns:opencloud:9142"
+      COLLABORATION_DEBUG_ADDR: "172.21.16.3:9304"
+      ### CUSTOM CONFIGURATION ABOVE ###
+    volumes:
+      - ${SLOW_VOLUMES:?}/drive/opencloud/config:/etc/opencloud:ro
+    networks:
+      prom-collaboration:
+        ipv4_address: 172.21.16.3
+      net-drive:
+        ipv4_address: 172.18.8.5
+      collaboration-out:
+        ipv4_address: 172.18.8.134
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Drive"
+      homepage.name: "OpenCloud Collaboration"
+      homepage.icon: "open-cloud-dark.png"
+      homepage.href: "https://${WOPI_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      homepage.description: "OpenCloud Collaboration is the collaboration component of OpenCloud, allowing you to edit documents in real-time with others through Collabora Online."
+      homepage.weight: "200"
+      kuma.__monitor: '{"name": "OpenCloud Collaboration", "url": "https://${WOPI_SUBDOMAIN:?}.${MY_DOMAIN:?}/wopi/files/test", "status_codes": "[\"401\"]", "group": "drive"}'
+
+  collabora:
+    image: collabora/code:25.04.9.3.1
+    command: ["coolconfig generate-proof-key && /start-collabora-online.sh"]
+    entrypoint: ["/bin/bash", "-c"]
+    container_name: collabora
+    user: 1001:1001 # doesn't work otherwise
+    # read_only: true # doesn't work otherwise
+    restart: unless-stopped
+    cap_drop:
+      - ALL
+    cap_add:
+      - SYS_ADMIN
+      - SYS_CHROOT
+      - FOWNER
+      - CHOWN
+    env_file:
+      - ${SECRETS_DIR:?}/drive/collabora/.env
+    environment:
+      aliasgroup1: "https://${WOPI_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      DONT_GEN_SSL_CERT: "YES"
+      extra_params: |
+        --o:ssl.enable=false \
+        --o:ssl.ssl_verification=true \
+        --o:ssl.termination=true \
+        --o:welcome.enable=false \
+        --o:net.frame_ancestors=${OC_SUBDOMAIN:?}.${MY_DOMAIN:?} \
+        --o:net.lok_allow.host[14]=${OC_SUBDOMAIN:?}.${MY_DOMAIN:?} \
+        --o:home_mode.enable=true \
+        --o:security.enable_metrics_unauthenticated=true
+      # username set in the .env file
+      # password set in the .env file
+    volumes:
+      - /usr/share/fonts/truetype:/usr/share/fonts/truetype/more:ro
+      - /usr/share/fonts/truetype:/opt/cool/systemplate/usr/share/fonts/truetype/more:ro
+    networks:
+      prom-collabora:
+        ipv4_address: 172.21.17.3
+      net-drive:
+        ipv4_address: 172.18.8.6
+      collabora-out:
+        ipv4_address: 172.18.8.138
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9980/hosting/discovery"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Drive"
+      homepage.name: "Collabora Online"
+      homepage.icon: "collabora-online.png"
+      homepage.href: "https://${COLLABORA_SUBDOMAIN:?}.${MY_DOMAIN:?}"
+      homepage.description: "Collabora Online is a LibreOffice-based online office suite, allowing you to edit documents in real-time with others."
+      homepage.weight: "300"
+      kuma.__monitor: '{"name": "Collabora Online", "url": "https://${COLLABORA_SUBDOMAIN:?}.${MY_DOMAIN:?}", "group": "drive"}'
+
+networks:
+  prom-collaboration:
+    external: true
+  prom-collabora:
+    external: true
+  collaboration-out:
+    ipam:
+      config:
+        - subnet: 172.18.8.132/30
+          gateway: 172.18.8.133
+  collabora-out:
+    ipam:
+      config:
+        - subnet: 172.18.8.136/30
+          gateway: 172.18.8.137

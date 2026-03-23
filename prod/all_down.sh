@@ -3,6 +3,8 @@ set -e
 
 docker compose -f media-server/docker-compose.yml down
 
+docker compose -f drive/docker-compose.yml down
+
 docker compose -f ddclient/docker-compose.yml down
 docker compose -f fw-monitor/docker-compose.yml down
 

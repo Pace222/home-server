@@ -19,7 +19,7 @@ http:// {
 }
 
 (shadow-domains) {
-    {args[0]}, auth.{args[0]}, dabloon.{args[0]}, tv.{args[0]}, requests.tv.{args[0]} {
+    {args[0]}, auth.{args[0]}, dabloon.{args[0]}, tv.{args[0]}, requests.tv.{args[0]}, drive.{args[0]}, wopi.{args[0]}, office.{args[0]} {
         redir https://status.{$MY_DOMAIN} 303
     }
 }

@@ -41,6 +41,12 @@ services:
         ipv4_address: 172.21.13.2
       prom-unpackerr:
         ipv4_address: 172.21.14.2
+      prom-opencloud:
+        ipv4_address: 172.21.15.2
+      prom-collaboration:
+        ipv4_address: 172.21.16.2
+      prom-collabora:
+        ipv4_address: 172.21.17.2
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Monitoring"
@@ -80,4 +86,10 @@ networks:
   prom-int-homepage:
     external: true
   prom-unpackerr:
+    external: true
+  prom-opencloud:
+    external: true
+  prom-collaboration:
+    external: true
+  prom-collabora:
     external: true

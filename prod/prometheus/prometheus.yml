@@ -53,3 +53,16 @@ scrape_configs:
   - job_name: "unpackerr"
     static_configs:
       - targets: ["unpackerr:5656"]
+
+  - job_name: "opencloud"
+    static_configs:
+      - targets: ["opencloud:9205"]
+
+  - job_name: "collaboration"
+    static_configs:
+      - targets: ["collaboration:9304"]
+
+  - job_name: "collabora"
+    static_configs:
+      - targets: ["collabora:9980"]
+    metrics_path: "/cool/getMetrics"

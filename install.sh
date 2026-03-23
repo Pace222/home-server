@@ -145,6 +145,7 @@ create_networks() {
     # 172.18.5.0/24 used by CS2
     # 172.18.6.0/24 used by Minecraft
     docker network create --internal --subnet=172.18.7.0/28 --gateway=172.18.7.1 net-ext-media
+    docker network create --internal --subnet=172.18.8.0/28 --gateway=172.18.8.1 net-drive
     docker network create --internal --subnet=172.18.9.0/28 --gateway=172.18.9.1 net-uptime
 
     # Internal subnet
@@ -171,28 +172,29 @@ create_networks() {
     docker network create --internal --subnet=172.21.12.0/24 --gateway=172.21.12.1 prom-scraparr
     docker network create --internal --subnet=172.21.13.0/24 --gateway=172.21.13.1 prom-int-homepage
     docker network create --internal --subnet=172.21.14.0/24 --gateway=172.21.14.1 prom-unpackerr
+    docker network create --internal --subnet=172.21.15.0/24 --gateway=172.21.15.1 prom-opencloud
+    docker network create --internal --subnet=172.21.16.0/24 --gateway=172.21.16.1 prom-collaboration
+    docker network create --internal --subnet=172.21.17.0/24 --gateway=172.21.17.1 prom-collabora
 }
 
-add_media_group() {
-    # Add media group
-    echo "Adding media group..."
+add_more_groups() {
+    # Add additional groups
+    echo "Adding additional groups..."
 
     echo "$ROOTLESS_USER:1003:1" >> /etc/subuid # Such that host's  user `media` (UID 1003) is mapped to a non-nobody  user in rootless Docker
     echo "$ROOTLESS_USER:1003:1" >> /etc/subgid # Such that host's group `media` (GID 1003) is mapped to a non-nobody group in rootless Docker
     useradd -m media -u 1003 -s /sbin/nologin
     usermod -aG media "$MAIN_USER"
+    echo "$ROOTLESS_USER:4:1" >> /etc/subuid    # Such that host's              UID 4  is mapped to a non-nobody  user in rootless Docker
     echo "$ROOTLESS_USER:4:1" >> /etc/subgid    # Such that host's group `adm` (GID 4) is mapped to a non-nobody group in rootless Docker
+    echo "$ROOTLESS_USER:992:1" >> /etc/subuid  # Such that host's                 UID 992  is mapped to a non-nobody  user in rootless Docker
     echo "$ROOTLESS_USER:992:1" >> /etc/subgid  # Such that host's group `render` (GID 992) is mapped to a non-nobody group in rootless Docker
+    echo "$ROOTLESS_USER:1004:1" >> /etc/subuid # Such that host's  user `opencloud` (UID 1004) is mapped to a non-nobody  user in rootless Docker
+    echo "$ROOTLESS_USER:1004:1" >> /etc/subgid # Such that host's group `opencloud` (GID 1004) is mapped to a non-nobody group in rootless Docker
+    useradd -m opencloud -u 1004 -s /sbin/nologin
+    usermod -aG opencloud "$MAIN_USER"
 
-    echo "Media group successfully added!"
-}
-
-restart_ssh() {
-    # Restart the SSH service to apply changes
-    echo "Restarting SSH service... Bye bye!"
-    systemctl restart sshd
-
-    echo "SSH service restarted successfully! (You should probably not see this message)"
+    echo "Additional groups successfully added!"
 }
 
 setup_hw_accel() {
@@ -206,6 +208,24 @@ setup_hw_accel() {
     apt-get install -y intel-gpu-tools intel-media-va-driver-non-free firmware-intel-graphics
 
     echo "Hardware acceleration for Jellyfin successfully set up!"
+}
+
+install_fonts() {
+    # Install fonts for Collabora
+    echo "Installing fonts for Collabora..."
+
+    apt-get update
+    apt-get install ttf-mscorefonts-installer
+
+    echo "Fonts for Collabora successfully installed!"
+}
+
+restart_ssh() {
+    # Restart the SSH service to apply changes
+    echo "Restarting SSH service... Bye bye!"
+    systemctl restart sshd
+
+    echo "SSH service restarted successfully! (You should probably not see this message)"
 }
 
 main() {
@@ -252,16 +272,22 @@ main() {
         create_networks
     fi
 
-    echo "Do you want to add the media group? (y/n)"
-    read -r add_media_group_answer
-    if [[ "$add_media_group_answer" == "y" ]]; then
-        add_media_group
+    echo "Do you want to add the additional groups? (y/n)"
+    read -r add_more_groups_answer
+    if [[ "$add_more_groups_answer" == "y" ]]; then
+        add_more_groups
     fi
 
     echo "Do you want to setup hardware acceleration for Jellyfin? (y/n)"
     read -r setup_hw_accel_answer
     if [[ "$setup_hw_accel_answer" == "y" ]]; then
         setup_hw_accel
+    fi
+
+    echo "Do you want to install fonts for Collabora? (y/n)"
+    read -r install_fonts_answer
+    if [[ "$install_fonts_answer" == "y" ]]; then
+        install_fonts
     fi
 
     if [[ "$setup_ssh_answer" == "y" ]]; then
