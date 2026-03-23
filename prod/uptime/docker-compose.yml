@@ -23,7 +23,7 @@ services:
         *.interval: 60
         *.max_retries: 5
         *.retry_interval: 60
-        *.resend_interval: 5
+        *.resend_interval: 30
         *.notification_name_list: ["telegram"]
       AUTOKUMA__SNIPPETS__MONITOR: |-
         {# Assign the first snippet arg to args to make access easier #}
