@@ -7,7 +7,6 @@ include:
   - services/int-postgresql.yml
   - services/radarr.yml
   - services/sonarr.yml
-  - services/huntarr.yml
   - services/recyclarr.yml
   - services/unpackerr.yml
   - services/bazarr.yml
