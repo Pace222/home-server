@@ -100,9 +100,7 @@ dabloon.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate {
-            vars ignore me
-        }
+        import authenticate
 
         import csp {
             vars {
@@ -209,11 +207,7 @@ drive.{$MY_DOMAIN} {
     encode
 
     route {
-        import csp {
-            vars {
-                ignore me
-            }
-        }
+        import csp
 
         reverse_proxy opencloud:9200
     }

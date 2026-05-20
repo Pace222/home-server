@@ -6,9 +6,7 @@ www.{$MY_DOMAIN} {
     log
 
     route {
-        import csp {
-            vars ignore me
-        }
+        import csp
 
         redir https://{$MY_DOMAIN}{uri} permanent
     }
@@ -22,9 +20,7 @@ vpn.{$MY_DOMAIN} {
     log
 
     route {
-        import csp {
-            vars ignore me
-        }
+        import csp
 
         redir https://{$MY_DOMAIN} permanent
     }
@@ -38,9 +34,7 @@ cs2.{$MY_DOMAIN} {
     log
 
     route {
-        import csp {
-            vars ignore me
-        }
+        import csp
 
         redir https://{$MY_DOMAIN} permanent
     }
@@ -54,9 +48,7 @@ mc.{$MY_DOMAIN} {
     log
 
     route {
-        import csp {
-            vars ignore me
-        }
+        import csp
 
         redir https://{$MY_DOMAIN} permanent
     }
@@ -69,9 +61,7 @@ mta-sts.{$MY_DOMAIN} {
 
     log
 
-    import csp {
-        vars ignore me
-    }
+    import csp
 
     route {
         respond /.well-known/mta-sts.txt <<EOF
@@ -94,9 +84,7 @@ csp-reports.{$MY_DOMAIN} {
     log
 
     route {
-        import csp {
-            vars ignore me
-        }
+        import csp
 
         @new-report {
             path /

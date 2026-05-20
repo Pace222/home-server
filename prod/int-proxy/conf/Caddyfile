@@ -55,13 +55,9 @@ pihole.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate {
-            vars ignore me
-        }
+        import authenticate
 
-        import csp {
-            vars ignore me
-        }
+        import csp
 
         redir /favicon.ico /admin/img/favicons/favicon.ico
 
@@ -116,9 +112,7 @@ radarr.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate {
-            vars ignore me
-        }
+        import authenticate
 
         import csp {
             vars {
@@ -143,9 +137,7 @@ sonarr.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate {
-            vars ignore me
-        }
+        import authenticate
 
         import csp {
             vars {
@@ -169,9 +161,7 @@ prowlarr.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate {
-            vars ignore me
-        }
+        import authenticate
 
         import csp {
             vars {
@@ -240,9 +230,7 @@ bazarr.{$MY_DOMAIN} {
     encode
 
     route {
-        import authenticate {
-            vars ignore me
-        }
+        import authenticate
 
         import csp {
             vars {
