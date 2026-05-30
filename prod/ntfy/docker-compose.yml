@@ -1,0 +1,90 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy:v2.23.0
+    command:
+      - serve
+    container_name: ntfy
+    user: 11810:11810
+    read_only: true
+    init: true
+    restart: unless-stopped
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    env_file:
+      - ${SECRETS_DIR:?}/ntfy/.env-ntfy
+    environment:
+      TZ: "Europe/Zurich"
+      NTFY_BASE_URL: "https://ntfy.${MY_DOMAIN:?}"
+      NTFY_LISTEN_HTTP: "172.18.10.4:80"
+      NTFY_METRICS_LISTEN_HTTP: "172.21.18.3:9090"
+      # NTFY_DATABASE_URL is set in the .env file
+      NTFY_BEHIND_PROXY: "true"
+      NTFY_PROXY_TRUSTED_HOSTS: "172.18.10.2"
+    networks:
+      prom-ntfy:
+        ipv4_address: 172.21.18.3
+      net-ntfy:
+        ipv4_address: 172.18.10.4
+      ntfy-postgresql:
+        ipv4_address: 172.18.10.18
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget -q --tries=1 http://ntfy/v1/health -O - | grep -Eo '\"healthy\"\\s*:\\s*true' || exit 1",
+        ]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "External"
+      homepage.name: "ntfy.sh"
+      homepage.icon: "ntfy.png"
+      homepage.href: "https://ntfy.${MY_DOMAIN:?}"
+      homepage.description: "ntfy.sh is a simple HTTP-based pub-sub notification service."
+      homepage.instance.internal.widget.type: "ntfy"
+      homepage.instance.internal.widget.url: "https://ntfy.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.topic: "${INT_HOMEPAGE_NTFY_TOPIC:?}"
+      homepage.instance.internal.widget.fields: '["title", "message", "lastReceived"]'
+      homepage.instance.internal.widget.username: "${INT_HOMEPAGE_AUTHENTIK_USERNAME:?}"
+      homepage.instance.internal.widget.password: "${INT_HOMEPAGE_AUTHENTIK_PASSWORD:?}"
+      kuma.__monitor: '{"name": "ntfy.sh", "url": "https://ntfy.${MY_DOMAIN:?}/v1/health", "group": "infra", "forward_auth": "true"}'
+
+  postgresql:
+    image: docker.io/library/postgres:18-alpine
+    container_name: ntfy-postgresql
+    user: 21810:21810
+    read_only: true
+    restart: unless-stopped
+    env_file:
+      - ${SECRETS_DIR:?}/ntfy/.env-postgresql
+    volumes:
+      - ${SLOW_VOLUMES:?}/ntfy/database:/var/lib/postgresql
+    networks:
+      ntfy-postgresql:
+        ipv4_address: 172.18.10.19
+    tmpfs:
+      - /var/run/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      start_period: 20s
+      interval: 30s
+      retries: 5
+      timeout: 5s
+    labels:
+      alloy.enable_logging: "true"
+
+networks:
+  prom-ntfy:
+    external: true
+  net-ntfy:
+    external: true
+  ntfy-postgresql:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.10.16/29
+          gateway: 172.18.10.17

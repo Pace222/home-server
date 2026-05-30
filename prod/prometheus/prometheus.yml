@@ -66,3 +66,7 @@ scrape_configs:
     static_configs:
       - targets: ["collabora:9980"]
     metrics_path: "/cool/getMetrics"
+
+  - job_name: "ntfy"
+    static_configs:
+      - targets: ["ntfy:9090"]

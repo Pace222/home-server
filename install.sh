@@ -139,23 +139,24 @@ create_networks() {
     echo "Creating Docker networks..."
 
     # External subnet
-    docker network create --internal --subnet=172.18.2.0/26 --gateway=172.18.2.1 net-ext-homepage
-    docker network create --internal --subnet=172.18.3.0/24 --gateway=172.18.3.1 net-dabloon
-    docker network create --internal --subnet=172.18.4.0/26 --gateway=172.18.4.1 net-authentik
+    docker network create --internal  --subnet=172.18.2.0/26  --gateway=172.18.2.1 net-ext-homepage
+    docker network create --internal  --subnet=172.18.3.0/24  --gateway=172.18.3.1 net-dabloon
+    docker network create --internal  --subnet=172.18.4.0/26  --gateway=172.18.4.1 net-authentik
     # 172.18.5.0/24 used by CS2
     # 172.18.6.0/24 used by Minecraft
-    docker network create --internal --subnet=172.18.7.0/28 --gateway=172.18.7.1 net-ext-media
-    docker network create --internal --subnet=172.18.8.0/28 --gateway=172.18.8.1 net-drive
-    docker network create --internal --subnet=172.18.9.0/28 --gateway=172.18.9.1 net-uptime
+    docker network create --internal  --subnet=172.18.7.0/28  --gateway=172.18.7.1 net-ext-media
+    docker network create --internal  --subnet=172.18.8.0/28  --gateway=172.18.8.1 net-drive
+    docker network create --internal  --subnet=172.18.9.0/28  --gateway=172.18.9.1 net-uptime
+    docker network create --internal --subnet=172.18.10.0/28 --gateway=172.18.10.1 net-ntfy
 
     # Internal subnet
-    docker network create --internal --subnet=172.19.2.0/26 --gateway=172.19.2.1 net-int-homepage
-    docker network create --internal --subnet=172.19.3.0/25 --gateway=172.19.3.1 net-pihole
-    docker network create --internal --subnet=172.19.4.0/25 --gateway=172.19.4.1 net-ddclient
-    docker network create --internal --subnet=172.19.5.0/24 --gateway=172.19.5.1 net-fw-monitor
-    docker network create --internal --subnet=172.19.6.0/26 --gateway=172.19.6.1 net-grafana
-    docker network create --internal --subnet=172.19.7.0/26 --gateway=172.19.7.1 net-loki
-    docker network create --internal --subnet=172.19.8.0/28 --gateway=172.19.8.1 net-int-media
+    docker network create --internal  --subnet=172.19.2.0/26  --gateway=172.19.2.1 net-int-homepage
+    docker network create --internal  --subnet=172.19.3.0/25  --gateway=172.19.3.1 net-pihole
+    docker network create --internal  --subnet=172.19.4.0/25  --gateway=172.19.4.1 net-ddclient
+    docker network create --internal  --subnet=172.19.5.0/24  --gateway=172.19.5.1 net-fw-monitor
+    docker network create --internal  --subnet=172.19.6.0/26  --gateway=172.19.6.1 net-grafana
+    docker network create --internal  --subnet=172.19.7.0/26  --gateway=172.19.7.1 net-loki
+    docker network create --internal  --subnet=172.19.8.0/28  --gateway=172.19.8.1 net-int-media
 
     # Communication with Prometheus
     docker network create --internal  --subnet=172.21.1.0/24  --gateway=172.21.1.1 prom-wg
@@ -175,6 +176,7 @@ create_networks() {
     docker network create --internal --subnet=172.21.15.0/24 --gateway=172.21.15.1 prom-opencloud
     docker network create --internal --subnet=172.21.16.0/24 --gateway=172.21.16.1 prom-collaboration
     docker network create --internal --subnet=172.21.17.0/24 --gateway=172.21.17.1 prom-collabora
+    docker network create --internal --subnet=172.21.18.0/24 --gateway=172.21.18.1 prom-ntfy
 }
 
 add_more_groups() {

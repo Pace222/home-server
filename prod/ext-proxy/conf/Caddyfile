@@ -249,3 +249,25 @@ office.{$MY_DOMAIN} {
         reverse_proxy collabora:9980
     }
 }
+
+ntfy.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+
+    log
+    encode
+
+    route {
+        import authenticate
+
+        import csp {
+            vars {
+                csp-default-src "'self' auth.{$PROD_DOMAIN}"
+                csp-style-src "'self' auth.{$PROD_DOMAIN} 'unsafe-inline'"
+                csp-img-src "'self' data:"
+            }
+        }
+
+        reverse_proxy ntfy
+    }
+}

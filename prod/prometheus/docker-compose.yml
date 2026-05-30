@@ -47,6 +47,8 @@ services:
         ipv4_address: 172.21.16.2
       prom-collabora:
         ipv4_address: 172.21.17.2
+      prom-ntfy:
+        ipv4_address: 172.21.18.2
     labels:
       alloy.enable_logging: "true"
       homepage.group: "Monitoring"
@@ -92,4 +94,6 @@ networks:
   prom-collaboration:
     external: true
   prom-collabora:
+    external: true
+  prom-ntfy:
     external: true

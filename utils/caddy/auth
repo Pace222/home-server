@@ -35,6 +35,16 @@
 
 (authenticate-copy-headers) {
     route {
+        # We end up in this code block if we successfully authenticated with forward auth.
+        # An Authorization header coming from the client is a legitimate way of authenticating
+        # to Authentik (esp. for machines). Though, it is not expected that this header
+        # falls through to the upstream. We thus remove it.
+        # In most cases, it should not really matter since the upstream should not expect
+        # such a header. Though, this is not true for ntfy.sh, which requires to explicitely
+        # remove it here otherwise it would try to match it against its own database, where
+        # the user (obviously) does not exist.
+        request_header -Authorization
+
         request_header -X-Auth-Username
         @username-set not vars {vars.auth-username} ""
         request_header @username-set X-Auth-Username {rp.header.X-Authentik-Username}
