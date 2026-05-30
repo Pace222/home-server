@@ -2,7 +2,7 @@ services:
   # The actual Uptime Kuma runs on the STATUS VM
 
   autokuma:
-    image: ghcr.io/bigboot/autokuma:sha-da72ebe
+    image: ghcr.io/bigboot/autokuma:sha-8ebbd9c
     container_name: autokuma
     user: 3189:3189
     read_only: true
