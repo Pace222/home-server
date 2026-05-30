@@ -24,7 +24,7 @@ services:
       alloy.enable_logging: "true"
 
   server:
-    image: ghcr.io/goauthentik/server:2026.2.3
+    image: ghcr.io/goauthentik/server:2026.5.2
     command: server
     container_name: authentik-server
     user: 3184:184
@@ -62,7 +62,7 @@ services:
       kuma.__monitor: '{"name": "Authentik", "url": "https://auth.${MY_DOMAIN:?}/if/flow/auth/?next=%2F", "group": "infra"}'
 
   worker:
-    image: ghcr.io/goauthentik/server:2026.2.3
+    image: ghcr.io/goauthentik/server:2026.5.2
     command: worker
     container_name: authentik-worker
     user: 4184:184
