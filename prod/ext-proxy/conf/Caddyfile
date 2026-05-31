@@ -253,6 +253,7 @@ office.{$MY_DOMAIN} {
 ntfy.{$MY_DOMAIN} {
     import security
     import no-crawl-no-index
+    import error-handling
 
     log
     encode
