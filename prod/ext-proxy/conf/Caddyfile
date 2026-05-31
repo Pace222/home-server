@@ -112,8 +112,6 @@ dabloon.{$MY_DOMAIN} {
         }
 
         reverse_proxy dabloon {
-            header_down -Server
-
             import forward-proxy-error
         }
     }
