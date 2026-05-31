@@ -203,6 +203,7 @@ drive.{$MY_DOMAIN} {
 
     import security
     import no-crawl-no-index
+    import error-handling
 
     log
     encode
@@ -217,6 +218,7 @@ drive.{$MY_DOMAIN} {
 wopi.{$MY_DOMAIN} {
     import security
     import no-crawl-no-index
+    import error-handling
 
     log
     encode
@@ -231,6 +233,7 @@ office.{$MY_DOMAIN} {
 
     import security
     import no-crawl-no-index
+    import error-handling
 
     log
     encode
