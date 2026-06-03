@@ -19,6 +19,7 @@ services:
       NTFY_LISTEN_HTTP: "172.18.10.4:80"
       NTFY_METRICS_LISTEN_HTTP: "172.21.18.3:9090"
       # NTFY_DATABASE_URL is set in the .env file
+      NTFY_CACHE_DURATION: "14d"
       NTFY_BEHIND_PROXY: "true"
       NTFY_PROXY_TRUSTED_HOSTS: "172.18.10.2"
     networks:
