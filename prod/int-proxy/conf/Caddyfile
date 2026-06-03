@@ -240,6 +240,8 @@ bazarr.{$MY_DOMAIN} {
             }
         }
 
+        reverse_proxy /api* bazarr:6767
+
         reverse_proxy bazarr:6767 {
             import forward-proxy-error
         }

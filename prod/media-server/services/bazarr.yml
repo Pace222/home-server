@@ -1,6 +1,6 @@
 services:
   bazarr:
-    image: ghcr.io/hotio/bazarr:release-c06938f
+    image: ghcr.io/hotio/bazarr:nightly-1.5.7-beta.47
     container_name: bazarr
     # user: 15187:65537 # set below
     # read_only: true # doesn't work otherwise
