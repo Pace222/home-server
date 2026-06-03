@@ -22,6 +22,12 @@ services:
       NTFY_CACHE_DURATION: "14d"
       NTFY_BEHIND_PROXY: "true"
       NTFY_PROXY_TRUSTED_HOSTS: "172.18.10.2"
+      NTFY_ATTACHMENT_CACHE_DIR: "/attachments"
+      NTFY_ATTACHMENT_TOTAL_SIZE_LIMIT: "15G"
+      NTFY_ATTACHMENT_FILE_SIZE_LIMIT: "100M"
+      NTFY_ATTACHMENT_EXPIRY_DURATION: "14d"
+    volumes:
+      - ${SLOW_VOLUMES:?}/ntfy/attachments:/attachments
     networks:
       prom-ntfy:
         ipv4_address: 172.21.18.3
