@@ -84,15 +84,24 @@ csp-reports.{$MY_DOMAIN} {
     log
 
     route {
-        import csp
-
         @new-report {
             path /
             method POST
         }
         handle @new-report {
             log_append report {http.request.body}
-            respond 200
+            respond 204
+        }
+
+        @cors-preflight {
+            path /
+            method OPTIONS
+        }
+        handle @cors-preflight {
+            header Access-Control-Allow-Origin *
+            header Access-Control-Allow-Methods POST
+            header Access-Control-Max-Age 86400
+            respond 204
         }
 
         @wrong-path not path /
@@ -100,7 +109,7 @@ csp-reports.{$MY_DOMAIN} {
             error 404
         }
 
-        # Wrong method (i.e., not POST)
+        # Wrong method (i.e., not POST/OPTIONS)
         handle {
             error 405
         }
