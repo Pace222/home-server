@@ -158,6 +158,8 @@ create_networks() {
     docker network create --internal  --subnet=172.19.7.0/26  --gateway=172.19.7.1 net-loki
     docker network create --internal  --subnet=172.19.8.0/28  --gateway=172.19.8.1 net-int-media
 
+    # 172.20.0.0/16 used by VPN-LAN's WireGuard
+
     # Communication with Prometheus
     docker network create --internal  --subnet=172.21.1.0/24  --gateway=172.21.1.1 prom-wg
     docker network create --internal  --subnet=172.21.2.0/24  --gateway=172.21.2.1 prom-ext-caddy
@@ -177,6 +179,8 @@ create_networks() {
     docker network create --internal --subnet=172.21.16.0/24 --gateway=172.21.16.1 prom-collaboration
     docker network create --internal --subnet=172.21.17.0/24 --gateway=172.21.17.1 prom-collabora
     docker network create --internal --subnet=172.21.18.0/24 --gateway=172.21.18.1 prom-ntfy
+
+    # 172.22.0.0/16 used by TUN-ADRI's WireGuard
 }
 
 add_more_groups() {
