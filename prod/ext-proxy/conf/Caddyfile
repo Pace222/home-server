@@ -252,6 +252,8 @@ office.{$MY_DOMAIN} {
 }
 
 ntfy.{$MY_DOMAIN} {
+    header >Cross-Origin-Embedder-Policy credentialless # Load images that do not set CORP
+
     import security
     import no-crawl-no-index
     import error-handling
@@ -266,7 +268,7 @@ ntfy.{$MY_DOMAIN} {
             vars {
                 csp-default-src "'self' auth.{$PROD_DOMAIN}"
                 csp-style-src "'self' auth.{$PROD_DOMAIN} 'unsafe-inline'"
-                csp-img-src "'self' data:"
+                csp-img-src "'self' data: https://*" # Movies/series come from various sources
             }
         }
 
