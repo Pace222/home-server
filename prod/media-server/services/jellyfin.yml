@@ -12,7 +12,7 @@ services:
       - ${FAST_VOLUMES:?}/media-server/jellyfin/cache:/cache
       - ${FAST_NOSNAP:?}/volumes/media-server/jellyfin/cache/transcodes:/cache/transcodes
       - ${STORAGE_DIR:?}/media-server/media:/media:ro
-      - ${ADRI_DIR:?}/mnt/mypool/media:/adri-media:ro
+      - ${ADRI_DIR:?}/mnt/mypool/media:/adri-media:ro,rslave
     networks:
       prom-jellyfin:
         ipv4_address: 172.21.8.3
