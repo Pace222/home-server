@@ -248,3 +248,27 @@ bazarr.{$MY_DOMAIN} {
     }
 }
 
+qmanage.{$MY_DOMAIN} {
+    import security
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import authenticate
+
+        import csp {
+            vars {
+                ignore me
+                csp-script-src "'self' https://cdn.jsdelivr.net/"
+                csp-style-src "'self' 'unsafe-inline' https://fonts.googleapis.com/"
+                csp-font-src "'self' https://fonts.gstatic.com/"
+        }
+
+        reverse_proxy qbit_manage:8181 {
+            import forward-proxy-error
+        }
+    }
+}
+

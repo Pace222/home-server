@@ -88,6 +88,38 @@ services:
       homepage.weight: "600"
       kuma.__monitor: '{"name": "qui", "group": "media"}'
 
+  qbit_manage:
+    image: ghcr.io/stuffanthings/qbit_manage:v4.12.0
+    container_name: qbit_manage
+    user: 17187:17187
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      qui:
+        condition: service_healthy
+    environment:
+      QBT_WEB_SERVER: "true"
+      QBT_LOG_SIZE: "1"
+      QBT_LOG_COUNT: "1"
+    volumes:
+      - ${SLOW_VOLUMES:?}/media-server/qbit_manage/config:/config
+      - ${STORAGE_DIR:?}/media-server/torrents:/data/torrents:ro
+      - ${SLOW_NOSNAP:?}/autobrr-torrents:/data/autobrr-torrents:ro
+    networks:
+      net-int-media:
+        ipv4_address: 172.19.8.9
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Media"
+      homepage.name: "qBit Manage"
+      homepage.icon: "qbitmanage.png"
+      homepage.instance.internal.href: "https://qmanage.${MY_DOMAIN:?}"
+      homepage.description: "qBit Manage helps manage tedious tasks in qBittorrent and automate them"
+      homepage.weight: "650"
+      kuma.__monitor: '{"name": "qbit_manage", "group": "media"}'
+
 networks:
   prom-qui:
     external: true
