@@ -5,7 +5,7 @@ services:
     entrypoint:
       - /bin/sh
     container_name: collaboration
-    user: 65540:65540 # host's `opencloud` <-> container's `65540`
+    user: 65540:65540 # host's `opencloud` <-> container's 65540
     read_only: true
     restart: unless-stopped
     depends_on:

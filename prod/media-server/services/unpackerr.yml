@@ -14,7 +14,7 @@ services:
       - ${SECRETS_DIR:?}/media-server/unpackerr/.env
     environment:
       PUID: "16187"
-      PGID: "65537" # host's `media` <-> container's
+      PGID: "65537" # host's `media` <-> container's 65537
       UMASK: "002"
       TZ: "Europe/Zurich"
       UN_FILE_MODE: "0664"
