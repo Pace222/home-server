@@ -12,9 +12,4 @@ services:
       - /tmp
     labels:
       alloy.enable_logging: "true"
-      homepage.group: "Drive"
-      homepage.name: "Apache Tika"
-      homepage.icon: "sh-apache-tika.png"
-      homepage.description: "Apache Tika is a content analysis toolkit."
-      homepage.weight: "400"
       kuma.__monitor: '{"name": "Apache Tika", "group": "drive"}'
