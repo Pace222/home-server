@@ -12,7 +12,7 @@ services:
       TZ: "Europe/Zurich"
       ### VPN CONFIGURATION BELOW ###
       VPN_ENABLED: true
-      VPN_CONF: wg0
+      VPN_CONF: wg1
       VPN_PROVIDER: proton
       VPN_LAN_NETWORK: ${LAN_SUBNET:?}
       VPN_LAN_LEAK_ENABLED: false
