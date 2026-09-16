@@ -44,8 +44,11 @@
         @frame-src-set not vars {vars.csp-frame-src} ""
         vars @frame-src-set csp-frame-src-full "frame-src {vars.csp-frame-src}; "
 
+        @worker-src-set not vars {vars.csp-worker-src} ""
+        vars @worker-src-set csp-worker-src-full "worker-src {vars.csp-worker-src}; "
 
-        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}{vars.csp-font-src-full}{vars.csp-frame-src-full}"
+
+        vars csp-header "{vars.csp-default-src-full}{vars.csp-base-uri-full}{vars.csp-form-action-full}{vars.csp-frame-ancestors-full}{vars.csp-script-src-full}{vars.csp-style-src-full}{vars.csp-img-src-full}{vars.csp-media-src-full}{vars.csp-connect-src-full}{vars.csp-font-src-full}{vars.csp-frame-src-full}{vars.csp-worker-src-full}"
         import csp-impl {vars.csp-header}
     }
 }

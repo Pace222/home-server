@@ -1,0 +1,127 @@
+services:
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:v3.1.0
+    container_name: immich-server
+    user: 65541:65541 # host's `immich` <-> container's 65541
+    group_add:
+      - 65539 # host's `render` <-> container's 65539
+    read_only: true
+    restart: unless-stopped
+    depends_on:
+      immich-redis:
+        condition: service_healthy
+      immich-postgresql:
+        condition: service_healthy
+    env_file:
+      - ${SECRETS_DIR:?}/immich/.env-server
+    environment:
+      TZ: "Europe/Zurich"
+      IMMICH_LOG_FORMAT: "json"
+      IMMICH_TRUSTED_PROXIES: "172.18.11.2"
+      IMMICH_TELEMETRY_INCLUDE: "all"
+    volumes:
+      - ${STORAGE_DIR:?}/photos:/data
+    networks:
+      prom-immich:
+        ipv4_address: 172.21.19.3
+      net-immich:
+        ipv4_address: 172.18.11.4
+      internal:
+        ipv4_address: 172.18.11.18
+      outgoing:
+        ipv4_address: 172.18.11.34
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    labels:
+      alloy.enable_logging: "true"
+      homepage.group: "Drive"
+      homepage.name: "Immich"
+      homepage.icon: "immich.png"
+      homepage.href: "https://photos.${MY_DOMAIN:?}"
+      homepage.description: "Immich is a self-hosted photo and video backup solution that allows you to manage and display your media files."
+      homepage.instance.internal.widget.type: "immich"
+      homepage.instance.internal.widget.url: "https://photos.${MY_DOMAIN:?}"
+      homepage.instance.internal.widget.key: "${INT_HOMEPAGE_IMMICH_API_KEY:?}"
+      homepage.instance.internal.widget.version: "2"
+      homepage.weight: "50"
+      kuma.__monitor: '{"name": "Immich", "url": "https://photos.${MY_DOMAIN:?}", "group": "drive"}'
+
+  immich-ml:
+    image: ghcr.io/immich-app/immich-machine-learning:v3.1.0
+    container_name: immich-ml
+    user: 21811:21811
+    read_only: true
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Zurich"
+      MPLCONFIGDIR: "/cache/matplotlib"
+      HF_HOME: "/cache/hf-cache"
+    volumes:
+      - ${SLOW_NOSNAP:?}/volumes/immich/ml-model-cache:/cache
+    networks:
+      internal:
+        ipv4_address: 172.18.11.19
+      outgoing:
+        ipv4_address: 172.18.11.35
+    tmpfs:
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+      kuma.__monitor: '{"name": "Immich - Machine Learning", "group": "drive"}'
+
+  immich-redis:
+    image: docker.io/valkey/valkey:9@sha256:8e8d64b405ce18f41b8e5ee20aa4687a8ed0022d1298f2ce31cdcf3a76e09411
+    container_name: immich-redis
+    user: 31811:31811
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - ${FAST_NOSNAP:?}/volumes/immich/redis:/data
+    networks:
+      internal:
+        ipv4_address: 172.18.11.20
+    healthcheck:
+      test: redis-cli ping || exit 1
+    labels:
+      alloy.enable_logging: "true"
+
+  immich-postgresql:
+    image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0@sha256:bcf63357191b76a916ae5eb93464d65c07511da41e3bf7a8416db519b40b1c23
+    container_name: immich-postgresql
+    user: 41811:41811
+    read_only: true
+    restart: unless-stopped
+    shm_size: 128mb
+    env_file:
+      - ${SECRETS_DIR:?}/immich/.env-postgresql
+    environment:
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      DB_STORAGE_TYPE: "HDD"
+    volumes:
+      - ${SLOW_VOLUMES:?}/immich/database:/var/lib/postgresql/data
+    networks:
+      internal:
+        ipv4_address: 172.18.11.21
+    tmpfs:
+      - /var/run/postgresql
+      - /etc/postgresql
+      - /tmp
+    labels:
+      alloy.enable_logging: "true"
+
+networks:
+  prom-immich:
+    external: true
+  net-immich:
+    external: true
+  internal:
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.18.11.16/28
+          gateway: 172.18.11.17
+  outgoing:
+    ipam:
+      config:
+        - subnet: 172.18.11.32/28
+          gateway: 172.18.11.33

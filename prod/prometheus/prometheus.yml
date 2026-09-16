@@ -70,3 +70,11 @@ scrape_configs:
   - job_name: "ntfy"
     static_configs:
       - targets: ["ntfy:9090"]
+
+  - job_name: "immich_api"
+    static_configs:
+      - targets: ["immich-server:8081"]
+
+  - job_name: "immich_microservices"
+    static_configs:
+      - targets: ["immich-server:8082"]

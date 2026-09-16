@@ -35,6 +35,8 @@ services:
         ipv4_address: 172.18.8.2
       net-ntfy:
         ipv4_address: 172.18.10.2
+      net-immich:
+        ipv4_address: 172.18.11.2
       outgoing:
         ipv4_address: 172.18.0.130
     labels:
@@ -59,6 +61,8 @@ networks:
   net-drive:
     external: true
   net-ntfy:
+    external: true
+  net-immich:
     external: true
   outgoing:
     ipam:

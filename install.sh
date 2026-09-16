@@ -148,6 +148,7 @@ create_networks() {
     docker network create --internal  --subnet=172.18.8.0/28  --gateway=172.18.8.1 net-drive
     docker network create --internal  --subnet=172.18.9.0/28  --gateway=172.18.9.1 net-uptime
     docker network create --internal --subnet=172.18.10.0/28 --gateway=172.18.10.1 net-ntfy
+    docker network create --internal --subnet=172.18.11.0/28 --gateway=172.18.11.1 net-immich
 
     # Internal subnet
     docker network create --internal  --subnet=172.19.2.0/26  --gateway=172.19.2.1 net-int-homepage
@@ -179,6 +180,7 @@ create_networks() {
     docker network create --internal --subnet=172.21.16.0/24 --gateway=172.21.16.1 prom-collaboration
     docker network create --internal --subnet=172.21.17.0/24 --gateway=172.21.17.1 prom-collabora
     docker network create --internal --subnet=172.21.18.0/24 --gateway=172.21.18.1 prom-ntfy
+    docker network create --internal --subnet=172.21.19.0/24 --gateway=172.21.19.1 prom-immich
 
     # 172.22.0.0/16 used by TUN-ADRI's WireGuard
 }
@@ -199,6 +201,25 @@ add_more_groups() {
     echo "$ROOTLESS_USER:1004:1" >> /etc/subgid # Such that host's group `opencloud` (GID 1004) is mapped to a non-nobody group in rootless Docker
     useradd -m opencloud -u 1004 -s /sbin/nologin
     usermod -aG opencloud "$MAIN_USER"
+    echo "$ROOTLESS_USER:1005:1" >> /etc/subuid # Such that host's  user `immich` (UID 1005) is mapped to a non-nobody  user in rootless Docker
+    echo "$ROOTLESS_USER:1005:1" >> /etc/subgid # Such that host's group `immich` (GID 1005) is mapped to a non-nobody group in rootless Docker
+    useradd -m immich -u 1005 -s /sbin/nologin
+    usermod -aG immich "$MAIN_USER"
+
+    ### EXPECTED CONTENTS (adding a new user will mess them up entirely): 
+    ### pace:100000:65536
+    ### dockeruser:165536:65536
+    ### dockeruser:1003:1
+    ### media:231072:65536
+    ### dockeruser:4:1
+    ### dockeruser:992:1
+    ### dockeruser:1004:1
+    ### opencloud:296608:65536
+    ### dockeruser:1005:1
+    ### immich:362144:65536
+
+    # Needs a restart to apply the mapping changes
+    machinectl shell "$ROOTLESS_USER"@ /bin/bash -c 'systemctl --user restart docker'
 
     echo "Additional groups successfully added!"
 }

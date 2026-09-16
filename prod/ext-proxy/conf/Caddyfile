@@ -276,3 +276,26 @@ ntfy.{$MY_DOMAIN} {
         reverse_proxy ntfy
     }
 }
+
+photos.{$MY_DOMAIN} {
+    import security
+    import no-crawl-no-index
+    import error-handling
+
+    log
+    encode
+
+    route {
+        import csp {
+            vars {
+                csp-script-src "'self' 'unsafe-inline' 'unsafe-eval'"
+                csp-style-src "'self' 'unsafe-inline'"
+                csp-img-src "'self' data: blob:"
+                csp-connect-src "'self' https://tiles.immich.cloud https://static.immich.cloud"
+                csp-worker-src "'self' blob:"
+            }
+        }
+
+        reverse_proxy immich-server:2283
+    }
+}
