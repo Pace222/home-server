@@ -67,6 +67,7 @@ http:// {
 }
 
 auth.{$MY_DOMAIN} {
+    header >Cross-Origin-Embedder-Policy credentialless # Load site icons on Bitwarden popup
     header >Cross-Origin-Resource-Policy same-site # Requests tab in Jellyfin requires to frame Seerr (including Authentik for SSO)
 
     import security
