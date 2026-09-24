@@ -299,3 +299,5 @@ photos.{$MY_DOMAIN} {
         reverse_proxy immich-server:2283
     }
 }
+
+# IMPORTANT: When serving a new subdomain, do not forget to shadow it in STATUS VM's Caddy
